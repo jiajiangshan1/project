@@ -1,0 +1,42 @@
+.approval .ant-tree{
+    max-height: 400px;
+    overflow: auto;
+}
+
+.approval .ant-table-thead > tr > th{
+    background: url(../../asset/img/portal/1/3.png) repeat;
+    border: none;
+    color: #fefefe;
+    font-size: 16px;
+}
+
+.approval .ant-table-tbody{
+    background: url(../../asset/img/portal/1/2.png) repeat;
+}
+
+.approval .ant-table-tbody > tr{
+    color: #fefefe;
+}
+
+.approval .ant-table-tbody > tr:hover{
+    color: #000 !important;
+}
+
+.approval .ant-table-tbody > tr > td{
+    color: inherit;
+    border: none !important;
+    font-size: 14px;
+}
+
+.approval .ant-table-thead > tr > th,.approval .ant-table-tbody > tr > td{
+    text-align: center;
+}
+
+.approval .ant-table-placeholder{
+    border: none; 
+    background: url(../../asset/img/portal/1/2.png) repeat;
+}
+
+.approval .ant-table-placeholder > span{
+    color: #fefefe;
+}

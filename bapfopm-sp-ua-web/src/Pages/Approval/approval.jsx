@@ -2,6 +2,8 @@ import React from 'react';
 import { Modal, Button, Table, Icon, message, Input } from 'antd';
 import { getApplyAuthList, getDealApplyAuthList } from "../../Service/Login/login"
 
+require("./approval.css")
+
 class Approval extends React.Component {
     constructor(props) {
         super(props)
@@ -31,6 +33,9 @@ class Approval extends React.Component {
         }
         let res = data.dataObject.map((item) =>{
             obj = {};
+            // for(var k in item){
+            //     obj[k] = item[k];
+            // }
             obj.caseId = item.caseId;
             obj.applyUserId = item.applyUserId;
             obj.systemName = item.systemModule.systemName;
@@ -43,6 +48,8 @@ class Approval extends React.Component {
         this.setState({
             authList: res
         })
+
+        console.log(res);
     }
 
     async axiosDealApplyAuthList(params){
@@ -154,14 +161,14 @@ class Approval extends React.Component {
           }];
 
         return (
-            <div>
+            <div className="approval">
                 <div style={{ width: '80%', margin: '10px auto' }}>
                     <Button type="primary" size="large" onClick={this.busAuthApp.bind(this)}>业务权限审批</Button>
                     <Button type="primary" size="large" onClick={this.manAuthApp.bind(this)}>管理权限审批</Button>
                 </div>
 
                 <div style={{ width: '80%', margin: '10px auto' }}>
-                    <Table dataSource={this.state.authList} columns={columns} pagination={{ pageSize: 10 }} scroll={{ y: 240 }}/>
+                    <Table dataSource={this.state.authList} columns={columns} pagination={{ pageSize: 10 }}/>
                 </div>
 
                 <Modal title="权限审批" visible={this.state.visible}

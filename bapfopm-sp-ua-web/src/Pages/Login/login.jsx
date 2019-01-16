@@ -68,6 +68,7 @@ class Login extends React.Component {
             hashHistory.push('/home');
         } else {
             this.axiosVerificationCode();
+            message.error(data.description)
         }
     }
 

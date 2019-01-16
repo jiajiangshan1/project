@@ -40,7 +40,7 @@ class Sider extends React.Component {
       obj.authorityName = listData[i].authorityName;
       obj.systemId = listData[i].systemId;
       obj.parent = listData[i].parent;
-      obj.requestUrl = listData[i].requestUrl ? listData[i].requestUrl : '';
+      obj.requestUrl = listData[i].requestUrl ? listData[i].requestUrl : 'javascript:;';
       if (obj.parent == 0) {
         obj.subMenu = [];
         arrData.push(obj)
@@ -51,7 +51,7 @@ class Sider extends React.Component {
             obj.authorityName = listData[j].authorityName;
             obj.systemId = listData[j].systemId;
             obj.parent = listData[j].parent;
-            obj.requestUrl = listData[j].requestUrl ? listData[j].requestUrl : '';
+            obj.requestUrl = listData[j].requestUrl ? listData[j].requestUrl : 'javascript:;';
             arrData[arrData.length - 1].subMenu.push(obj);
           }
         }
@@ -64,7 +64,7 @@ class Sider extends React.Component {
   render() {
     return (
       this.state.menuData ? <div>
-        <Switch onChange={this.changeMode.bind(this)} /> Mode
+        <Switch onChange={this.changeMode.bind(this)} />
         {/* <span className="ant-divider" style={{ margin: '0 1em' }} /> */}
         {/* <Switch onChange={this.changeTheme.bind(this)} /> Theme */}
         <br />
@@ -82,7 +82,9 @@ class Sider extends React.Component {
                 </span></span>}>
 
                 {item.subMenu.map((el) => (
-                  <Menu.Item key={el.authorityId}>{el.authorityName}</Menu.Item>
+                  <Menu.Item key={el.authorityId}>
+                    <span className="nav-text">{el.authorityName}</span>
+                  </Menu.Item>
                 ))}
               </SubMenu>)
             }

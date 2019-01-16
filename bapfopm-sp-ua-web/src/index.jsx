@@ -46,9 +46,10 @@ ReactDOM.render(
             <Route path='/home' component={Home}/>
             <Route path='/home/userInfo' component={UserInfo}/>
             <Route path='/about' component={About}/>
-            <Route path='/about/business' component={Busin}/>
+            {/* <Route path='/about/business' component={Busin}/>
             <Route path='/about/approval' component={Approval}/>
-            <Route path='/about/manage' component={Manage}/>
+            <Route path='/about/manage' component={Manage}/> */}
+
             <Router path='/test' component={Test}/>
             
             <IndexRedirect to='/login'/>

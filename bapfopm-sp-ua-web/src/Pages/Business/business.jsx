@@ -3,6 +3,8 @@ import { Tree, Modal, Button, Table, Icon, message } from 'antd';
 import { getAuthList, getApplyAuth } from "../../Service/Login/login"
 import { debug } from 'util';
 
+require('./business.css')
+
 const TreeNode = Tree.TreeNode;
 
 class Busin extends React.Component {
@@ -20,8 +22,10 @@ class Busin extends React.Component {
             visible: false,
 
             authData: [],   //  该账户已有权限菜单数组
-            postData: []    //  权限申请提交发送数据 
+            postData: [],   //  权限申请提交发送数据 
+            displayData: [], //  权限申请展示数据
             
+            temp: []
         }
     }
 
@@ -122,22 +126,74 @@ class Busin extends React.Component {
         if (data.status == 200) {
             message.success(data.description);
             this.setState({
-                postData: []
+                postData: [],
+                displayData: []
             })
         } else {
             message.error(data.description);
         }
     }
 
+    clearArr(arr){
+        var obj = {};
+        var temp = [];
+        arr.forEach(function(el){
+        obj[el] ? obj[el]++ : obj[el] = 1;
+        });
+      
+        for(var k in obj) {
+        if(obj[k] % 2 !== 0) temp.push(k);
+        }
+    
+        return temp;
+    }
+
     /**
      * 点击复选框事件
      */
     onCheck(checkedKeys, info) {
-        console.log('onCheck', [...checkedKeys]);
-        let data;
+        console.log('onCheck', info);
+
+        let authData = this.state.authData;
+        let newAuth = [...checkedKeys, ...authData];
+        let data = this.clearArr(newAuth);
+        let dataList = [];
+        let displayList = [];
+        let temp;
+        let flagIndex;
+        let obj;
+
+        temp = [...this.state.temp, info];
+        this.setState({temp: temp})
+
+        //  处理权限申请发送数据
+        data.forEach(item =>{
+            obj = {};
+            flagIndex = item.indexOf('-');
+            obj.systemId = item.substr(0, flagIndex);
+            obj.authorityId = item.substr(flagIndex + 1);
+            obj.applyType = authData.includes(item) ? 0 : 1;  //    已拥有权限是否包含  true为删  false为增
+            obj.caseType = 0;
+            dataList.push(obj);
+        })
+
+        temp.forEach((item,index) => {
+            obj = {};
+            obj.authorityId = item.node.props.title;
+            obj.systemId = dataList[index].systemId;
+            obj.applyType = dataList[index].applyType == 0 ? "删除" : "添加";
+            obj.caseType = "业务权限申请";
+            displayList.push(obj);
+        })
+
+
+        
+        // console.log('============',dataList);
+        
         this.setState({ 
             checkedKeys: checkedKeys,
-            postData: data
+            postData: dataList,
+            displayData: displayList
         });
     }
 
@@ -162,8 +218,9 @@ class Busin extends React.Component {
         console.log('点击了确定');
         this.setState({
             visible: false,
-            // postList: this.state.postList.concat(this.state.postData)
+            temp: []
         });
+        console.log('---处理结果', this.state.postData);
     }
 
     handleCancel() {
@@ -182,33 +239,26 @@ class Busin extends React.Component {
     }
 
     componentWillMount() {
-        // this.axiosAuthList();
     }
 
     render() {
-
         const loop = data => data.map((item) => {
             if (item.authorities) {
-                return (
-                    <TreeNode key={!item.authorityId ? `${item.systemId}` : `${item.systemId}-${item.authorityId}`}
-                        title={item.systemName || item.authorityName}
-                        // isLeaf={item.isLeaf}
-                        // disableCheckbox={!item.isLeaf}
-                        >
-
-                        {loop(item.authorities)}
-                    </TreeNode>
-                );
+              return (
+                <TreeNode key={!item.authorityId ? `${item.systemId}` : `${item.systemId}-${item.authorityId}`} 
+                    title={item.systemName || item.authorityName}
+                    disableCheckbox={!item.isLeaf}>
+                  {loop(item.authorities)}
+                </TreeNode>
+              );
             }
             return <TreeNode key={!item.authorityId ? `${item.systemId}` : `${item.systemId}-${item.authorityId}`} 
                 title={item.systemName || item.authorityName} 
-                // isLeaf={item.isLeaf}
-                // disableCheckbox={!item.isLeaf} 
-                />
-        });
+                disableCheckbox={!item.isLeaf}/>;
+          });
 
         const columns = [{
-            title: '菜单id',
+            title: '菜单名字',
             dataIndex: 'authorityId',
             key: 'authorityId',
             width: 150,
@@ -230,11 +280,12 @@ class Busin extends React.Component {
         }];
 
         return (
-            <div>
+            <div className="business">
                 <Button type="primary" size="large" onClick={this.showModal.bind(this)}>申请添加权限</Button>
 
                 <div style={{ width: '80%', margin: '10px auto' }}>
-                    <Table dataSource={this.state.postData} columns={columns} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
+                    {/* <Table dataSource={this.state.displayData} columns={columns} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} /> */}
+                    <Table dataSource={this.state.displayData} columns={columns} pagination={{ pageSize: 10 }} />
                 </div>
 
                 <Button type="primary" onClick={this.handleSubmitAdd.bind(this)} style={{ position: 'relative', left: '50%' }}>提交</Button>
@@ -246,7 +297,7 @@ class Busin extends React.Component {
                         checkable
                         checkStrictly
                         checkedKeys={this.state.checkedKeys} 
-                        expandedKeys={this.state.expandedKeys}  
+                        // expandedKeys={this.state.expandedKeys}  
                         onCheck={this.onCheck.bind(this)} 
                         // onSelect={this.onSelect.bind(this)}
                     >
