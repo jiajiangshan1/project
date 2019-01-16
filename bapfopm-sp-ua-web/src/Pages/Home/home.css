@@ -1,0 +1,125 @@
+.home-container{
+  width: 100vw;
+  height: 100vh;
+  background:url(../../asset/img/portal/bg.jpg) no-repeat 0px 0px;
+  background-size: 100% 100%;
+}
+
+.home-container .home-header{
+  width: 100vw;
+  height: 58px;
+  background:url(../../asset/img/portal/1/1.png) repeat 0px 0px;
+  background-size: 100% 100%;
+  position: relative;
+}
+
+.home-container .home-header .home-user{
+  position: absolute;
+  right: 60px;
+  top: 17px;
+}
+
+.home-container .home-header .home-span{
+  font-family: MicrosoftYaHei;
+	font-size: 14px;
+	font-weight: normal;
+	font-stretch: normal;
+	line-height: 24px;
+  letter-spacing: 0px;
+  color: #4cb8e9;
+  cursor: pointer;
+}
+
+.home-container .home-header .logout{
+  width: 14px;
+  height: 16px;
+  display: inline-block;
+  background: url(../../asset/img/portal/gb.png) no-repeat 0 0;
+  padding-top: 1px;
+}
+
+.home-container .home-content{
+  width: inherit;
+  height: auto;
+  /* margin: 20px; */
+  padding: 20px 0 0 20px;
+  position: relative;
+}
+
+.home-container .home-content .home-content-logo{
+  background: url(../../asset/img/portal/1/logo_bg.jpg) no-repeat 0 0;
+  width: 1205px;
+  height: 155px;
+  position: absolute;
+  top: -58px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.home-container .home-content .home-content-logo .home-content-logo-text{
+  background: url(../../asset/img/portal/logo.png) no-repeat 0 0;
+  width: 545px;
+  height: 75px;
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.home-container .home-content .home-content-left{
+  background: url(../../asset/img/portal/1/content_left_bg.png) no-repeat 0 0;
+  width: 355px;
+  height: 550px;
+  position: absolute;
+}
+
+.home-container .home-content .home-content-center{
+  background: url(../../asset/img/portal/1/content_center_bg.png) no-repeat 0 0;
+  width: 1100px;
+  height: 480px;
+  position: absolute;
+  top: 90px;
+  left: 395px;
+}
+
+
+.home-container .home-content .home-content-right {
+  background: url(../../asset/img/portal/1/content_right_bg.png) no-repeat 0 0;
+  width: 355px;
+  height: 550px;
+  position: absolute;
+  right: 20px;
+  top: 23px;
+}
+
+.home-container .home-content .home-content-footer{
+    width: 98%;
+    height: inherit;
+    position: absolute;
+    top: 585px;
+    text-align: center;
+    background: url(../../asset/img/portal/1/2.png) repeat;
+    border-color: #2c6172;
+}
+
+.home-container .home-content .home-content-footer .system-logo{
+  width: 44px;
+  height: 34px;
+}
+
+.home-container .home-content .home-content-footer .system-a{
+  display:inline-block; 
+  width: 100%;
+}
+
+.home-container .code-box-demo .ant-row {
+  margin-left: -8px;
+  margin-right: -8px;
+}
+.home-container .code-box-demo .ant-row > div {
+  padding: 0 8px;
+}
+
+.home-container .ant-card-body{
+  padding: 20px;
+}

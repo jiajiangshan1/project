@@ -1,0 +1,27 @@
+.container{
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+  }
+  
+  .container .sider{
+    width: 20%;
+    height: inherit;
+    background-color: #f00;
+    position: relative;
+  }
+  
+  .container .sider .sider-left{
+    width: 20%;
+    height: inherit;
+    background-color: #ff0;
+    position: absolute;
+  }
+  
+  .container .sider .sider-right{
+    width: 80%;
+    height: inherit;
+    background-color: green;
+    position: absolute;
+    margin-left: 20%;
+  }

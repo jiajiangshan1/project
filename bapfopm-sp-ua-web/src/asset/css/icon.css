@@ -1,0 +1,74 @@
+i{
+	/* display: inline-block; */
+	/* background: url(../img/icon/icon.png) no-repeat; */
+}
+
+i.arrow{
+	width: 15px;
+	height: 8px;
+	background: url(../img/icon/icon.png) no-repeat;
+	background-position: -14px 0px;
+}
+
+i.user{
+	width: 12px;
+	height: 14px;
+	background: url(../img/icon/icon.png) no-repeat;
+	background-position: -117px 0px;
+}
+
+i.password{
+	width: 16px;
+	height: 11px;
+	background: url(../img/icon/icon.png) no-repeat;
+	background-position: -57px 0px;
+}
+
+i.confirm{
+	width: 16px;
+	height: 11px;
+	background: url(../img/icon/icon.png) no-repeat;
+	background-position: -57px 0px;
+}
+
+i.ID{
+ 	width: 14px;
+	 height: 11px;
+	 background: url(../img/icon/icon.png) no-repeat;
+ 	background-position: -43px 0px;
+}
+
+i.mailbox{
+	width: 14px;
+	 height: 11px;
+	 background: url(../img/icon/icon.png) no-repeat;
+ 	background-position: -73px 0px;
+}
+
+i.code{
+	width: 14px;
+	height: 10px;
+	background: url(../img/icon/icon.png) no-repeat;
+	background-position: -29px 0px;
+}
+
+i.pCode{
+	width: 14px;
+	height: 10px;
+	background: url(../img/icon/icon.png) no-repeat;
+	background-position: -29px 0px;
+}
+
+i.alias{
+	width: 14px;
+	height: 13px;
+	background: url(../img/icon/icon.png) no-repeat;
+	background-position: 0px 1px;	
+}
+
+i.phone{
+	width: 14px;
+	height: 14px;
+	background: url(../img/icon/icon.png) no-repeat;
+	background-position: -103px 0px;
+}
