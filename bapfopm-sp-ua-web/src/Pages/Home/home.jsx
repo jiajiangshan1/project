@@ -184,7 +184,7 @@ class Home extends React.Component {
                             <span className="home-span" onClick={this.showModal.bind(this)}>修改密码</span>
                             <span style={{ margin: '0 10px 0 10px', color: '#4cb8e9', fontSize: 14 }}>\</span>
                             <span className="home-span" onClick={this.showModal.bind(this)}>
-                                <Link to="/home/userInfo">用户信息</Link>
+                                <Link to={{pathname: '/about', state:{systemId: '11'}}}>用户信息</Link>
                             </span>
                             <span style={{ margin: '0 40px 0 10px', color: '#4cb8e9', fontSize: 14 }}>\</span>
                             <i className="home-span logout" onClick={this.logOut.bind(this)}></i>

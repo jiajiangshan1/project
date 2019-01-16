@@ -1,0 +1,32 @@
+.userInfo-content{
+    width: 25%;
+    height: auto;
+    margin: auto;
+}
+
+.userInfo-content .userInfo-title{
+    font-size: 24px;
+    text-align: center;
+    color: #fefefe;
+    margin-bottom: 20px;
+}
+
+.userInfo-content .userInfo-title > i{
+    font-size: inherit;
+    margin-left: 10px;
+    cursor: pointer;
+    position: relative;
+}
+
+.userInfo-content .userInfo-title > i > a{
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.userInfo-content .userInfo-form .ant-form-item-label label{
+    color: #fefefe !important;
+}

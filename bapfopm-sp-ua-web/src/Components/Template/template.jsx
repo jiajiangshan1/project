@@ -7,6 +7,8 @@ import Home from "../../Pages/Home/home";
 import Busin from "../../Pages/Business/business";
 import Manage from "../../Pages/Manage/manage";
 import Approval from "../../Pages/Approval/approval";
+import UserInfo from "../../Pages/UserInfo/userInfo";
+import EditUserInfo from "../../Pages/EditUserInfo/editUserInfo"
 
 require('./template.css')
 
@@ -38,12 +40,13 @@ export const Template = (props) => (
         <div className="ant-layout-container">
             <div className="ant-layout-content template-content">
                 <div>
-                    {/* <Router history={hashHistory}>
-                        <Route exact path='about/approval' component={Approval} />
-                        <Route exact path='about/manage' component={Manage} />
-                        <Route exact path='about/business' component={Busin} />
-                    </Router> */}
-                    {this.props.children}
+                    <Router history={hashHistory}>
+                        <Route exact path='/about' component={UserInfo} />
+                        <Route exact path='/about/approval' component={Approval} />
+                        <Route exact path='/about/manage' component={Manage} />
+                        <Route exact path='/about/business' component={Busin} />
+                        <Route exact path='/about/editUserInfo' component={EditUserInfo} />
+                    </Router>
                 </div>
             </div>
         </div>

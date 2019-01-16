@@ -168,6 +168,12 @@ class Approval extends React.Component {
                 </div>
 
                 <div style={{ width: '80%', margin: '10px auto' }}>
+                    <div className="approval-table-title">业务权限审批</div>
+                    <Table dataSource={this.state.authList} columns={columns} pagination={{ pageSize: 10 }}/>
+                </div>
+
+                <div style={{ width: '80%', margin: '10px auto' }}>
+                    <div className="approval-table-title">管理权限审批</div>
                     <Table dataSource={this.state.authList} columns={columns} pagination={{ pageSize: 10 }}/>
                 </div>
 
