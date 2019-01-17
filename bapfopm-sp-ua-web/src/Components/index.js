@@ -1,23 +1,33 @@
-import {LoginValidate,LoginDropDown} from "./LoginValidate/loginValidate";
+//  sp-ua
+import {LoginValidate,LoginDropDown} from "./sp/ua/LoginValidate/loginValidate";
 export {LoginValidate,LoginDropDown}
 
-import Code from "./Code/code";
+import Code from "./sp/ua/Code/code";
 export {Code}
 
-import RegisterValidate from "./RegisterValidate/registerValidate";
+import RegisterValidate from "./sp/ua/RegisterValidate/registerValidate";
 export {RegisterValidate}
 
-import Message from "./Message/message"
+import Message from "./sp/ua/Message/message"
 export {Message}
 
-import Error from './Error/error';
+import Error from './sp/ua/Error/error';
 export {Error}
 
-import Success from "./Success/success";
+import Success from "./sp/ua/Success/success";
 export {Success}
 
-import Sider from "./Menu/menu";
+import Sider from "./sp/ua/Menu/menu";
 export {Sider}
 
-import Template from "./Template/template"
+import Template from "./sp/ua/Template/template"
 export {Template}
+
+
+//  wpdmp-dmp
+import Navigation from "./wpdmp/dmp/Navigation";
+export {Navigation}
+
+
+import List from './wpdmp/dmp/List/list';
+export {List}

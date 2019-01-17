@@ -1,0 +1,224 @@
+input{
+    border: 0px;
+    outline: none;
+    background:none ;
+}
+
+.clearfix:after{
+    content:"";/*设置内容为空*/
+    height:0;/*高度为0*/
+    line-height:0;/*行高为0*/
+    display:block;/*将文本转为块级元素*/
+    visibility:hidden;/*将元素隐藏*/
+    clear:both;/*清除浮动*/
+}
+.clearfix{
+    zoom:1;/*为了兼容IE*/
+}
+
+.main-container{
+    width: 100%;
+    height: 100%;
+}
+.container{
+    width: 100%;
+    height: 100%;
+    background: #2272c5;
+    text-align: center;
+    position: relative;
+    color: #ffffff;
+}
+.container:after{
+    content: "";
+    display: block;
+    padding:25%;
+}
+.container .top{
+    width: 100%;
+    height:50px;
+    background-color: rgba(0,0,0,.1);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#26000000,endColorstr=#26000000);
+}
+.container .main{
+    margin: 0 auto;
+}
+.container .main .content{
+    width: 97%;
+    height: 565px;
+    margin: 20px 20px;
+    background-color: rgba(0,0,0,.05);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#19000000,endColorstr=#19000000);
+    border-radius: 8px;
+}
+.container .main .content .form{
+    width:67%;
+    margin: 0 auto ;
+    padding-top: 20px;
+}
+.container .main .content .form .part{
+    float: left;
+    height: 56px;
+    margin-left: 40px;
+    line-height: 10px;
+}
+.container .main .content .form .part label{
+    display: inline-block;
+    width: 254px;
+    height: 34px;
+    border: 1px solid #ffffff;
+    border-radius:6px;
+}
+.container .main .content .form .part input{
+    display: block;
+    width: 200px;
+    height: 26px;
+    margin-top: -31px;
+    margin-left: 90px;
+    margin-left: 120px\0;
+    color:#ffffff;
+
+}
+.container .main .content .form .part p{
+    float: left;
+    width: 59px;
+    text-align: right;
+    margin-right: 20px;
+}
+
+
+.container .main .content .form .typeDiv .selectBox{
+    width: 254px;
+    height: 34px;
+    border: solid 1px #ffffff;
+    border-radius:6px;
+    color: #ffffff;
+    background: url("../../../../asset/wpdmp/dmp/img/arrow.png") no-repeat;
+    background-position: 98%;
+    margin-left: 80px;
+    margin-left: 110px\0;
+    line-height: 34px;
+    position: relative;
+    text-align: left;
+}
+.container .main .content .form .typeDiv .selectBox span{
+    display: inline-block;
+    margin-left: 10px;
+}
+.container .main .content .form .typeDiv .selectBox select{
+    position: absolute;
+    width: 242px;
+    height: 34px;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0 0 0 10px;
+    cursor: pointer;
+    line-height: 34px;
+    font-size: 16px;
+    opacity: 0;
+    background-color:#2272c5;
+    color: #ffffff;
+    z-index: 4;
+}
+.container .main .content .form .typeDiv .selectBox option{
+    background-color: transparent;
+}
+
+
+
+/*.container .main .content .form .typeDiv select {*/
+/*!*Chrome和Firefox里面的边框是不一样的，所以复写了一下*!*/
+/*border: solid 1px #ffffff;*/
+
+/*!*很关键：将默认的select选择框样式清除*!*/
+/*appearance:none;*/
+/*-moz-appearance:none;*/
+/*-webkit-appearance:none;*/
+
+/*!*在选择框的最右侧中间显示小箭头图片*!*/
+/*background: url("https://raw.githubusercontent.com/ourjs/static/gh-pages/2015/arrow.png") no-repeat scroll right center transparent;*/
+
+
+/*!*为下拉小箭头留出一点位置，避免被文字覆盖*!*/
+/*padding-right: 14px;*/
+/*width: 254px;*/
+/*height: 34px;*/
+/*border-radius:6px;*/
+/*color: #ffffff;*/
+/*}*/
+
+
+/*!*清除ie的默认选择框样式清除，隐藏下拉箭头*!*/
+/*select::-ms-expand { display: none; }*/
+/*.container .main .content .form .typeDiv select option{*/
+/*background-color: #4571cd;*/
+/*min-height:34px;*/
+/*border-radius:6px;*/
+/*}*/
+
+.container .main .content .form .selectDiv{
+    margin-left: 148px;
+}
+.container .main .content .form .selectDiv input{
+    display: none;
+}
+
+.container .main .content .form .selectDiv .selectLabel{
+    display: inline-block;
+    position: relative;
+    line-height: 15px;
+    border: none;
+    width: 40px;
+    height: 20px;
+}
+.container .main .content .form .selectDiv .selectLabel:after{
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #ffffff;
+    position: absolute;
+    top :-3px;
+    left: -30px;
+}
+.container .main .content .form .selectDiv input:checked+label:after{
+    background: url("../../../../asset/wpdmp/dmp/img/gou.png")  no-repeat ;
+    background-size: 80%;
+    background-position:center;
+}
+
+.container .main .content .form .submitDiv{
+    margin-top: 80px;
+    margin-left: 92px;
+}
+.container .main .content .form .submitDiv input{
+    display: inline-block;
+    width: 100px;
+    height: 34px;
+    background-color: #4d93ff;
+    border-radius: 3px;
+    color: #ffffff;
+    font-size: 14px;
+    box-shadow: 3px 3px 3px #1d5daa;
+    margin-top: 0px;
+    margin-left: 0;
+    margin-right: 40px;
+    float: left;
+}
+.container .main .content .form .submitDiv input:hover{
+    background-color: #44b9ee;
+}
+.container .main .content .form .submitDiv a{
+    text-decoration: none;
+    display: block;
+    width: 100px;
+    height: 34px;
+    background-color: #4d93ff;
+    border-radius: 3px;
+    color: #ffffff;
+    font-size: 14px;
+    box-shadow: 3px 3px 3px #1d5daa;
+    margin-top: 0;
+    float: left;
+    line-height: 34px;
+}

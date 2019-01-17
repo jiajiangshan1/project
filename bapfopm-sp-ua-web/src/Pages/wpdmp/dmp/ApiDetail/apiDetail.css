@@ -1,0 +1,158 @@
+
+label{
+    font-size: 14px;
+}
+.outer-container {
+    width: 97%; height: 565px;
+    background: none;
+}
+.container .main  .content{
+    width: 97%;
+    height: 500px;
+    background: none;
+}
+.container .main .content{
+    background: none;
+}
+.outer-container {
+    position: relative;
+    overflow: hidden;
+}
+.inner-container {
+    position: absolute; left: 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin: 20px 20px;
+     background-color: rgba(0,0,0,.05);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19000000,endColorstr=#19000000);
+     border-radius: 8px;
+    width: 97%;
+}
+
+/* for Chrome */
+.inner-container::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+.content .form1{
+    width: 67%;
+    margin: 0 auto;
+    padding-top: 20px;
+    font-size: 14px;
+}
+
+.content .form1 .float{
+    float: left;
+    height: 56px;
+    /*margin-left: 40px;*/
+    line-height: 10px;
+}
+.content .form1 .float p{
+    float: left;
+    width: 70px;
+    text-align: right;
+    margin-right: 20px;
+}
+.content .form1 .short label{
+    display: inline-block;
+    width: 254px;
+    height: 34px;
+    /*border: 1px solid #ffffff;*/
+    /*border-radius: 6px;*/
+}
+.content .form1 .short input{
+    /*display: block;*/
+    width: 200px;
+    height: 26px;
+    /*margin-top: -31px;*/
+    /*margin-left: 100px;*/
+    /*margin-left: 120px\0;*/
+    /*color: #ffffff;*/
+}
+
+.content .form1 .long label{
+    width: 500px;
+}
+.content .form1 .long input{
+    width: 450px;
+}
+
+.content .form1 .server p{
+    width: 84px;
+}
+.content .form1 .selectBox .select{
+   float:left
+}
+
+.content .form1 .text{
+    height: 100px;
+}
+.content .form1 .text .textarea{
+    float: left;
+    width: 500px;
+}
+
+.content .form1 .btnGroup {
+    width: 100%;
+}
+.content .form1 .btnGroup .btn,.content .form1 .btnGroup a{
+    display: inline-block;
+    width: 100px;
+    height: 34px;
+    background-color: #4d93ff;
+    border-radius: 3px;
+    color: #ffffff;
+    font-size: 14px;
+    box-shadow: 3px 3px 3px #1d5daa;
+    margin-right: 60px;
+    line-height: 34px;
+}
+.content .form1 .btnGroup .btn:hover,.content .form1 .btnGroup a:hover{
+    background-color: #44b9ee;
+}
+.content .form1 table{
+    margin: 20px 0 20px 0;
+    border: 1px solid #235e99;
+    width: 78%;
+    border-radius: 8px;
+    border-spacing: 0;
+    border-collapse: separate;
+}
+.content .form1 table tr th{
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    background-color: rgba(0,0,0,.1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#26000000,endColorstr=#26000000);
+}
+.content .form1 table tr td{
+    height: 38px;
+    line-height: 38px;
+}
+.ant-form-item-label label{
+    color:#ffffff;
+}
+
+.ant-form-inline .has-feedback {
+    display: block !important;
+}
+.ant-form-inline .ant-form-item-with-help{
+    margin-bottom: 0;
+}
+.ant-table-content{
+    color:white;
+}
+.ant-table-tbody > tr:hover{
+    background: #70f6ec57;
+}
+.ant-table-tbody > tr > td{
+    border-bottom:none;
+}
+.ant-table-pagination{
+    margin-right: 184px;
+}
+.color label{
+    color: #666;
+}

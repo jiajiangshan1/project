@@ -1,0 +1,42 @@
+.business .ant-tree{
+    max-height: 400px;
+    overflow: auto;
+}
+
+.business .ant-table-thead > tr > th{
+    background: url(../../../../asset/sp/ua/img/portal/1/3.png) repeat;
+    border: none;
+    color: #fefefe;
+    font-size: 16px;
+}
+
+.business .ant-table-tbody{
+    background: url(../../../../asset/sp/ua/img/portal/1/2.png) repeat;
+}
+
+.business .ant-table-tbody > tr{
+    color: #fefefe;
+}
+
+.business .ant-table-tbody > tr:hover{
+    color: #000 !important;
+}
+
+.business .ant-table-tbody > tr > td{
+    color: inherit;
+    border: none !important;
+    font-size: 14px;
+}
+
+.business .ant-table-thead > tr > th,.business .ant-table-tbody > tr > td{
+    text-align: center;
+}
+
+.business .ant-table-placeholder{
+    border: none; 
+    background: url(../../../../asset/sp/ua/img/portal/1/2.png) repeat;
+}
+
+.business .ant-table-placeholder > span{
+    color: #fefefe;
+}

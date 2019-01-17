@@ -1,0 +1,34 @@
+.register{
+    width: 100vw;
+    height: 100vh;
+    background: url('../../../asset/sp/ua/img/bg.png') no-repeat 0 0;
+    background-size: cover;
+    position: relative;
+}
+.register-container{
+    width: 30vw;
+    height: auto;
+    background: url('../../../asset/sp/ua/img/bg_layer.png') no-repeat 0 0;
+    background-size: cover;
+    padding: 20px;
+    padding-top: 50px;
+    position: absolute;
+    top: 45px;
+    right: 188px;
+}
+
+.register-container .register-logo{
+    width: 120px;
+    height: 32px;
+    background: url("../../../asset/sp/ua/img/register.png") no-repeat 0 0;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.register-form{
+    width: inherit;
+}
+
+.register-form form label{
+    color: #fff;
+}

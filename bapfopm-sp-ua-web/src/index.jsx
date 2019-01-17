@@ -3,22 +3,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Route, IndexRedirect, IndexRoute, Link, hashHistory } from 'react-router'
 
-import Login from "./Pages/Login/login";
-import Register from "./Pages/Register1/register";
-import Home from "./Pages/Home/home";
-import About from "./Pages/About/about";
-import Busin from "./Pages/Business/business";
-import Manage from "./Pages/Manage/manage";
-import Approval from "./Pages/Approval/approval";
-import UserInfo from "./Pages/userInfo/userInfo"
+import {Navigation} from "./Components"
 
-import Test from "./Pages/Test/test";
-
+import Login from "./Pages/common/Login/login";
+import Register from "./Pages/common/Register/register";
+import Home from "./Pages/common/Home/home";
+import About from "./Pages/common/About/about";
+import Test from "./Pages/common/Test/test";
 
 import 'antd/dist/antd.css';
 
 import axios from "axios";
-import Business from "./Pages/Business/business";
 
 axios.defaults.baseURL = `http://localhost:9999`;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
@@ -43,12 +38,9 @@ ReactDOM.render(
 
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
+
             <Route path='/home' component={Home}/>
-            <Route path='/home/userInfo' component={UserInfo}/>
             <Route path='/about' component={About}/>
-            {/* <Route path='/about/business' component={Busin}/>
-            <Route path='/about/approval' component={Approval}/>
-            <Route path='/about/manage' component={Manage}/> */}
 
             <Router path='/test' component={Test}/>
             
