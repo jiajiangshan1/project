@@ -22,7 +22,6 @@ class BlackList extends React.Component {
                         <td>{item.apiPath}</td>
                         <td>{item.createDate}</td>
                         <td>{item.updateDate}</td>
-
                         <td>{item.wbType}</td>
 
                     </tr>

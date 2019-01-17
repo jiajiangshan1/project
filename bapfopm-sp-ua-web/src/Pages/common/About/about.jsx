@@ -1,7 +1,7 @@
 import React from 'react';;
 import { Router, Route, IndexRedirect, IndexRoute, Link, hashHistory } from 'react-router'
 import { getSystemList, getAuthMenu } from '../../../Service/sp/ua/server'
-import { Menu, Breadcrumb, Icon, Badge } from 'antd';
+import { Menu, Breadcrumb, Icon, Badge, message } from 'antd';
 
 import {Sider,Template} from '../../../Components';
 // import Template from "../../Components/Template/template";
@@ -38,6 +38,7 @@ class About extends React.Component {
 
   componentWillMount() {
     // this.axiosAuthMenu();
+    message.success(this.props.location.state.systemId)
   }
 
   render() {

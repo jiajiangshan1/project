@@ -3,12 +3,12 @@ label{
     font-size: 14px;
 }
 .outer-container {
-    width: 97%; height: 565px;
+    width: 97%; height: 673px;
     background: none;
 }
 .container .main  .content{
     width: 97%;
-    height: 500px;
+    height: 650px;
     background: none;
 }
 .container .main .content{
@@ -131,7 +131,7 @@ label{
     height: 38px;
     line-height: 38px;
 }
-.ant-form-item-label label{
+.ant-form-item .ant-form-item-label label{
     color:#ffffff;
 }
 
@@ -151,8 +151,8 @@ label{
     border-bottom:none;
 }
 .ant-table-pagination{
-    margin-right: 184px;
+    /* margin-right: 184px; */
 }
-.color label{
+.color .ant-form-item-label label{
     color: #666;
 }

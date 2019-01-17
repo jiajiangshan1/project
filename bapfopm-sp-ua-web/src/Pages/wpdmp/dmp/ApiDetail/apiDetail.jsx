@@ -267,7 +267,7 @@ let ApiDetail=React.createClass({
 
                                         <Row justify='start' type="flex" style={{marginBottom:18}}>
                                             <FormItem
-                                                wrapperCol={{ span:24 }}
+                                                wrapperCol={{ span:24 ,offset:1}}
                                                 style={{width:'76%',height:34}}
                                             >
                                                 <Button type="primary" onClick={this.handleSubmit}  style={{marginRight:"30px"}}>保存</Button>

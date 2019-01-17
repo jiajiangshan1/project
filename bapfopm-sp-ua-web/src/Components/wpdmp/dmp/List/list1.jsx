@@ -109,7 +109,7 @@ const List = React.createClass({
 
         return (
             <div>
-                <div style={{ marginBottom: 16, marginLeft:-340}}>
+                <div style={{ marginBottom: 16, marginRight:'69%'}}>
                     <Button type='primary' onClick={this.newStart}>新建</Button>
                     <Button type="primary" onClick={this.start}
                             disabled={!hasSelected} loading={loading} style={{ marginLeft: 15 }}

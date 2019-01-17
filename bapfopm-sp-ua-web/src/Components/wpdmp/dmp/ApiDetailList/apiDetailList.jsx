@@ -99,13 +99,13 @@ let ApiDetailList = React.createClass({
             <div>
                 <div style={{ marginLeft:-170}}>
                     <Button type="primary" onClick={this.showModal}
-                             style={{ marginLeft: 15 }}
+                             style={{ marginLeft: 15 }} size={"large"}
                     >新建</Button>
                     <Button type="primary" onClick={this.start}
-                            disabled={!hasSelected} loading={loading} style={{ marginLeft: 15 }}
+                            disabled={!hasSelected} loading={loading} style={{ marginLeft: 15 }}  size={"large"}
                     >修改</Button>
                     <Button type="primary" onClick={this.start}
-                            disabled={!hasSelected} loading={loading} style={{ marginLeft: 15 }}
+                            disabled={!hasSelected} loading={loading} style={{ marginLeft: 15 }} size={"large"}
                     >删除</Button>
 
                 </div>

@@ -104,7 +104,7 @@ class ApiList extends React.Component {
                                     <input type="button" value="查询" onClick={this.findApi.bind(this)}/>
                                 </div>
                             </div>
-                            <div className="content">
+                            <div className="content api-content">
                                 {/*<div className="contentBtn clearfix">*/}
                                     {/*/!*<div className="setUp btn">*!/*/}
                                         {/*/!*<input type="button" value="新建" onClick={this.newBuilt.bind(this)}/>*!/*/}

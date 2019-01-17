@@ -6,6 +6,7 @@ import List from "../../../../Components/wpdmp/dmp/List/list";
 import Page from "../../../../Components/wpdmp/dmp/Pagination/pagination";
 
 
+
 class BlackWhiteList extends React.Component {
     constructor(props){
         super(props);

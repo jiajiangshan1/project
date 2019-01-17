@@ -62,7 +62,7 @@ class UserInfo extends React.Component {
                     <div className="userInfo-title">
                         用户信息
                         <Icon type="edit">
-                            <Link to="/about/editUserInfo" />
+                            <Link to={{pathname: "/about/sp/ua/editUserInfo", state: {systemId: this.props.location.state.systemId}}} />
                         </Icon>
                     </div>
 

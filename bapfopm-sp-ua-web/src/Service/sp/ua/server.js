@@ -262,3 +262,15 @@ export let getUserInfo = async () => {
     })
     return response.data
 }
+
+/**
+ * 获取个人信息
+ */
+export let getUpdateBasicInfo = async (params) => {
+    let response = await axios({
+        url: 'spua/user/updateBasicInfo',
+        method: 'post',
+        params: params
+    })
+    return response.data
+}
