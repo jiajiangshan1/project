@@ -8,7 +8,8 @@ import Busin from "../../Pages/Business/business";
 import Manage from "../../Pages/Manage/manage";
 import Approval from "../../Pages/Approval/approval";
 import UserInfo from "../../Pages/UserInfo/userInfo";
-import EditUserInfo from "../../Pages/EditUserInfo/editUserInfo"
+import EditUserInfo from "../../Pages/EditUserInfo/editUserInfo";
+import CreateAuth from "../../Pages/CreateAuth/createAuth";
 
 require('./template.css')
 
@@ -46,6 +47,7 @@ export const Template = (props) => (
                         <Route exact path='/about/manage' component={Manage} />
                         <Route exact path='/about/business' component={Busin} />
                         <Route exact path='/about/editUserInfo' component={EditUserInfo} />
+                        <Route exact path='/about/createAuth' component={CreateAuth} />
                     </Router>
                 </div>
             </div>

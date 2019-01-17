@@ -170,8 +170,6 @@ export let getCreateAuth = async (authorityName, requestUrl, parent, isParent, s
     return response.data
 }
 
-
-
 /**
  * 用户密码修改 
  */

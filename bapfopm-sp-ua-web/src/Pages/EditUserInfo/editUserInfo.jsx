@@ -56,8 +56,9 @@ class EditUserInfo extends React.Component{
      */
     async axiosTelephoneCode() {
         let data;
-        if(this.props.form.getFieldValue('oldTelephone')){
-            data = await getTelephoneCode(this.props.form.getFieldValue('oldTelephone'));
+        let telephone = this.props.form.getFieldValue('newTelephone');
+        if(telephone){
+            data = await getTelephoneCode(telephone);
             if (data.status == "200") {
                 message.success(data.dataObject);
             }else{
@@ -65,7 +66,7 @@ class EditUserInfo extends React.Component{
             }
             return data;
         }else{
-            message.error('请先输入注册所用的手机号码!')
+            message.error('请输入新手机号!')
         } 
     }
 
@@ -111,8 +112,6 @@ class EditUserInfo extends React.Component{
             ]
         });
 
-        const oldTelephoneProps = getFieldProps("oldTelephone", {});
-
         const newTelephoneProps = getFieldProps("newTelephone", {
             rules: [
                 { required: false, message: "请输入手机号码!" },
@@ -151,22 +150,13 @@ class EditUserInfo extends React.Component{
                             </FormItem>
                         </Form>
 
-                        <Form form={this.props.form}>
-                            <FormItem {...formItemLayout} label="原手机号">
-                                <Input
-                                    {...oldTelephoneProps}
-                                    style={{width: '75%'}}
-                                    readOnly
-                                />
-                                <Button type="primary" style={{  marginTop: 0, marginLeft: '10px' }} onClick={this.axiosTelephoneCode.bind(this)}>发送</Button>
-                            </FormItem>
-                        </Form>
-
                         <Form horizontal form={this.props.form}>
                             <FormItem {...formItemLayout} label="新手机号">
                                 <Input
                                     {...newTelephoneProps}
+                                    style={{width: '75%'}}
                                 />
+                                <Button type="primary" style={{  marginTop: 0, marginLeft: '10px' }} onClick={this.axiosTelephoneCode.bind(this)}>发送</Button>
                             </FormItem>
                         </Form>
 
