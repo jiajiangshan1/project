@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import {hashHistory,Link} from "react-router";
-import {Table, Button, Pagination} from 'antd';
+import {Table, Button, Pagination,message} from 'antd';
 
 const columns = [{
     title: 'API名称',
@@ -51,7 +51,7 @@ const List = React.createClass({
         if(this.state.selectedRowKeys.length<=1){
             hashHistory.push({pathname:'/about/wpdmp/dmp/apilist/apiDetailChange',state:this.state.selectRow})
         }else{
-            alert('只能选一项修改哦~~')
+            message.warning('只能选一项修改哦~~')
         }
         setTimeout(() => {
             this.setState({
@@ -109,7 +109,7 @@ const List = React.createClass({
 
         return (
             <div>
-                <div style={{ marginBottom: 16, marginRight:'69%'}}>
+                <div style={{ marginBottom: 16, marginRight:"67%"}}>
                     <Button type='primary' onClick={this.newStart}>新建</Button>
                     <Button type="primary" onClick={this.start}
                             disabled={!hasSelected} loading={loading} style={{ marginLeft: 15 }}

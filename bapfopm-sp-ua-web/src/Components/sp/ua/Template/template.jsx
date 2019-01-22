@@ -3,10 +3,10 @@ import { Menu, Breadcrumb, Icon, Badge } from 'antd';
 import { Router, Route, IndexRedirect, IndexRoute, Link, hashHistory } from 'react-router'
 
 // sp-ua
+import UserInfo from "../../../../Pages/sp/ua/UserInfo/userInfo";
 import Busin from "../../../../Pages/sp/ua/Business/business";
 import Manage from "../../../../Pages/sp/ua/Manage/manage";
 import Approval from "../../../../Pages/sp/ua/Approval/approval";
-import UserInfo from "../../../../Pages/sp/ua/UserInfo/userInfo";
 import EditUserInfo from "../../../../Pages/sp/ua/EditUserInfo/editUserInfo";
 import CreateAuth from "../../../../Pages/sp/ua/CreateAuth/createAuth";
 
@@ -47,7 +47,7 @@ export const Template = (props) => (
             <div className="ant-layout-content template-content">
                 <div>
                     <Router history={hashHistory}>
-                        <Route path='/about' component={UserInfo} />
+                        <Route path='/about' exact component={UserInfo} />
                         <Route path='/about/sp/ua/approval' component={Approval} />
                         <Route path='/about/sp/ua/manage' component={Manage} />
                         <Route path='/about/sp/ua/business' component={Busin} />

@@ -2,6 +2,7 @@ import {} from "../scss/GlobalCSS"
 import React from "react";
 import ReactDOM from "react-dom";
 import { Router, Route, IndexRedirect, IndexRoute, Link, hashHistory } from 'react-router'
+import { relative } from "path";
 
 import {Navigation} from "./Components"
 

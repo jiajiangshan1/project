@@ -1,24 +1,23 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import BlackList from "../../../../Components/wpdmp/dmp/BlackList/blackList";
+import {BlackList} from "../../../../Components/wpdmp/dmp/BlackList/blackList";
 import {GetBlackList} from "../../../../Service/wpdmp/dmp/categories";
 import List from "../../../../Components/wpdmp/dmp/List/list";
 import Page from "../../../../Components/wpdmp/dmp/Pagination/pagination";
-
-
-
+import style from './blackWhiteList.css'
+import {message} from 'antd';
 class BlackWhiteList extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            title:title,
             list:[],
             current:'',
             checked:false,
             totalUser:'',
             ip:'',
             dec:'',
-            pageNum:1
+            pageNum:1,
+            selected:true
         }
     }
     componentDidMount() {
@@ -26,11 +25,11 @@ class BlackWhiteList extends React.Component {
     }
 
     handleChange(e) {
-        this.setState({ip: e.target.value})
+        this.setState({ip: e.target.value,selected:true})
         //console.log(e.target.value);
     }
     handleChange2(e){
-        this.setState({dec: e.target.value})
+        this.setState({dec: e.target.value,selected:true})
     }
     //查询黑白名单
     findApi() {
@@ -46,15 +45,20 @@ class BlackWhiteList extends React.Component {
             // let {data:{data,totalUsers,currentPage}} = await GetApi(api2, page);
 
             let {data:{object,totalUsers,currentPage}} = await GetBlackList(ip2, dec2,page);
-
+            console.log(object);
             if (object.code == "000000") {
-                let list = this.state.list;
-                this.setState({list: list.concat(object.data),totalUser:totalUsers,current:currentPage})
+                if(!object.data.length){
+                    message.warning('这条暂无数据哦~')
+                }else{
+                    let list = this.state.list;
+                    this.setState({list: list.concat(object.data),totalUser:totalUsers,current:currentPage})
+                }
+
             } else {
-                alert(object.msg)
+                message.error(object.msg)
             }
         }else{
-            alert('输入内容不能为空哦^_^')
+            message.warning('输入内容不能为空哦~')
         }
 
     }
@@ -62,7 +66,7 @@ class BlackWhiteList extends React.Component {
     changePage1(current){
         console.log(current);
         this.setState({
-            pageNum:current
+            pageNum:current,selected:false
         },this.findApi)
     }
 
@@ -101,24 +105,24 @@ class BlackWhiteList extends React.Component {
                                 <input type="button" value="查询" onClick={this.findApi.bind(this)}/>
                             </div>
                         </div>
-                        <div className="content">
-                            <div className="contentBtn clearfix">
-                                <div className="setUp btn">
-                                    <input type="button" value="新建"/>
-                                </div>
-                                <div className="revise btn">
-                                    <input type="button" value="修改"/>
-                                </div>
-                                <div className="del btn">
-                                    <input type="button" value="删除"/>
-                                </div>
-                                <div className="publish btn">
-                                    <input type="button" value="发布"/>
-                                </div>
-                            </div>
+                        <div className="content api-content">
+                            {/*<div className="contentBtn clearfix">*/}
+                                {/*<div className="setUp btn">*/}
+                                    {/*<input type="button" value="新建"/>*/}
+                                {/*</div>*/}
+                                {/*<div className="revise btn">*/}
+                                    {/*<input type="button" value="修改"/>*/}
+                                {/*</div>*/}
+                                {/*<div className="del btn">*/}
+                                    {/*<input type="button" value="删除"/>*/}
+                                {/*</div>*/}
+                                {/*<div className="publish btn">*/}
+                                    {/*<input type="button" value="发布"/>*/}
+                                {/*</div>*/}
+                            {/*</div>*/}
                             <div className="contentApi">
-                                <BlackList list={this.state.list} title={this.state.title} checkboxChange={this.checkboxChange.bind(this)}/>
-                                <Page list={this.state.list} handleChange={this.changePage1.bind(this)} totalUser={this.state.totalUser} current={this.state.current}/>
+                                <BlackList list={this.state.list} checkboxChange={this.checkboxChange.bind(this)} selected={this.state.selected}/>
+                                {/*<Page list={this.state.list} handleChange={this.changePage1.bind(this)} totalUser={this.state.totalUser} current={this.state.current}/>*/}
                             </div>
 
                         </div>
@@ -129,7 +133,6 @@ class BlackWhiteList extends React.Component {
     }
 }
 
-let title = ['','地址', "描述", '是否启用', '创建时间', '更新时间', '类型'
-];
+
 
 export default BlackWhiteList;

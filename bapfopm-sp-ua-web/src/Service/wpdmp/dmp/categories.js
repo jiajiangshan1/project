@@ -64,7 +64,7 @@ export let GetInfo = async (userId="", userName="") => {
 export let GetBlackList = async (ip,dec,page=1) => {
     let response = await axios({
         method: "post",
-        url: "http://172.30.3.130:8411/gw/wbList/findByMany",
+        url: "api/gw/wbList/findByMany",
         data: {
             "ip":ip,
             "apiDesc":dec,
@@ -78,7 +78,7 @@ export let GetBlackList = async (ip,dec,page=1) => {
 export let addApi = async (data) => {
     let response = await axios({
         method: "post",
-        url: "http://172.30.3.130:8411/gw/apiInfo/addRequestServiceInfo",
+        url: "api/gw/apiInfo/addRequestServiceInfo",
         data: data
     })
     return response;

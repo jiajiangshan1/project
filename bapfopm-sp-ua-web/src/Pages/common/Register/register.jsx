@@ -78,15 +78,16 @@ class Register extends React.Component {
         console.log('=============', zoningKey)
         let res = await this.axiosSubNodes(zoningKey);
         let data = res.responseData;
-        console.log('-------------', data);
+        treeNode.props.dataRef.children = data;
+        console.log('-------------', treeNode);
 
         let treeData = [...this.state.treeData];
-        // console.log('-------------',treeData);  
+        console.log('-------------',treeData);  
 
         // debugger
-        if (data.length > 0) {
-            this.ergodicArr(treeData, data);
-        }
+        // if (data.length > 0) {
+        //     this.ergodicArr(treeData, data);
+        // }
 
         this.setState({
             treeData: treeData
@@ -137,7 +138,7 @@ class Register extends React.Component {
      * 获取区划代码
      */
     async axiosSubNodes(val) {
-        val = val || "230000000000000";
+        val = val || "000000000000000";
         let data = await getSubNodes(val);
         return data;
     }
@@ -302,9 +303,9 @@ class Register extends React.Component {
 
         const loop = data => data.map((item) => {
             if (item.children) {
-                return <TreeNode title={item.divisionName} key={item.zoningCode}>{loop(item.children)}</TreeNode>;
+                return <TreeNode title={item.divisionName} key={item.zoningCode} dataRef={item}>{loop(item.children)}</TreeNode>;
             }
-            return <TreeNode title={item.divisionName} key={item.zoningCode} />;
+            return <TreeNode title={item.divisionName} key={item.zoningCode} dataRef={item}/>;
         });
 
         const treeNodes = loop(this.state.treeData);

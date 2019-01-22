@@ -2,7 +2,7 @@ import React from 'react';
 import { Tree, Modal, Button, Table, Icon, message } from 'antd';
 import { getAuthList, getApplyAuth } from "../../../../Service/sp/ua/server"
 
-require('./business.css')
+// require('./business.css')
 
 const TreeNode = Tree.TreeNode;
 
@@ -48,6 +48,7 @@ class Busin extends React.Component {
         let listArr = [];
         let checkedKeys = [];
         let list = [];
+        let authData = [];
 
         dataArr.forEach((item) => {
             listArr.push(item.authorities)
@@ -75,8 +76,9 @@ class Busin extends React.Component {
                             }
                             //  设置该节点为叶子节点
                             obj.isLeaf = true;
-                            if(subMenu.isOwn == 1){
-                                checkedKeys.push(`${subMenu.systemId}-${subMenu.authorityId}`)
+                            if(subMenu.isOwn == 1 && subMenu.parent != 0){
+                                checkedKeys.push(`${subMenu.systemId}-${subMenu.authorityId}`);
+                                authData.push(`${subMenu.systemId}-${subMenu.authorityId}`);
                                 this.setState({
                                     checkedKeys,
                                 })
@@ -112,7 +114,7 @@ class Busin extends React.Component {
         //  获取该用户已有权限数据
         this.setState({
             treeData: dataArr,
-            authData: this.state.checkedKeys
+            authData: authData
         })
     }
 
@@ -154,7 +156,7 @@ class Busin extends React.Component {
         console.log('onCheck', info);
 
         let authData = this.state.authData;
-        let newAuth = [...checkedKeys, ...authData];
+        let newAuth = [...checkedKeys, ...authData];    
         let data = this.clearArr(newAuth);
         let dataList = [];
         let displayList = [];
@@ -165,6 +167,7 @@ class Busin extends React.Component {
         temp = [...this.state.temp, info];
         this.setState({temp: temp})
 
+        console.log('data=========', data);
         //  处理权限申请发送数据
         data.forEach(item =>{
             obj = {};
@@ -210,7 +213,13 @@ class Busin extends React.Component {
     }
 
     showModal() {
-        this.axiosAuthList();
+        if(this.state.authData.length == 0){
+            this.axiosAuthList();
+        }else{
+            message.success('你就不出来了?')
+        }        
+        console.log("=======",this.state.authData);
+        console.log(this.state.treeData)
     }
 
     handleOk() {

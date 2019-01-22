@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import style from './apiDetail.css';
-import { Form, Input, Select, Checkbox ,Row,Button,Col } from 'antd';
+import { Form, Input, Select, Checkbox ,Row,Button,Col,message ,Modal} from 'antd';
 import ApiDetailList from "../../../../Components/wpdmp/dmp/ApiDetailList/apiDetailList";
-import {addApi} from "../../../../Service/wpdmp/dmp/categories"
+import {addApi, GetApi} from "../../../../Service/wpdmp/dmp/categories"
+import {hashHistory} from "react-router";
 const FormItem = Form.Item;
 const Option = Select.Option;
-
+const confirm = Modal.confirm;
 function turnInt (data){
     data.groupId=parseFloat(data.groupId)
     data.apiType=parseFloat(data.apiType)
@@ -34,10 +35,15 @@ let ApiDetail=React.createClass({
     },
     async getApi(data){
        if(data.apiName&&data.apiDesc&&data.apiPath&&data.timeOut){
-           let response=await addApi(data);
-           console.log(response);
+           let {data:{code,msg}} =await addApi(data);
+           if (code == "000000") {
+               message.success('恭喜你,数据保存成功!');
+               hashHistory.push('/about/wpdmp/dmp/apilist')
+           } else {
+               message.error(msg);
+           }
        }else{
-           alert('还有没填的哦~')
+           message.warning('还有没填的选项哦~')
        }
     },
     checkNum(rule, value, callback){
@@ -51,7 +57,19 @@ let ApiDetail=React.createClass({
     },
     getIpList(rows){
         this.setState({selectedRows:rows})
-         console.log(this.state.selectedRows);
+        // console.log(this.state.selectedRows);
+    },
+    returnBack(){
+        confirm({
+            title: '您确定要离开吗?',
+            content: '这些内容还没有保存呦~',
+            onOk() {
+                console.log('确定');
+                hashHistory.push('/about/wpdmp/dmp/apilist')
+            },
+            onCancel() {},
+        });
+
     },
     render() {
         const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
@@ -267,11 +285,11 @@ let ApiDetail=React.createClass({
 
                                         <Row justify='start' type="flex" style={{marginBottom:18}}>
                                             <FormItem
-                                                wrapperCol={{ span:24 ,offset:1}}
+                                                wrapperCol={{ span:24 }}
                                                 style={{width:'76%',height:34}}
                                             >
-                                                <Button type="primary" onClick={this.handleSubmit}  style={{marginRight:"30px"}}>保存</Button>
-                                                <Button type="primary" onClick={this.handleReset} style={{marginRight:"30px"}}>返回</Button>
+                                                <Button type="primary" onClick={this.handleSubmit}  style={{marginRight:"30px"}} >保存</Button>
+                                                <Button type="primary" onClick={this.returnBack} style={{marginRight:"30px"}}>返回</Button>
 
                                             </FormItem>
                                         </Row>

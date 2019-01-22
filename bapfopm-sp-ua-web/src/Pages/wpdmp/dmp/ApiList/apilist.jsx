@@ -4,6 +4,7 @@ import styles from './apilist.css'
 import {hashHistory,Link} from "react-router";
 import {List} from "../../../../Components/wpdmp/dmp/List/list1"
 import {GetApi} from "../../../../Service/wpdmp/dmp/categories"
+import {message} from 'antd';
 
 class ApiList extends React.Component {
     constructor(props) {
@@ -66,10 +67,10 @@ class ApiList extends React.Component {
                 this.setState({list: list.concat(object.data),totalUser:totalUsers,current:currentPage})
                // console.log(this.state.list);
             } else {
-                alert(object.msg)
+                message.warning(object.msg)
             }
         }else {
-            alert('输入内容不能为空哦^_^')
+            message.warning('输入内容不能为空哦^_^')
         }
 
     }
@@ -104,7 +105,7 @@ class ApiList extends React.Component {
                                     <input type="button" value="查询" onClick={this.findApi.bind(this)}/>
                                 </div>
                             </div>
-                            <div className="content api-content">
+                            <div className="content apiContent">
                                 {/*<div className="contentBtn clearfix">*/}
                                     {/*/!*<div className="setUp btn">*!/*/}
                                         {/*/!*<input type="button" value="新建" onClick={this.newBuilt.bind(this)}/>*!/*/}

@@ -1,23 +1,30 @@
 import React from 'react';
 import { Tree, Modal, Button, Table, Icon, message } from 'antd';
-import { getAuthList, getApplyAuth } from "../../../../Service/sp/ua/server"
+import { getAuthList, getApplyAdminAuth } from "../../../../Service/sp/ua/server"
+
+// require('./business.css')
 
 const TreeNode = Tree.TreeNode;
 
-class Manage extends React.Component {
+class Busin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            addTreeData: [],
-            delTreeData: [],
+            treeData: [],   //  权限树数据存放
 
+            //  ant tree 配置项
+            expandedKeys: [],
             autoExpandParent: true,
             checkedKeys: [],
+            selectedKeys: [],
 
-            postData: [],
+            visible: false,
 
-            addVisible: false,
-            delVisible: false
+            authData: [],   //  该账户已有权限菜单数组
+            postData: [],   //  权限申请提交发送数据 
+            displayData: [], //  权限申请展示数据
+            
+            temp: []
         }
     }
 
@@ -27,182 +34,175 @@ class Manage extends React.Component {
      */
     async axiosAuthList() {
         let data = await getAuthList(1);
-
         if (data.status == 400) {
             message.error(data.description);
             return;
         }
 
         this.setState({
-            addVisible: true,
+            visible: true,
         });
 
-        let dataArr = data.dataObject;  //  用户全部数据'
-        let listArr = [];   //  存放系统下权限菜单的数组
-
-        let list = [];  //  存放已处理完的系统下权限菜单的数组  权限添加
-        let delList = [];   //  存放已处理完的系统下权限菜单的数组  权限删除
-
-
-        let checkedArr = []; // 存放已有权限菜单的数组
-
-        dataArr.forEach((item) => {
-            listArr.push(item.authorities)
-        })
-
-        console.log(listArr);
-
-        listArr.forEach((item) => {
-            var arrData = [];
-            var childrenArr;
-            var falg = false;
-            for (var i = 0; i < item.length; i++) {
-
-                if (item[i].parent == 0) {
-                    childrenArr = []
-                    for (var j = 0; j < item.length; j++) {
-                        //  当二级菜单的父id跟一级菜单的id想匹配
-                        if (item[j].parent == item[i].authorityId) {
-                            var obj = {};
-                            obj.authorityId = item[j].authorityId;
-                            obj.systemId = item[j].systemId;
-                            obj.authorityName = item[j].authorityName;
-                            obj.parent = item[j].parent;
-                            obj.isOwn = item[j].isOwn;
-                            if (item[j].isOwn == 0) {
-                                falg = true;
-                                // 并且没有该权限(isOwn == 0)时
-                                childrenArr.push(obj);
-                            }
-                        }
-                    }
-                    if (falg) {
-                        var obj = {};
-                        obj.authorityId = item[i].authorityId;
-                        obj.systemId = item[i].systemId;
-                        obj.authorityName = item[i].authorityName;
-                        obj.parent = item[i].parent;
-                        obj.isOwn = item[i].isOwn;
-                        obj.authorities = childrenArr;
-                        arrData.push(obj);
-                    }
-                }
+        let dataArr = data.dataObject;  //  用户全部数据
+        let checkedKeys = [];
+        //  遍历权限数据,将各个系统下的权限菜单数据存放的数组
+        dataArr.forEach(item => {
+            console.log(item);
+            if(item.isOwn == 1){
+                checkedKeys.push(item.systemId + '');     
             }
-            list.push(arrData);
-            console.log(list);
         })
 
-        //  删除自身已有权限
-        // list.forEach((item) => {
-        //     console.log(item);
-        //     item.forEach((el, index) => {
-        //         if(el.isOwn == 1 && el.authorities.length == 0){
-        //            item.splice(--index, 1);
-        //         }
-        //     })
-        // })
-
-        dataArr.forEach((item, index) => {
-            item.authorities = list[index];
-        })
-
+        //  更新区划树数据
+        //  获取该用户已有权限数据
         this.setState({
-            addTreeData: dataArr,
+            checkedKeys: checkedKeys,
+            treeData: dataArr,
+            authData: checkedKeys
         })
     }
 
-    async axiosApplyAuth() {
-        let data = await getApplyAuth(this.state.postData);
-        console.log(data);
+    /**
+     * 权限申请
+     */
+    async axiosApplyAdminAuth() {
+        let data = await getApplyAdminAuth(this.state.postData);
+        // console.log(data);
+        if (data.status == 200) {
+            message.success(data.description);
+            this.setState({
+                postData: [],
+                displayData: []
+            })
+        } else {
+            message.error(data.description);
+        }
+    }
+
+    /**
+     * 数组去重
+     */
+    clearArr(arr){
+        var obj = {};
+        var temp = [];
+        arr.forEach(function(el){
+        obj[el] ? obj[el]++ : obj[el] = 1;
+        });
+      
+        for(var k in obj) {
+        if(obj[k] % 2 !== 0) temp.push(k);
+        }
+    
+        return temp;
     }
 
     /**
      * 点击复选框事件
      */
     onCheck(checkedKeys, info) {
-        console.log('onCheck', checkedKeys);
-        var firstIndex, lastIndex;
-        var obj;
-        var data = checkedKeys.map((el) => {
-            obj = {}
-            firstIndex = el.indexOf('s');
-            lastIndex = el.indexOf('a');
-            obj.systemId = el.substring(firstIndex + 1, lastIndex);
-            obj.authorityId = el.substring(lastIndex + 1);
-            obj.caseType = 1;
-            obj.applyType = 1;
+        console.log('onCheck',checkedKeys);
 
-            if (Number(obj.systemId)) {
-                return obj;
-            } else {
-                return;
-            }
+        let authData = this.state.authData;
+        let newAuth = [...checkedKeys, ...authData];
+        let data = this.clearArr(newAuth);
+        let dataList = [];
+        let displayList = [];
+        let temp;
+        let flagIndex;
+        let obj;
+
+        temp = [...this.state.temp, info];
+        this.setState({temp: temp})
+
+        //  处理权限申请发送数据
+        data.forEach(item =>{
+            obj = {};
+            obj.systemId = item;
+            obj.applyType = authData.includes(item) ? 0 : 1;  //    已拥有权限是否包含  true为删  false为增
+            dataList.push(obj);
+        })
+        console.log("postData", dataList);
+
+        temp.forEach((item,index) => {
+            obj = {};
+            obj.authorityId = item.node.props.title;
+            obj.systemId = item.node.props.eventKey;
+            obj.applyType = dataList[index].applyType == 0 ? "删除" : "添加";
+            obj.caseType = "管理权限申请";
+            displayList.push(obj);
         })
 
-        data.forEach((el, index) => {
-            if (el == undefined) {
-                data.splice(index, 1);
-            }
-        })
 
-        console.log('--------------',data);
-
-        this.setState({
-            postData: data
-        })
-
-    }
-
-    showAddModal() {
-        this.axiosAuthList();
-    }
-
-    showDelModal() {
-        this.setState({
-            delVisible: true,
+        
+        // console.log('============',dataList);
+        
+        this.setState({ 
+            checkedKeys: checkedKeys,
+            postData: dataList,
+            displayData: displayList
         });
+    }
+
+    onSelect(selectedKeys,info){
+        console.log('onSelect', selectedKeys);
+
+        // let expandedKey = this.state.expandedKeys;
+        // if(!info.node.props.isLeaf){
+        //     expandedKey = [...this.state.expandedKeys, ...selectedKeys];   
+        // }
+
+        this.setState({
+            expandedKeys: selectedKeys
+        })
+    }
+
+    showModal() {
+        this.axiosAuthList();
     }
 
     handleOk() {
         console.log('点击了确定');
         this.setState({
-            addVisible: false,
+            visible: false,
+            temp: []
         });
+        console.log('---处理结果', this.state.postData);
     }
 
     handleCancel() {
         this.setState({
-            addVisible: false,
-            delVisible: false
+            visible: false,
+            postData: []
         });
     }
 
     handleSubmitAdd() {
-        this.axiosApplyAuth();
+        if(this.state.postData.length>0){
+            this.axiosApplyAdminAuth();
+        }else{
+            message.error('请选择需要修改的权限!')
+        }   
     }
 
     componentWillMount() {
-        // this.axiosAuthList();
     }
 
     render() {
-
         const loop = data => data.map((item) => {
             if (item.authorities) {
-                return (
-                    <TreeNode key={!item.authorityId ? `s${item.systemId}` : `s${item.systemId}a${item.authorityId}`}
-                        title={item.systemName || item.authorityName}
-                        disableCheckbox={!item.authorityId}>
-
-                        {loop(item.authorities)}
-                    </TreeNode>
-                );
+              return (
+                <TreeNode key={!item.authorityId ? `${item.systemId}` : `${item.systemId}-${item.authorityId}`} 
+                    title={item.systemName || item.authorityName}>
+                  {loop(item.authorities)}
+                </TreeNode>
+              );
             }
-            return <TreeNode key={!item.authorityId ? `s${item.systemId}` : `s${item.systemId}a${item.authorityId}`} title={item.systemName || item.authorityName} />;
-        });
+            return <TreeNode key={!item.authorityId ? `${item.systemId}` : `${item.systemId}-${item.authorityId}`} 
+                title={item.systemName || item.authorityName}/>;
+          });
 
         const columns = [{
-            title: '菜单id',
+            title: '菜单名字',
             dataIndex: 'authorityId',
             key: 'authorityId',
             width: 150,
@@ -223,47 +223,35 @@ class Manage extends React.Component {
             width: 150,
         }];
 
-
         return (
-            <div>
-                <Button type="primary" size="large" onClick={this.showAddModal.bind(this)}>申请添加权限</Button>
-                <Button type="primary" size="large" onClick={this.showDelModal.bind(this)}>申请删除权限</Button>
+            <div className="business">
+                <Button type="primary" size="large" onClick={this.showModal.bind(this)}>申请添加权限</Button>
 
                 <div style={{ width: '80%', margin: '10px auto' }}>
-                    <Table dataSource={this.state.postData} columns={columns} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} />
+                    {/* <Table dataSource={this.state.displayData} columns={columns} pagination={{ pageSize: 50 }} scroll={{ y: 240 }} /> */}
+                    <Table dataSource={this.state.displayData} columns={columns} pagination={{ pageSize: 10 }} />
                 </div>
-
 
                 <Button type="primary" onClick={this.handleSubmitAdd.bind(this)} style={{ position: 'relative', left: '50%' }}>提交</Button>
 
-
-
-                <Modal title="申请添加权限" visible={this.state.addVisible}
+                <Modal title="申请添加权限" visible={this.state.visible}
                     onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}
                 >
                     <Tree
                         checkable
-                        // checkedKeys={this.state.checkedKeys}
-                        onCheck={this.onCheck.bind(this)}
+                        checkStrictly
+                        checkedKeys={this.state.checkedKeys} 
+                        // expandedKeys={this.state.expandedKeys}  
+                        onCheck={this.onCheck.bind(this)} 
+                        // onSelect={this.onSelect.bind(this)}
                     >
-                        {loop(this.state.addTreeData)}
+                        {loop(this.state.treeData)}
                     </Tree>
+                    
                 </Modal>
-
-                {/* <Modal title="申请删除权限" visible={this.state.delVisible}
-                    onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}
-                >
-                    <Tree
-                        checkable
-                        checkedKeys={this.state.checkedKeys}
-                        onCheck={this.onCheck.bind(this)}
-                    >
-                        {loop(this.state.delTreeData)}
-                    </Tree>
-                </Modal> */}
             </div>
         );
     }
 }
 
-export default Manage;
+export default Busin;

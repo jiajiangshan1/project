@@ -74,6 +74,7 @@ export let getRegisterData = async (data) => {
  */
 export let getSubNodes = async (zoningCode,ownZoningCode='000000000000000') => {
     let response = await axios({
+        // url: 'http://172.30.3.11:8251/queryZoningData/getSubNodes',
         url: 'zcms/queryZoningData/getSubNodes',
         method: 'get',
         params: {
@@ -83,7 +84,6 @@ export let getSubNodes = async (zoningCode,ownZoningCode='000000000000000') => {
     })
     return response.data
 }
-
 
 /**
  * 系统查询
@@ -143,33 +143,6 @@ export let getApplyRole = async (roleList) => {
     return response.data
 }
 
-
-/**
- * 权限添加
- * 添加权限
- * @param {*} authorityName 权限名称
- * @param {*} requestUrl 权限模块访问地址
- * @param {*} parent 当前模块的父节点 
- * @param {*} isParent 是否为父节点 0-否 1-是
- * @param {*} systemId 创建的权限属于哪个系统
- * @param {*} comment 权限说明
- */
-export let getCreateAuth = async (authorityName, requestUrl, parent, isParent, systemId, comment) => {
-    let response = await axios({
-        url: 'spua/superAdmin/createAuth',
-        method: 'post',
-        params: {
-            authorityName: authorityName,
-            requestUrl: requestUrl,
-            parent: parent,
-            isParent: isParent,
-            systemId: systemId,
-            comment: comment            
-        }
-    })
-    return response.data
-}
-
 /**
  * 用户密码修改 
  */
@@ -201,12 +174,25 @@ export let getAuthList = async (authType) => {
 
 /**
  * 权限申请
- * 用户权限申请
+ * 用户业务权限申请
  * @param {object} params authorityId/ applyType  0删 1增/ systemId/ caseType 0 业务 1 管理
  */
 export let getApplyAuth = async (params) => {
     let response = await axios({
         url: 'spua/user/applyAuth',
+        method: 'post',
+        data: params
+    })
+    return response.data
+}
+
+/**
+ * 权限申请
+ * 用户管理权限申请
+ */
+export let getApplyAdminAuth = async (params) => {
+    let response = await axios({
+        url: 'spua/user/applyAdminAuth',
         method: 'post',
         data: params
     })
@@ -264,12 +250,92 @@ export let getUserInfo = async () => {
 }
 
 /**
- * 获取个人信息
+ * 修改个人信息
  */
 export let getUpdateBasicInfo = async (params) => {
     let response = await axios({
         url: 'spua/user/updateBasicInfo',
         method: 'post',
+        params: params
+    })
+    return response.data
+}
+
+/**
+ * 管理员查看审批单是会需要查看审批单里的详细内容
+ */
+export let getDetailAuthMessage = async (params) => {
+    let response = await axios({
+        url: 'spua/admin/detailAuthMessage',
+        params: params,
+        method: 'get',
+    })
+    return response.data
+}
+
+
+
+/**
+ * 添加系统
+ * 管理员添加系统
+ * systemName	int	是	添加的系统名称
+ * modDes	String	否	对于系统的描述 
+ */
+export let getAddSystem = async (params) => {
+    let response = await axios({
+        url: 'spua/superAdmin/addSystem',
+        method: 'post',
+        params: params
+    })
+    return response.data
+}   
+
+
+/**
+ * 权限添加
+ * 添加权限
+ * authorityName	String	是	权限名称
+ * authorityId	String	否	权限的Id
+ * requestUrl	String	是	权限模块访问地址
+ * parent	int	是	当前模块的父节点
+ * authType	int	否	权限的类型，0-普通权限，1-管理员权限，2-国家管理员，3-默认权限
+ * authLevel	int	否	权限的级次(区划的级次)
+ * systemId	int	是	创建的权限属于哪个系统
+ * authDes	String	否	权限说明
+ */
+export let getAddAuth = async (params) => {
+    let response = await axios({
+        url: 'spua/superAdmin/addAuth',
+        method: 'post',
+        params: params
+    })
+    return response.data
+}
+
+/**
+ * 系统查询
+ * 管理员添加权限的时候需要先查询系统
+ */
+export let getSuperAdminSystemList = async () => {
+    let response = await axios({
+        url: 'spua/superAdmin/systemList',
+        method: 'get',
+    })
+    return response.data
+}
+
+
+
+/**
+ * 获取权限列表
+ * 管理员添加权限时需要查询权限列表（一级一级查询）
+ * parent	父节点	是	如果查询一级菜单则为0
+ * systemId	系统Id	是	要查询的权限属于的系统Id
+ */
+export let getChildrenAuthList = async (params) => {
+    let response = await axios({
+        url: 'spua/superAdmin/childrenAuthList',
+        method: 'get',
         params: params
     })
     return response.data

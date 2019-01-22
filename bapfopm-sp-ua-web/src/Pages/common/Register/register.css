@@ -32,3 +32,8 @@
 .register-form form label{
     color: #fff;
 }
+
+.ant-tree{
+    max-height: 400px;
+    overflow: auto;
+}
