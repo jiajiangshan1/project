@@ -16,7 +16,7 @@ import 'antd/dist/antd.css';
 
 import axios from "axios";
 
-axios.defaults.baseURL = `http://localhost:9999`;
+// axios.defaults.baseURL = `http://localhost:9999`;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
 class App extends React.Component{

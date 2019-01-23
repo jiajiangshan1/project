@@ -66,7 +66,7 @@ class Register extends React.Component {
     onSelect(info, e) {
         console.log('selected', info, e);
         this.props.form.setFieldsValue({
-            zoningKey: e.node.props.eventKey
+            zoningKey: e.node.props.uniqueKey
         })
         this.setState({
             zoningName: e.node.props.title
@@ -303,9 +303,9 @@ class Register extends React.Component {
 
         const loop = data => data.map((item) => {
             if (item.children) {
-                return <TreeNode title={item.divisionName} key={item.zoningCode} dataRef={item}>{loop(item.children)}</TreeNode>;
+                return <TreeNode title={item.divisionName} key={item.zoningCode} uniqueKey={item.uniqueKey} dataRef={item}>{loop(item.children)}</TreeNode>;
             }
-            return <TreeNode title={item.divisionName} key={item.zoningCode} dataRef={item}/>;
+            return <TreeNode title={item.divisionName} key={item.zoningCode} uniqueKey={item.uniqueKey} dataRef={item}/>;
         });
 
         const treeNodes = loop(this.state.treeData);

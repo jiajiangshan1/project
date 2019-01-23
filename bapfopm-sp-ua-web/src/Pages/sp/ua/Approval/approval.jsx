@@ -127,6 +127,7 @@ class Approval extends React.Component {
         this.setState({
             postData: obj
         })
+        console.log(this.state.postData);
     }
 
     handleView(record){
