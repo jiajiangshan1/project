@@ -10,9 +10,11 @@ class Approval extends React.Component {
         this.state = {
             authList: [],   //  业务权限展示数据
             adminAuthList: [],  //  管理权限展示数据
+            detialData: [], //  业务权限详情展示
 
             visible: false,
             visible1: false,
+            visible2: false,
 
             dealMessage: '',    //  审批意见
 
@@ -57,6 +59,26 @@ class Approval extends React.Component {
     async axiosDetailAuthMessage(params){
         let data = await getDetailAuthMessage(params);
         console.log('详情=========',data);
+        let obj;
+        if(data.status == 400){
+            message.error(data.description);
+            return ;
+        }else{
+            message.success(data.description);
+        }
+        let res = data.dataObject.map((item) =>{
+            obj = {};
+            for(var k in item){
+                obj[k] = item[k];
+            }
+            obj.applyType = obj.applyType == 0 ? "删除" : "增加";
+            obj.caseType = obj.caseType == 0 ? "业务权限" : "管理权限";
+            obj.systemName = item.parentSystem.systemName;
+            return obj;
+        })
+        this.setState({
+            detialData: res
+        })
     }
 
     async axiosDealApplyAuthList(params){
@@ -96,7 +118,8 @@ class Approval extends React.Component {
     handleCancel(){
         this.setState({
             visible: false,
-            visible1: false
+            visible1: false,
+            visible2: false
         })
     }
 
@@ -135,6 +158,9 @@ class Approval extends React.Component {
         var params = {};
         params.caseId = record.caseId; 
         this.axiosDetailAuthMessage(params);
+        this.setState({
+            visible2: true
+        })
     }
 
     changeValue(e){
@@ -182,18 +208,19 @@ class Approval extends React.Component {
           }, {
             title: '操作',
             key: 'operation',
+            width: 200,
             render: (text, record) => (
               <span>
-                <Button type="primary" onClick={this.handleView.bind(this,record)}>查看详情</Button>
+                <Button type="primary" size="small" onClick={this.handleView.bind(this,record)}>查看详情</Button>
                 <span className="ant-divider"></span>
-                <Button type="primary" onClick={this.handleShow.bind(this,record,1)}>同意</Button>
+                <Button type="primary" size="small" onClick={this.handleShow.bind(this,record,1)}>同意</Button>
                 <span className="ant-divider"></span>
-                <Button type="primary" onClick={this.handleShow.bind(this,record,2)}>拒绝</Button>
+                <Button type="primary" size="small" onClick={this.handleShow.bind(this,record,2)}>拒绝</Button>
               </span>
             ),
           }];
 
-          const columnsAdmin = [{
+        const columnsAdmin = [{
             title: '权限申请单id',
             dataIndex: 'caseId',
             key: 'caseId',
@@ -226,16 +253,39 @@ class Approval extends React.Component {
           }, {
             title: '操作',
             key: 'operation',
+            width: 200,
             render: (text, record) => (
               <span>
                 {/* <Button type="primary">查看详情</Button>
                 <span className="ant-divider"></span> */}
-                <Button type="primary" onClick={this.handleShow.bind(this,record,1)}>同意</Button>
+                <Button type="primary" size="small" onClick={this.handleShow.bind(this,record,1)}>同意</Button>
                 <span className="ant-divider"></span>
-                <Button type="primary" onClick={this.handleShow.bind(this,record,2)}>拒绝</Button>
+                <Button type="primary" size="small" onClick={this.handleShow.bind(this,record,2)}>拒绝</Button>
               </span>
             ),
           }];
+        
+        const columnsDetial = [{
+            title: '权限菜单id',
+            dataIndex: 'authorityId',
+            key: 'authorityId',
+            width: 150,
+          },{
+            title: '权限菜单名称',
+            dataIndex: 'authorityName',
+            key: 'authorityName',
+            width: 150,
+          }, {
+            title: '系统名称',
+            dataIndex: 'systemName',
+            key: 'systemName',
+            width: 150,
+          }, {
+            title: '修改申请',
+            dataIndex: 'applyType',
+            key: 'applyType',
+            width: 150,
+          }]
 
         return (
             <div className="approval">
@@ -244,14 +294,14 @@ class Approval extends React.Component {
                     <Button type="primary" size="large" onClick={this.authApp.bind(this,1)}>管理权限审批</Button>
                 </div> */}
 
-                <div style={{ width: '80%', margin: '10px auto' }}>
+                <div style={{ width: '100%', margin: '10px auto' }}>
                     <div className="approval-table-title">业务权限审批</div>
-                    <Table dataSource={this.state.authList} columns={columns} pagination={{ pageSize: 10 }}/>
+                    <Table dataSource={this.state.authList} columns={columns} pagination={{ pageSize: 3 }}/>
                 </div>
 
-                <div style={{ width: '80%', margin: '10px auto' }}>
+                <div style={{ width: '100%', margin: '10px auto' }}>
                     <div className="approval-table-title">管理权限审批</div>
-                    <Table dataSource={this.state.adminAuthList} columns={columnsAdmin} pagination={{ pageSize: 10 }}/>
+                    <Table dataSource={this.state.adminAuthList} columns={columnsAdmin} pagination={{ pageSize: 3 }}/>
                 </div>
 
                 <Modal title="权限审批" visible={this.state.visible}
@@ -264,6 +314,12 @@ class Approval extends React.Component {
                     onOk={this.handleConfirm.bind(this)} onCancel={this.handleCancel.bind(this)}
                 >
                     <p>该系统已有管理员,是否强制审批该用户为新任管理员!</p>
+                </Modal>
+
+                <Modal title="权限审批" visible={this.state.visible2}
+                    onOk={this.handleCancel.bind(this)} onCancel={this.handleCancel.bind(this)}
+                >
+                    <Table className="model-table" dataSource={this.state.detialData} columns={columnsDetial} pagination={{ pageSize: 5 }}/>
                 </Modal>
 
             </div>

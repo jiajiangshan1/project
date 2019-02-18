@@ -21,3 +21,6 @@
 .ant-badge-count{
     top: 0 !important;
 }
+.main .ant-layout-main .ant-layout-aside .ant-layout-container{
+    margin: 0 16px 0 16px!important;
+}

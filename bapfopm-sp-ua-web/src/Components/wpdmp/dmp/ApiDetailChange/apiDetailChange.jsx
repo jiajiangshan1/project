@@ -10,12 +10,11 @@ let ApiDetailChange=React.createClass({
         return{}
     },
     componentDidMount() {
-        console.log(this.props.location.state);
-        var value=this.props.location.state;
+        var value=this.props.location.query;
         value.groupId=value.groupId+'';
         value.apiType=value.apiType+'';
         value.protocool=value.protocool+'';
-        this.props.form.setFieldsValue(value);
+       this.props.form.setFieldsValue(value);
     },
 
 
@@ -140,7 +139,7 @@ let ApiDetailChange=React.createClass({
                     <div className="main clearfix">
                         <div className="outer-container">
                             <div className="inner-container">
-                                <div className="content clearfix">
+                                <div className="content scroll-content clearfix">
                                     <Form inline className='form1 clearfix'>
 
                                         <Row justify='start' type="flex" style={{marginBottom:18}}>
@@ -158,7 +157,7 @@ let ApiDetailChange=React.createClass({
 
                                             <FormItem
                                                 id="groupId"
-                                                label="API分组"
+                                                label="api分组"
                                                 {...formItemLayout}
                                                 style={{width:'38%',height:34}}
                                             >
@@ -185,7 +184,7 @@ let ApiDetailChange=React.createClass({
                                         <Row justify='start' type="flex" style={{marginBottom:18}}>
                                             <FormItem
                                                 id="url"
-                                                label="API路径"
+                                                label="api路径"
                                                 labelCol={{ span: 3 }}
                                                 wrapperCol={{ span: 18 }}
                                                 style={{width:'76%',height:34}}
@@ -197,7 +196,7 @@ let ApiDetailChange=React.createClass({
                                         <Row justify='start' type="flex" style={{marginBottom:18}}>
                                             <FormItem
                                                 id="type"
-                                                label="API类型"
+                                                label="api类型"
                                                 {...formItemLayout}
                                                 style={{width:'38%',height:34}}
                                             >
@@ -208,8 +207,9 @@ let ApiDetailChange=React.createClass({
                                             </FormItem>
                                             <FormItem
                                                 id="http"
-                                                label="HTTP方法"
-                                                {...formItemLayout}
+                                                label="http方法"
+                                                labelCol={{ span: 7 }}
+                                                wrapperCol={{ span: 17 }}
                                                 style={{width:'38%',height:34}}
                                             >
                                                 <Select {...httpProps} id="http"  size="large" defaultValue="get"  placeholder='请选择http方法呦~'>
@@ -241,7 +241,8 @@ let ApiDetailChange=React.createClass({
                                                 id="timeout"
                                                 label="超出时间"
                                                 span={12}
-                                                {...formItemLayout}
+                                                labelCol={{ span: 7 }}
+                                                wrapperCol={{ span: 17 }}
                                                 style={{width:'38%',height:34}}
                                             >
                                                 <Input id="timeout" {...timeout} placeholder="Please enter..." />
@@ -260,8 +261,13 @@ let ApiDetailChange=React.createClass({
                                                 </Select>
                                             </FormItem>
                                         </Row>
+                                        <Row justify='start' type="flex" style={{marginBottom:18}}>
+                                            <div className='server-path'>后端服务地址</div>
+                                        </Row>
                                         <Row >
-                                            <ApiDetailList/>
+                                            <div style={{width:'80%'}}>
+                                            <ApiDetailList />
+                                            </div>
                                         </Row>
 
                                         <Row justify='start' type="flex" style={{marginBottom:18}}>

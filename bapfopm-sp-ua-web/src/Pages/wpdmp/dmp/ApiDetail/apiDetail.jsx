@@ -13,6 +13,7 @@ function turnInt (data){
     data.apiType=parseFloat(data.apiType)
     data.sendMethod=parseFloat(data.sendMethod)
     data.protocool=parseFloat(data.protocool)
+    data.apiStatus=parseFloat(data.apiStatus)
     return data
 }
 let ApiDetail=React.createClass({
@@ -31,6 +32,7 @@ let ApiDetail=React.createClass({
        res=turnInt(res)
        res['severs']=this.state.selectedRows;
        res['method']='method';
+       console.log(res)
        this.getApi(res);
     },
     async getApi(data){
@@ -38,7 +40,7 @@ let ApiDetail=React.createClass({
            let {data:{code,msg}} =await addApi(data);
            if (code == "000000") {
                message.success('恭喜你,数据保存成功!');
-               hashHistory.push('/about/wpdmp/dmp/apilist')
+               hashHistory.push({pathname:'/about/wpdmp/dmp/apilist',state:sessionStorage.getItem("systemId")})
            } else {
                message.error(msg);
            }
@@ -57,7 +59,7 @@ let ApiDetail=React.createClass({
     },
     getIpList(rows){
         this.setState({selectedRows:rows})
-        // console.log(this.state.selectedRows);
+         console.log(this.state.selectedRows);
     },
     returnBack(){
         confirm({
@@ -65,7 +67,7 @@ let ApiDetail=React.createClass({
             content: '这些内容还没有保存呦~',
             onOk() {
                 console.log('确定');
-                hashHistory.push('/about/wpdmp/dmp/apilist')
+                hashHistory.push({pathname:'/about/wpdmp/dmp/apilist',state:sessionStorage.getItem("systemId")})
             },
             onCancel() {},
         });
@@ -153,13 +155,19 @@ let ApiDetail=React.createClass({
                 { required: true, message: '请选择您的方法' },
             ],
         });
+        const stateProps=getFieldProps('apiStatus', {
+            rules: [
+                { required: true, message: '请选择您的方法' },
+            ],
+        });
+        
         return (
             <div className="main-container">
                 <div className="container">
                     <div className="main clearfix">
                         <div className="outer-container">
                             <div className="inner-container">
-                                <div className="content clearfix">
+                                <div className="content scroll-content clearfix">
                                     <Form inline className='form1 clearfix'>
 
                                         <Row justify='start' type="flex" style={{marginBottom:18}}>
@@ -177,7 +185,7 @@ let ApiDetail=React.createClass({
 
                                             <FormItem
                                                 id="selectGroup"
-                                                label="API分组"
+                                                label="api分组"
                                                 {...formItemLayout}
                                                 style={{width:'38%',height:34}}
                                             >
@@ -204,7 +212,7 @@ let ApiDetail=React.createClass({
                                         <Row justify='start' type="flex" style={{marginBottom:18}}>
                                             <FormItem
                                                 id="url"
-                                                label="API路径"
+                                                label="api路径"
                                                 labelCol={{ span: 3 }}
                                                 wrapperCol={{ span: 18 }}
                                                 style={{width:'76%',height:34}}
@@ -216,7 +224,7 @@ let ApiDetail=React.createClass({
                                         <Row justify='start' type="flex" style={{marginBottom:18}}>
                                             <FormItem
                                                 id="type"
-                                                label="API类型"
+                                                label="api类型"
                                                 {...formItemLayout}
                                                 style={{width:'38%',height:34}}
                                             >
@@ -227,8 +235,9 @@ let ApiDetail=React.createClass({
                                             </FormItem>
                                             <FormItem
                                                 id="http"
-                                                label="HTTP方法"
-                                                {...formItemLayout}
+                                                label="http方法"
+                                                labelCol={{ span: 7 }}
+                                                wrapperCol={{ span: 17 }}
                                                 style={{width:'38%',height:34}}
                                             >
                                                 <Select {...httpProps} id="http"  size="large" defaultValue="get"  placeholder='请选择http方法呦~'>
@@ -260,7 +269,8 @@ let ApiDetail=React.createClass({
                                                 id="timeout"
                                                 label="超出时间"
                                                 span={12}
-                                                {...formItemLayout}
+                                                labelCol={{ span: 7 }}
+                                                wrapperCol={{ span: 17 }}
                                                 style={{width:'38%',height:34}}
                                             >
                                                 <Input id="timeout" {...timeout} placeholder="Please enter..." />
@@ -278,12 +288,29 @@ let ApiDetail=React.createClass({
                                                     <Option value="2">https</Option>
                                                 </Select>
                                             </FormItem>
+                                            <FormItem
+                                                id="state"
+                                                label="状态"
+                                                {...formItemLayout}
+                                                style={{width:'38%',height:34}}
+                                            >
+                                                <Select {...stateProps} id="protocol" size="large" defaultValue="http"  placeholder='请选择状态呦~'>
+                                                    <Option value="1">编辑</Option>
+                                                    <Option value="2">发布</Option>
+                                                    <Option value="3">下线</Option>
+                                                </Select>
+                                            </FormItem>
+                                        </Row>
+                                        <Row justify='start' type="flex" style={{marginBottom:18}}>
+                                            <div className='server-path'>后端服务地址</div>
                                         </Row>
                                         <Row >
+                                            <div style={{width:'80%'}}>
                                             <ApiDetailList getIpList={this.getIpList}/>
+                                            </div>
                                         </Row>
 
-                                        <Row justify='start' type="flex" style={{marginBottom:18}}>
+                                        <Row justify='start' type="flex" style={{margin:"15px 0 18px 0"}}>
                                             <FormItem
                                                 wrapperCol={{ span:24 }}
                                                 style={{width:'76%',height:34}}

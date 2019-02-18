@@ -1,3 +1,12 @@
+@media(min-width:1200px) and (max-width:1400px){
+    .ant-form .file-div{
+        margin-left:-22%
+    }
+}
+
+
+
+
 input{
     border: 0px;
     outline: none;
@@ -23,11 +32,16 @@ input{
 .container{
     width: 100%;
     height: 100%;
+    /*background: #2272c5;*/
     text-align: center;
     position: relative;
     color: #ffffff;
 }
-
+.container:after{
+    content: "";
+    display: block;
+    padding:25%;
+}
 .container .top{
     width: 100%;
     height:50px;
@@ -38,14 +52,12 @@ input{
     margin: 0 auto;
 }
 .container .main .searchTitle{
-    margin-top: 26px ;
-    margin-bottom: 16px;
     margin-left: 60px;
     height: 40px;
+    width: 100%;
     line-height: 40px;
     float: left;
     font-size: 14px;
-    width:50%
 
 }
 .container .main .apiName,.search,.searchBtn{
@@ -92,13 +104,14 @@ input{
     font-size: 14px;
     box-shadow: 3px 3px 3px #1d5daa;
 }
-.container .main .content{
+.main-container .container .main .apiContent{
     float: left;
     width: 97%;
-    height: 500px;
+    /* height: 500px; */
     margin: 0 20px;
-    background-color: rgba(0,0,0,.05);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#19000000,endColorstr=#19000000);
+    /* background-color: rgba(0,0,0,.05);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#19000000,endColorstr=#19000000); */
+    background: url('../../../../asset/wpdmp/dmp/img/1.png') repeat;
     border-radius: 8px;
 }
 .container .main .content .contentBtn{
@@ -141,6 +154,9 @@ input{
     margin-right: 40px;
     width: 94%;
 }
+.container .main .content .content-float{
+    float: left;
+}
 .container .main .content .contentApi .table{
     border: 1px solid #235e99;
     width: 100%;
@@ -179,22 +195,26 @@ table .ant-table-thead > tr > th{
     background: rgba(0,0,0,.1);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#26000000,endColorstr=#26000000);
 }
-
-.container .main .search input {
-    display: block;
-    width: 190px;
-    height: 30px;
-    margin-top: -29px;
-    margin-top: -26px\9;
-    margin-left: 5px;
-    color: #ffffff;
-}
-.main-container .container .main .api-content{
+.main-container .container .main .new-built{
     float: left;
-    width: 97%;
-    height: 500px;
-    margin: 0 20px;
-    background-color: rgba(0,0,0,.05);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#19000000,endColorstr=#19000000);
-    border-radius: 8px;
+    margin-left: 4%;
+    margin-top: 20px;
+}
+.ant-table-content.ant-table-thead > tr.ant-table-row-hover,.ant-table-content .ant-table-tbody > tr.ant-table-row-hover,.ant-table-content .ant-table-thead > tr:hover,.ant-table-content .ant-table-tbody > tr:hover {
+    background:#70f6ec57;
+}
+.content label{
+    font-size: 14px;
+}
+.ant-form .ant-form-item-label label{
+    color: #ffffff
+}
+.ant-spin-container .ant-table{
+    font-size: 14px;
+}
+.contentApi .ant-btn span{
+    font-size: 14px;
+}
+.file-div{
+    margin-left:-30%
 }

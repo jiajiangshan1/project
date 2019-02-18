@@ -38,6 +38,7 @@ class CreateAuth extends React.Component {
 
             systemId: '',
             parent: '',
+            addAuthorityId: '',
 
             formType: true,
             visible: false
@@ -84,6 +85,7 @@ class CreateAuth extends React.Component {
         let data = await getAddSystem(params);
         console.log(data);
         if (data.status == 200) {
+            message.success(data.description);
             this.axiosSuperAdminSystemList();
         } else {
             message.error(data.description)
@@ -95,7 +97,11 @@ class CreateAuth extends React.Component {
      */
     async axiosAddAuth(params) {
         let data = await getAddAuth(params);
-        console.log(data);
+        if(data.status == "200"){
+            message.success(data.description);
+        }else{
+            message.error(data.description);
+        }
     }
 
     handleSystemChange(value, option) {
@@ -103,6 +109,7 @@ class CreateAuth extends React.Component {
             this.setState({
                 visible: true,
                 authMenuList: [],
+                authSubMenuList: [],
                 formType: true,
             })
         } else {
@@ -125,7 +132,8 @@ class CreateAuth extends React.Component {
 
                     this.setState({
                         systemId: value,
-                        authMenuList: [...list]
+                        authMenuList: [...list],
+                        authSubMenuList: [],
                     })
                 }
             )
@@ -150,7 +158,8 @@ class CreateAuth extends React.Component {
 
         if (value == 0) {
             this.setState({
-                visible: true
+                visible: true,
+                authSubMenuList: []
             })
         } else {
             let params = {};
@@ -161,15 +170,27 @@ class CreateAuth extends React.Component {
                 data => {
                     let list = [{ key: '0', title: '新增' }];
                     let obj;
-                    data.forEach(item => {
-                        obj = {};
-                        for (var key in item) {
-                            obj[key] = item[key];
-                        }
-                        obj.key = item.authorityId;
-                        obj.title = item.authorityName;
-                        list.push(obj);
-                    })
+                    if(data.length > 0){
+                        data.forEach(item => {
+                            obj = {};
+                            for (var key in item) {
+                                obj[key] = item[key];
+                                console.log(key, obj[key], "add")
+                            }
+                            obj.key = item.authorityId;
+                            obj.title = item.authorityName;
+                            this.setState({
+                                addAuthorityId: Number(item.authorityId) + 1
+                            })
+                            list.push(obj);
+                        })
+                    }else{
+                        this.setState({
+                            addAuthorityId: this.state.parent + "01"
+                        })
+                        console.log(this.state.addAuthorityId);
+                    }
+                    
 
                     this.setState({
                         parent: value,
@@ -187,7 +208,8 @@ class CreateAuth extends React.Component {
 
         this.props.form.setFieldsValue({
             parent: this.state.parent,
-            systemId: this.state.systemId
+            systemId: this.state.systemId,
+            authorityId: this.state.addAuthorityId
         })
 
         if (value == 0) {
@@ -197,7 +219,6 @@ class CreateAuth extends React.Component {
             })
         } else {
             let params = {};
-            let parent = value;
             params.parent = this.state.parent;
             params.systemId = this.state.systemId;
             this.axiosChildrenAuthList(params).then(
@@ -215,7 +236,6 @@ class CreateAuth extends React.Component {
                     })
 
                     this.setState({
-                        parent: value,
                         authSubMenuList: [...list]
                     })
                 }
@@ -232,6 +252,7 @@ class CreateAuth extends React.Component {
                 message.error(errors);
                 return;
             } else {
+                console.log(params)
                 const params = this.props.form.getFieldsValue();
                 this.axiosAddSystem(params);
             }
@@ -252,7 +273,10 @@ class CreateAuth extends React.Component {
                 this.axiosAddAuth(values);
             }
         });
-        // console.log(this.props.form.getFieldsValue());
+        console.log(this.props.form.getFieldsValue());
+        this.setState({
+            visible: false
+        })
     }
 
     hideModal() {
@@ -280,7 +304,7 @@ class CreateAuth extends React.Component {
         const modDesProps = getFieldProps("modDes", {});
 
         const authorityNameProps = getFieldProps("authorityName", {
-            rules: [{ required: true, message: "请输入新添的菜单名称!" }]
+            // rules: [{ required: true, message: "请输入新添的菜单名称!" }]
         });
 
         const authorityIdProps = getFieldProps("authorityId", {});
@@ -290,11 +314,11 @@ class CreateAuth extends React.Component {
         const parentProps = getFieldProps("parent", {});
 
         const authTypeProps = getFieldProps("authType", {
-            rules: [{ required: true, message: "请选择权限类型!" }]
+            // rules: [{ required: true, message: "请选择权限类型!" }]
         });
 
         const authLevelProps = getFieldProps("authLevel", {
-            rules: [{ required: true, message: "请选择权限级次!" }]
+            // rules: [{ required: true, message: "请选择权限级次!" }]
         });
 
         const systemIdProps = getFieldProps("systemId", {});
@@ -347,6 +371,7 @@ class CreateAuth extends React.Component {
                             <FormItem {...formItemLayout} label="菜单id">
                                 <Input
                                     {...authorityIdProps}
+                                    readOnly
                                 />
                             </FormItem>
                         }
@@ -371,7 +396,7 @@ class CreateAuth extends React.Component {
 
                             <Select {...authTypeProps}>
                                 {
-                                    authLevelList.length && authLevelList.map(item => (
+                                    authTypeList.length && authTypeList.map(item => (
                                         <Select.Option value={item.key}>{item.title}</Select.Option>)
                                     )
                                 }
@@ -385,7 +410,7 @@ class CreateAuth extends React.Component {
 
                             <Select {...authLevelProps}>
                                 {
-                                    authTypeList.length && authTypeList.map(item => (
+                                    authLevelList.length && authLevelList.map(item => (
                                         <Select.Option value={item.key}>{item.title}</Select.Option>)
                                     )
                                 }

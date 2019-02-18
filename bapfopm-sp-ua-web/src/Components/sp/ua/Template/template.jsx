@@ -9,12 +9,17 @@ import Manage from "../../../../Pages/sp/ua/Manage/manage";
 import Approval from "../../../../Pages/sp/ua/Approval/approval";
 import EditUserInfo from "../../../../Pages/sp/ua/EditUserInfo/editUserInfo";
 import CreateAuth from "../../../../Pages/sp/ua/CreateAuth/createAuth";
-
+import Bread from '../BreadCrumb/breadCrumb'
 //  wpdmp-dmp
 import ApiList from '../../../../Pages/wpdmp/dmp/ApiList/apilist'
 import ApiDetail from "../../../../Pages/wpdmp/dmp/ApiDetail/apiDetail";
 import BlackWhiteList from "../../../../Pages/wpdmp/dmp/BlackWhiteList/blackWhiteList";
 import ApiDetailChange from "../../../../Components/wpdmp/dmp/ApiDetailChange/apiDetailChange";
+import {BlackWhiteDetail} from "../../../../Pages/wpdmp/dmp/BlackWhiteDetail/blackWhiteDetail";
+import ApplyApiCheck from "../../../../Pages/wpdmp/dmp/ApplyApiCheck/applyApiCheck";
+import {ApplyApiList} from "../../../../Pages/wpdmp/dmp/ApplyApiList/applyApiList";
+import {ApplyApi} from "../../../../Pages/wpdmp/dmp/ApplyApi/applyApi";
+import {ReviewApi} from "../../../../Pages/wpdmp/dmp/ReviewApi/reviewApi";
 
 require('./template.css')
 
@@ -37,10 +42,7 @@ export const Template = (props) => (
         </div>
 
         <div className="ant-layout-breadcrumb">
-            <Breadcrumb>
-                <Breadcrumb.Item>首页</Breadcrumb.Item>
-                <Breadcrumb.Item>当前位置</Breadcrumb.Item>
-            </Breadcrumb>
+            <Bread systemId={props.systemId}/>
         </div>
 
         <div className="ant-layout-container">
@@ -54,10 +56,16 @@ export const Template = (props) => (
                         <Route path='/about/sp/ua/editUserInfo' component={EditUserInfo} />
                         <Route path='/about/sp/ua/createAuth' component={CreateAuth} />
 
+
                         <Route path='/about/wpdmp/dmp/apilist' component={ApiList}/>
                         <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>
                         <Route path='/about/wpdmp/dmp/apilist/apiDetailChange' component={ApiDetailChange}/>
                         <Route path='/about/wpdmp/dmp/apilist/blackList' component={BlackWhiteList}/>
+                        <Route path='/about/wpdmp/dmp/apilist/blackList/blackDetail' component={BlackWhiteDetail}/>
+                        <Route path='/about/wpdmp/dmp/applyCHeck' component={ApplyApiCheck}/>
+                        <Route path='/about/wpdmp/dmp/applyCHeck/apiList' component={ApplyApiList}/>
+                        <Route path='/about/wpdmp/dmp/applyCHeck/apiList/applyApi' component={ApplyApi}/>
+                        <Route path='/about/wpdmp/dmp/reviewApi' component={ReviewApi}/>
                     </Router>
                 </div>
             </div>

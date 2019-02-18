@@ -3,7 +3,7 @@ import { Router, Route, IndexRedirect, IndexRoute, Link, hashHistory } from 'rea
 import { getSystemList, getAuthMenu } from '../../../Service/sp/ua/server'
 import { Menu, Breadcrumb, Icon, Badge, message } from 'antd';
 
-import {Sider,Template} from '../../../Components';
+import { Sider, Template } from '../../../Components';
 // import Template from "../../Components/Template/template";
 
 require('./about.css');
@@ -29,34 +29,36 @@ class About extends React.Component {
    */
   async axiosAuthMenu() {
     let list;
-    let systemId = this.props.location.state.systemId
-    if(systemId){
+    let systemId = sessionStorage.getItem('systemId')
+    if (systemId) {
       list = await getAuthMenu(systemId);
       return list;
     }
   }
 
   componentWillMount() {
-    // this.axiosAuthMenu();
+    let systemId;
+    systemId = this.props.location.state.systemId
+    systemId ? sessionStorage.setItem("systemId", systemId) : ''
     message.success(this.props.location.state.systemId)
   }
 
   render() {
     const collapse = this.state.collapse;
     return (
-      <div className={collapse ? "ant-layout-aside ant-layout-aside-collapse layout-bg" : "ant-layout-aside layout-bg" }>
+      <div className={collapse ? "ant-layout-aside ant-layout-aside-collapse layout-bg" : "ant-layout-aside layout-bg"}>
 
         <aside className="ant-layout-sider">
           <div className="ant-layout-logo"></div>
 
-          <Sider handle={this.axiosAuthMenu.bind(this)} systemId={this.props.location.state.systemId} />
+          <Sider handle={this.axiosAuthMenu.bind(this)} systemId={sessionStorage.getItem('systemId')} />
 
           <div className="ant-aside-action" onClick={this.onCollapseChange.bind(this)}>
             {collapse ? <Icon type="right" /> : <Icon type="left" />}
           </div>
         </aside>
 
-        <Template />
+        <Template systemId={this.props.location.state.systemId} />
         {/* {this.props.children} */}
 
       </div>

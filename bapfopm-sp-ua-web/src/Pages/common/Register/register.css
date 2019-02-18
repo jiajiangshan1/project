@@ -37,3 +37,30 @@
     max-height: 400px;
     overflow: auto;
 }
+
+/*//媒体查询*/
+@media(min-width:1200px) and (max-width:1400px){
+    .register-form :global(.has-error .ant-form-explain),
+    .register-form :global(.has-error .ant-form-split) {
+        color: #f50;
+        position: absolute;
+        top: -5px;
+        left: 263px;
+        width: 224px;
+    }
+
+    .register-form :global(.ant-form-explain),
+    .register-form :global(.ant-form-extra) {
+        color: #999;
+        position: absolute;
+        top: -5px;
+        left: 263px;
+        width: 224px;
+    }
+
+    .register-form :global(.ant-form-horizontal .ant-form-item) {
+        margin-bottom: 18px;
+    }
+}
+
+

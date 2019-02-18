@@ -2,7 +2,7 @@ import React from "react";
 import ReactDom from "react-dom";
 import { Card, Col, Row, Modal, Input, Form, message } from "antd";
 import { hashHistory, Link } from "react-router";
-import { getSystemList, getUpdatePassword, doLogOut } from "../../../Service/sp/ua/server";
+import { getSystemList, getUpdatePassword, doLogOut, getCustInfo } from "../../../Service/sp/ua/server";
 
 require("./home.css");
 
@@ -33,6 +33,21 @@ class Home extends React.Component {
             message.error(data.description);
         } 
         console.log("查询系统", this.state.systemData);
+    }
+
+    /**
+     * 将区划信息放入sessionStorage里面
+     */
+    async axiosCustInfo(){
+        let data = await getCustInfo();
+        if(data.rtnCode == "000000"){
+            sessionStorage.setItem('levelCode', data.responseData.levelCode);
+            sessionStorage.setItem('zoningCode', data.responseData.zoningCode);
+            sessionStorage.setItem('zoningName', data.responseData.zoningName);
+            sessionStorage.setItem('fullName', data.responseData.fullName);
+            sessionStorage.setItem('assigningCode', data.responseData.assigningCode);
+        }
+        return false;
     }
 
     /**
@@ -107,7 +122,6 @@ class Home extends React.Component {
      */
     checkPass(rule, value, callback) {
         const { validateFields } = this.props.form;
-        message.error(value)
         if (value) {
             validateFields(["rePassword"], { force: true });
         }
@@ -128,6 +142,7 @@ class Home extends React.Component {
 
     componentWillMount() {
         this.axiosSystemList();
+        this.axiosCustInfo();
     }
 
     render() {
@@ -164,7 +179,7 @@ class Home extends React.Component {
                     <Col span="4">
                         <Card bordered={true} style={{ backgroundColor: 'transparent', borderColor: "#4cb8e9" }}>
                             <p><img className="system-logo" src={el.systemId < 11 ? require(`../../../asset/sp/ua/img/portal/${el.systemId}.png`) : require(`../../../asset/sp/ua/img/portal/1.png`)} alt="" /></p>
-                            <p><Link className="system-a" to={{ pathname: "/about", state: { systemId: el.systemId } }}>{el.systemName}</Link></p>
+                            <p className='system-name'><Link className="system-a" to={{ pathname: "/about", state: { systemId: el.systemId } }}>{el.systemName}</Link></p>
                         </Card>
                     </Col>
                 );
@@ -199,15 +214,16 @@ class Home extends React.Component {
                         <div className="home-content-right"></div>
 
                         <div className="home-content-footer">
-                            <Row>
+                            <Row className="systemlist">
                                 {systemDom}
                             </Row>
                         </div>
                     </div>
 
                     {/* 修改密码 */}
-                    <div className="changePsw" style={{ background: "transparent", padding: "30px" }}>
+                    <div style={{ background: "transparent", padding: "30px" }}>
                         <Modal
+                            className="changePsw"
                             title="修改密码"
                             visible={this.state.visible}
                             onOk={this.handleSubmit.bind(this)}

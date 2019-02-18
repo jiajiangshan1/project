@@ -1,3 +1,165 @@
 
+.container .main{
+    margin: 0 auto;
+}
+.container .main .searchTitle{
+    margin-left:60px;
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    float: left;
+    font-size: 14px;
 
+}
+.container .main .apiName,.search,.searchBtn{
+    float: left;
+    margin-right: 15px;
+    line-height: 34px;
+}
+.container .main .apiLabel{
+    display: block;
+    width: 200px;
+    height: 30px;
+    border: 1px solid #ffffff;
+    border-radius:6px;
+}
+.container .main .search input{
+    display: block;
+    width: 190px;
+    height: 30px;
+    margin-top: -33px;
+    margin-top: -26px\9;
+    margin-left: 5px;
+    color: #ffffff;
+}
+.container .main .searchBtn{
+    margin-left: 20px;
 
+}
+.container .main .searchBtn input{
+    display: inline-block;
+    width: 100px;
+    height: 34px;
+    background-color: #4d93ff;
+    border-radius: 3px;
+    color: #ffffff;
+    font-size: 14px;
+    box-shadow: 3px 3px 3px #1d5daa;
+
+}
+.main-container .container .main .api-content{
+    float: left;
+    width: 97%;
+    /* height: 500px; */
+    margin: 0 20px;
+    /* background-color: rgba(0,0,0,.05);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#19000000,endColorstr=#19000000); */
+    background: url('../../../../asset/wpdmp/dmp/img/1.png') repeat;
+    border-radius: 8px;
+}
+.container .main .content .contentBtn{
+    margin-left: 40px;
+}
+.container .main .content .btn{
+    float: left;
+    margin-right: 20px;
+    margin-top: 20px ;
+}
+.container .main .content .btn input{
+    display: inline-block;
+    width: 100px;
+    height: 34px;
+    background-color: #4d93ff;
+    border-radius: 3px;
+    color: #ffffff;
+    font-size: 14px;
+    box-shadow: 3px 3px 3px #1d5daa;
+}
+.container .main .content .btn input:hover{
+    background-color:#44b9ee;
+}
+.container .main .content .contentApi{
+    margin-left: 40px;
+    margin-top: 20px;
+    margin-right: 40px;
+    width: 94%;
+}
+.container .main .content .contentApi .table{
+    border: 1px solid #235e99;
+    width: 100%;
+    border-radius: 8px;
+    border-spacing: 0;
+}
+.container .main .content .contentApi .table tr th{
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    background-color: rgba(0,0,0,.1);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#26000000,endColorstr=#26000000);
+}
+.container .main .content .contentApi .table tr th:first-child{
+    border-top-left-radius: 8px;
+}
+.container .main .content .contentApi .table tr th:last-child{
+    border-top-right-radius: 8px;
+}
+.container .main .content .contentApi .table tr td{
+    height: 38px;
+    line-height: 38px;
+}
+.container .main .content .contentApi .table tr:last-child td:first-child{
+    border-bottom-left-radius: 8px;
+}
+.container .main .content .contentApi .table tr:last-child td:last-child{
+    border-bottom-right-radius: 8px;
+}
+.doubleLine{
+    background-color: rgba(0,0,0,.2);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#26000000,endColorstr=#26000000);
+}
+/*下拉框样式*/
+
+.container .main .searchTitle .searchBox .selectBox span{
+    display: inline-block;
+    margin-left: 10px;
+}
+.container .main .searchTitle .searchBox .selectBox select{
+    position: absolute;
+    width: 200px;
+    height: 30px;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0 0 0 10px;
+    cursor: pointer;
+    line-height: 34px;
+    font-size: 16px;
+    opacity: 0;
+    background-color:#2272c5;
+    color: #ffffff;
+    z-index: 4;
+}
+.container .main .searchTitle .searchBox .selectBox option{
+    background-color: transparent;
+}
+.container .main .searchTitle .searchBox p{
+    float:left;
+    margin-top: 0;
+}
+
+.container .main .search input {
+    display: block;
+    width: 190px;
+    height: 30px;
+    margin-top: -29px;
+    margin-top: -26px\9;
+    margin-left: 5px;
+    color: #ffffff;
+}
+
+.container .main .apiLabel {
+    display: block;
+    width: 200px;
+    height: 30px;
+    border: 1px solid #ffffff;
+    border-radius: 6px;}

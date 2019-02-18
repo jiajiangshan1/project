@@ -39,6 +39,24 @@ class EditUserInfo extends React.Component{
         }   
     }
 
+    /**
+     * 用户别名验证
+     */
+    checkUserName(rule, value, callback) {
+        const userNameReg = /^(?!\d+$)[\da-zA-Z]+$/;
+        if (!value) {
+            callback();
+        } else {
+            setTimeout(() => {
+                if (!userNameReg.test(value)) {
+                    callback("用户名必须是包含字母和数字的组合，不能使用特殊字符!");
+                } else {
+                    callback();
+                }
+            }, 500);
+        }
+    }
+
      /**
      * 查询个人信息
      */
@@ -74,11 +92,12 @@ class EditUserInfo extends React.Component{
      */
     async axiosUpdateBasicInfo(params){
         let data = await getUpdateBasicInfo(params);
+        let systemId = sessionStorage.getItem('systemId');
         if(data.status == 200){
             message.success(data.description);
             hashHistory.push({
                 pathname: '/about',
-                state: this.props.location.state.systemId
+                state: systemId
             });
         }else{
             message.error(data.description);
@@ -86,9 +105,10 @@ class EditUserInfo extends React.Component{
     }
 
     handleCancel(){
+        let systemId = sessionStorage.getItem('systemId');
         hashHistory.push({
             pathname: '/about',
-            state: this.props.location.state.systemId
+            state: systemId
         });
     }
 
@@ -123,7 +143,7 @@ class EditUserInfo extends React.Component{
         const userNameProps = getFieldProps("userName", {
             rules: [
                 { required: false, min: 8, message: "用户名至少为 8 个字符" },
-                { validator: this.checkCustName }
+                { validator: this.checkUserName }
             ]
         });
 
@@ -131,11 +151,9 @@ class EditUserInfo extends React.Component{
             validate: [
                 {
                     rules: [{ required: false, message: "请输入邮箱地址" }],
-                    trigger: "onBlur"
                 },
                 {
                     rules: [{ type: "email", message: "请输入正确的邮箱地址" }],
-                    trigger: ["onBlur", "onChange"]
                 }
             ]
         });

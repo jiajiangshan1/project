@@ -14,9 +14,24 @@ import Test from "./Pages/common/Test/test";
 
 import 'antd/dist/antd.css';
 
+import ApiList from "./Pages/wpdmp/dmp/ApiList/apilist";
+import ApiDetail from "./Pages/wpdmp/dmp/ApiDetail/apiDetail";
+import ApiDetailChange from "./Components/wpdmp/dmp/ApiDetailChange/apiDetailChange";
+import BlackWhiteList from "./Pages/wpdmp/dmp/BlackWhiteList/blackWhiteList";
+import {BlackWhiteDetail} from "./Pages/wpdmp/dmp/BlackWhiteDetail/blackWhiteDetail";
+import ApplyApiCheck from "./Pages/wpdmp/dmp/ApplyApiCheck/applyApiCheck";
+import {ApplyApiList} from "./Pages/wpdmp/dmp/ApplyApiList/applyApiList";
+import {ApplyApi} from "./Pages/wpdmp/dmp/ApplyApi/applyApi";
+import {ReviewApi} from "./Pages/wpdmp/dmp/ReviewApi/reviewApi";
+import Approval from "./Pages/sp/ua/Approval/approval";
+import Manage from "./Pages/sp/ua/Manage/manage";
+import Busin from "./Pages/sp/ua/Business/business";
+import EditUserInfo from "./Pages/sp/ua/EditUserInfo/editUserInfo";
+import CreateAuth from "./Pages/sp/ua/CreateAuth/createAuth";
+
 import axios from "axios";
 
-// axios.defaults.baseURL = `http://localhost:9999`;
+axios.defaults.baseURL = `http://localhost:9999`;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
 class App extends React.Component{
@@ -41,7 +56,25 @@ ReactDOM.render(
             <Route path='/register' component={Register}/>
 
             <Route path='/home' component={Home}/>
-            <Route path='/about' component={About}/>
+            <Route path='/about' component={About}>
+                <Route path='/about/sp/ua/approval' component={Approval} />
+                <Route path='/about/sp/ua/manage' component={Manage} />
+                <Route path='/about/sp/ua/business' component={Busin} />
+                <Route path='/about/sp/ua/editUserInfo' component={EditUserInfo} />
+                <Route path='/about/sp/ua/createAuth' component={CreateAuth} />
+
+                <Route path='/about/wpdmp/dmp/apilist' component={ApiList}>
+                    <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>
+                    <Route path='/about/wpdmp/dmp/apilist/apiDetailChange' component={ApiDetailChange}/>
+                    <Route path='/about/wpdmp/dmp/apilist/blackList' component={BlackWhiteList}/>
+                    <Route path='/about/wpdmp/dmp/apilist/blackList/blackDetail' component={BlackWhiteDetail}/>
+                </Route>
+                <Route path='/about/wpdmp/dmp/applyCHeck' component={ApplyApiCheck}>
+                    <Route path='/about/wpdmp/dmp/applyCHeck/apiList' component={ApplyApiList}/>
+                    <Route path='/about/wpdmp/dmp/applyCHeck/apiList/applyApi' component={ApplyApi}/>
+                </Route>
+                <Route path='/about/wpdmp/dmp/reviewApi' component={ReviewApi}/>
+            </Route>
 
             <Router path='/test' component={Test}/>
             

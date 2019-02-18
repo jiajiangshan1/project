@@ -51,6 +51,11 @@ class BlackWhiteList extends React.Component {
                     message.warning('这条暂无数据哦~')
                 }else{
                     let list = this.state.list;
+                    object.data.map((item, index) => {
+                        item['isUse'] ? item['isUse'] = "是" : item['isUse'] = '否';
+                        item.wbType==1?item.wbType="黑名单":item.wbType="白名单"
+                    })
+                    console.log(object.data);
                     this.setState({list: list.concat(object.data),totalUser:totalUsers,current:currentPage})
                 }
 
@@ -121,7 +126,7 @@ class BlackWhiteList extends React.Component {
                                 {/*</div>*/}
                             {/*</div>*/}
                             <div className="contentApi">
-                                <BlackList list={this.state.list} checkboxChange={this.checkboxChange.bind(this)} selected={this.state.selected}/>
+                                <BlackList list={this.state.list} changePage1={this.changePage1.bind(this)} selected={this.state.selected} totalUser={this.state.totalUser} current={this.state.current}/>
                                 {/*<Page list={this.state.list} handleChange={this.changePage1.bind(this)} totalUser={this.state.totalUser} current={this.state.current}/>*/}
                             </div>
 

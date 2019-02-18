@@ -21,27 +21,19 @@ const columns = [{
     dataIndex: 'balanceStrategy',
 }];
 
-const data = [];
-for (let i = 0; i < 46; i++) {
-    data.push({
-        key: i,
-        ip: `李大嘴${i}`,
-        port: 32,
-        severPath: `西湖区湖底公园${i}号`,
-        status:2,
-        balanceStrategy:4,
-    });
-}
-
 let ApiDetailList = React.createClass({
     getInitialState() {
         return {
             selectedRowKeys: [],  // 这里配置默认勾选列
+            selectRows:{},
             loading: false,
-            visible: false
+            visible: false,
+            tableData:[]
         };
     },
-    //
+    componentDidMount(){
+
+    },
     showModal() {
         this.setState({ loading: true , visible: true});
         // 模拟 ajax 请求，完成后清空
@@ -55,22 +47,64 @@ let ApiDetailList = React.createClass({
     hideModal() {
         this.setState({ visible: false });
     },
+    delete(){
+        var keys=this.state.selectedRowKeys;
+        let tableData=this.state.tableData
+        keys.forEach((item)=>{
+            delete tableData[item]
+        })
+        let newTable=tableData.filter((item)=>{
+            if(item){
+                return item
+            }
+        })
+        this.setState({tableData:newTable,selectedRowKeys: []})
+    },
     //提交新建接口地址
     handleSubmit() {
-       // console.log(this.props.form.getFieldsValue());
+        let data=this.props.form.getFieldsValue()
+        if(data.status=='1'){
+            data.status="启用"
+        }else {
+            data.status='停用'
+        }
+        switch(data.balanceStrategy){
+            case"1":
+                data.balanceStrategy="随机" ;
+                break;
+            case"2": data.balanceStrategy="轮询";break;
+            case"3": data.balanceStrategy="加权";break;
+            case"4": data.balanceStrategy="一致性哈希";break;
+            case"5": data.balanceStrategy="哈希";break;
+        }
+        let newData=[]
+        newData.push(data)
+        let table=this.state.tableData;
+        this.setState({tableData:table.concat(newData)})
         this.hideModal();
     },
     onSelectChange(selectedRowKeys,selectedRows) {
         let arr = Array.from(new Set(selectedRowKeys))
         this.setState({ selectedRowKeys:arr});
-        //console.log('selectedRowKeys changed: ', selectedRows);
-        var newRows=[];
+        //将自动加到key字段删掉
         selectedRows.forEach((item,index)=>{
             delete item.key;
+            item.port=parseFloat(item.port)
+            if(item.status=="启用"){
+                item.status=1
+            }else {
+                item.status=2
+            }
+            switch(item.balanceStrategy){
+                case"随机": item.balanceStrategy=1;break;
+                    case"轮询": item.balanceStrategy=2;break;
+                    case"加权": item.balanceStrategy=3;break;
+                    case"一致性哈希": item.balanceStrategy=4;break;
+                    case"哈希": item.balanceStrategy=5;break;
+            }
         })
-        //console.log(selectedRows);
+        console.log('gggggggg',selectedRows);
         this.props.getIpList(selectedRows);
-       // console.log(data[selectedRowKeys]);
     },
     render() {
         const { loading, selectedRowKeys } = this.state;
@@ -81,7 +115,7 @@ let ApiDetailList = React.createClass({
         const hasSelected = selectedRowKeys.length > 0;
         const { getFieldProps } = this.props.form;
 
-        const wayProps = getFieldProps('way', {
+        const wayProps = getFieldProps('balanceStrategy', {
             rules: [
                 { required: true, message: '请选择您的策略' },
             ],
@@ -97,19 +131,16 @@ let ApiDetailList = React.createClass({
         };
         return (
             <div>
-                <div style={{ marginLeft:-170}}>
-                    <Button type="primary" onClick={this.showModal}
-                             style={{ marginLeft: 15 }} size={"large"}
+                <div style={{ marginLeft:"-11%"}}>
+                    <Button type="primary" onClick={this.showModal} size={"large"}
+
                     >新建</Button>
-                    <Button type="primary" onClick={this.start}
-                            disabled={!hasSelected} loading={loading} style={{ marginLeft: 15 }}  size={"large"}
-                    >修改</Button>
-                    <Button type="primary" onClick={this.start}
-                            disabled={!hasSelected} loading={loading} style={{ marginLeft: 15 }} size={"large"}
+                    <Button type="primary" onClick={this.delete} size={"large"}
+                            disabled={!hasSelected} loading={loading} style={{ marginLeft: 30 }}
                     >删除</Button>
 
                 </div>
-                <Table rowSelection={rowSelection} columns={columns} dataSource={data} pagination={{pageSize:5}} />
+                <Table rowSelection={rowSelection} columns={columns} dataSource={this.state.tableData} />
                 <Modal title="新建地址" visible={this.state.visible} onOk={this.handleSubmit} onCancel={this.hideModal}  okText="保存">
                     <Form horizontal form={this.props.form}>
                         <FormItem
@@ -117,7 +148,7 @@ let ApiDetailList = React.createClass({
                             label="地址"
                             className="color"
                         >
-                            <Input {...getFieldProps('address', {})} type="text" autoComplete="off" />
+                            <Input {...getFieldProps('ip', {})} type="text" autoComplete="off" />
                         </FormItem>
                         <FormItem
                             {...formItemLayout}
@@ -131,14 +162,7 @@ let ApiDetailList = React.createClass({
                             label="后端服务地址"
                             className="color"
                         >
-                            <Input {...getFieldProps('server', {})} type="text" autoComplete="off" />
-                        </FormItem>
-                        <FormItem
-                            {...formItemLayout}
-                            label="描述"
-                            className="color"
-                        >
-                            <Input {...getFieldProps('desc', {})} type="text" autoComplete="off" />
+                            <Input {...getFieldProps('severPath', {})} type="text" autoComplete="off" />
                         </FormItem>
                         <FormItem
                             id="way"
@@ -148,8 +172,11 @@ let ApiDetailList = React.createClass({
 
                         >
                             <Select  {...wayProps} id="selectGroup" size="large" placeholder="请选择策略" >
-                                <Option value="group1">分组一</Option>
-                                <Option value="group2">分组二</Option>
+                                <Option value="1">随机</Option>
+                                <Option value="2">轮询</Option>
+                                <Option value="3">加权</Option>
+                                <Option value="4">一致性哈希</Option>
+                                <Option value="5">哈希</Option>
                             </Select>
                         </FormItem>
                         <FormItem
@@ -159,9 +186,8 @@ let ApiDetailList = React.createClass({
                             className="color"
                         >
                             <Select {...statusProps} id="status" size="large" placeholder="请选择状态"  >
-                                <Option value="group1">编辑</Option>
-                                <Option value="group2">上线</Option>
-                                <Option value="group3">下线</Option>
+                                <Option value="1">启用</Option>
+                                <Option value="2">停用</Option>
                             </Select>
                         </FormItem>
                     </Form>

@@ -1,3 +1,19 @@
+@media(min-width:1200px) and (max-width:1400px){
+    .login-container .login-form form label{
+        font-size: 12px;
+    }
+    .register.register-container .register-logo{
+        margin-bottom: 10px;
+    }
+    .ant-form-horizontal .ant-form-item{
+        margin-bottom: 20px;
+    }
+    .register .register-container{
+        top: 0;
+        padding-bottom: 0;
+    }
+}
+
 .login{
     width: 100vw;
     height: 100vh;

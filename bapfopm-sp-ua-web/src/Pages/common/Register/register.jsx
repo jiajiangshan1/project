@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDom from "react-dom";
 import { Link, hashHistory } from "react-router";
-import { Button, Form, Input, Modal, Tree, message } from "antd";
+import { Button, Form, Input, Modal, Tree, message, notification } from "antd";
 import { getRegisterData, getTelephoneCode, getSubNodes } from "../../../Service/sp/ua/server";
 
 require('./register.css')
@@ -13,6 +13,10 @@ const TreeNode = Tree.TreeNode;
 function noop() {
     return false;
 }
+
+notification.config({
+    top: 100
+});
 
 class Register extends React.Component {
     constructor(prop) {
@@ -115,6 +119,8 @@ class Register extends React.Component {
             data = await getTelephoneCode(this.props.form.getFieldValue('telephone'));
             if (data.status == "200") {
                 message.success(data.dataObject);
+            }else{
+                message.error(data.description);
             }
             return data;
         }else{
@@ -131,6 +137,20 @@ class Register extends React.Component {
         if (data.status == 200) {
             message.success('注册成功!');
             hashHistory.push('/login');
+        }else{
+            // message.error(data.description);
+            if(Object.keys(data.dataObject).length != 0){
+                let user = data.dataObject.userName || "";
+                let tel = data.dataObject.telephone || "";
+                let code = data.dataObject.telephoneCode || "";
+                let email = data.dataObject.email || "";
+                let id = data.dataObject.idNumber || "";
+                let IDNumber=data.dataObject.IDNumber|| "";
+                notification.error({
+                    message: '注册失败',
+                    description: `${user} ${tel} ${code} ${email} ${id} ${IDNumber}`,
+                });
+            }
         }
     }
 
@@ -144,15 +164,34 @@ class Register extends React.Component {
     }
 
     /**
-     * 用户名验证
+     * 用户姓名验证
      */
     checkCustName(rule, value, callback) {
-        const nameReg = /^(?!\d+$)[\da-zA-Z]+$/;
+        const nameReg = /[\u4E00-\u9FA5]/;
         if (!value) {
             callback();
         } else {
             setTimeout(() => {
                 if (!nameReg.test(value)) {
+                    callback("姓名格式有误,必须为汉字!");
+                } else {
+                    callback();
+                }
+            }, 50000);
+        }
+    }
+
+
+    /**
+     * 用户别名验证
+     */
+    checkUserName(rule, value, callback) {
+        const userNameReg = /^(?!\d+$)[\da-zA-Z]+$/;
+        if (!value) {
+            callback();
+        } else {
+            setTimeout(() => {
+                if (!userNameReg.test(value)) {
                     callback("用户名必须是包含字母和数字的组合，不能使用特殊字符!");
                 } else {
                     callback();
@@ -234,7 +273,7 @@ class Register extends React.Component {
 
         const custNameProps = getFieldProps("custName", {
             rules: [
-                { required: true, min: 8, message: "用户名至少为 8 个字符" },
+                { required: true, message: "请输入姓名"},
                 { validator: this.checkCustName }
             ]
         });
@@ -268,7 +307,10 @@ class Register extends React.Component {
         });
 
         const userNameProps = getFieldProps("userName", {
-            rules: [{ required: false }]
+            rules: [
+                { required: false, min: 8, message: "用户名至少为 8 个字符" },
+                { validator: this.checkUserName }
+            ]
         });
 
         const telephoneProps = getFieldProps("telephone", {
@@ -331,7 +373,7 @@ class Register extends React.Component {
                             >
                                 <Input
                                     {...custNameProps}
-                                    placeholder="用户名只能使用字母或数字,不能使用特殊字符!"
+                                    placeholder="请输入姓名"
                                 />
                             </FormItem>
 
@@ -379,6 +421,7 @@ class Register extends React.Component {
                             <FormItem {...formItemLayout} label="用户别名" hasFeedback>
                                 <Input
                                     {...userNameProps}
+                                    placeholder="用户名只能使用字母或数字,不能使用特殊字符!"
                                 />
                             </FormItem>
 
@@ -402,7 +445,7 @@ class Register extends React.Component {
                                 <Input
                                     {...telephoneCodeProps}
                                     placeholder="输入手机验证码"
-                                    style={{ width: "79%", marginRight: 10 }}
+                                    style={{ width: "70%", marginRight: 10 }}
                                 />
                                 <Button type="primary" style={{  marginTop: 0 }} onClick={this.axiosTelephoneCode.bind(this)}>发送</Button>
                             </FormItem>

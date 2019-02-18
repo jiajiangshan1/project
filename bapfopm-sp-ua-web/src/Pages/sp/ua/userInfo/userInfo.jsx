@@ -3,6 +3,7 @@ import ReactDom from "react-dom";
 import { Router, Route, IndexRedirect, IndexRoute, Link, hashHistory } from 'react-router';
 import { Card, Col, Row, Button, Modal, Input, Form, message, Icon } from "antd";
 import { getUserInfo } from "../../../../Service/sp/ua/server";
+import userPhoto from "../../../../asset/sp/ua/img/admin-tx.png"
 
 require("./userInfo.css")
 
@@ -15,7 +16,9 @@ function noop() {
 class UserInfo extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            userInfo: {}
+        }
     }
 
     /**
@@ -24,7 +27,22 @@ class UserInfo extends React.Component {
 
     async axiosUserInfo() {
         let data = await getUserInfo();
-        this.props.form.setFieldsValue(data.dataObject);
+        if(data.status == 200){
+            message.success(data.description);
+            this.setState({
+                userInfo: data.dataObject
+            })
+        }else{
+            message.error(data.description);
+        }
+    }
+
+    handlego(){
+        let systemId = sessionStorage.getItem('systemId');
+        hashHistory.push({
+            pathname: "/about/sp/ua/editUserInfo", 
+            state: systemId
+        })
     }
 
     componentWillMount() {
@@ -57,8 +75,61 @@ class UserInfo extends React.Component {
 
         return (
             <div className="userInfo">
-
                 <div className="userInfo-content">
+                    <div className="userInfo-title">
+                        用户信息
+                        {/* <Icon type="edit">
+                            <Link to={{pathname: "/about/sp/ua/editUserInfo", state: {systemId: this.props.location.state.systemId}}} />
+                        </Icon> */}
+                    </div>
+
+                    <div className="userInfo-container">
+                        <div class="userInfo-container-left">
+                            <div className="userInfo-photo">
+                                <img src={userPhoto} alt="用户头像"/>
+                            </div>
+                            <div className="userInfo-label">
+                                <span className="span-label">手机号</span>
+                                <span className="span-info">
+                                    {this.state.userInfo.telephone}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="userInfo-container-right">
+                            <div className="userInfo-label">
+                                <span className="span-label">姓名</span>
+                                <span className="span-info">
+                                    {this.state.userInfo.custName}
+                                </span>
+                            </div>
+                            <div className="userInfo-label">
+                                <span className="span-label">用户名</span>
+                                <span className="span-info">
+                                    {this.state.userInfo.userName}
+                                </span>
+                            </div>
+                            <div className="userInfo-label">
+                                <span className="span-label">区划</span>
+                                <span className="span-info">
+                                    {this.state.userInfo.zoningName}
+                                </span>
+                            </div>
+                            <div className="userInfo-label">
+                                <span className="span-label">邮箱</span>
+                                <span className="span-info">
+                                    {this.state.userInfo.email}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="userInfo-container-footer">
+                            <Button type="primary" onClick={this.handlego.bind(this)}>修改个人信息</Button>
+                        </div>
+                    </div>
+                </div>
+
+
+                {/* <div className="userInfo-content">
                     <div className="userInfo-title">
                         用户信息
                         <Icon type="edit">
@@ -114,7 +185,7 @@ class UserInfo extends React.Component {
                         </Form>
 
                     </div>
-                </div>
+                </div> */}
 
             </div>
         )

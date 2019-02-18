@@ -1,3 +1,69 @@
+/*//媒体查询*/
+@media(min-width:1200px) and (max-width:1400px){
+  .main .home-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  .main .home-container .home-content{
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
+
+  .main .home-container .home-content .home-content-logo{
+    width: 768px;
+    background-size: contain;
+  }
+
+  .main .home-container .home-content .home-content-logo .home-content-logo-text{
+    width: 550px;
+    background-size: contain;
+    top: 5px;
+  }
+
+  .main .home-container .home-content .home-content-center {
+    left: 300px;
+    width: 740px;
+    height: 323px;
+    background-size: contain;
+    top: 66px;
+  }
+  .main .home-container .home-content .home-content-left {
+    width: 240px;
+    height: 374px;
+    background-size: contain;
+    top: 15px;
+  }
+  .main .home-container .home-content .home-content-right {
+    width: 240px;
+    height: 374px;
+    background-size: contain;
+    right: 35px;
+    top: 15px;
+  }
+
+  .home-container .home-content .home-content-footer{
+    width: 96% !important; 
+    top: 404px !important;
+  }
+
+  .home-container .home-content .home-content-footer .system-logo {
+    width: 35px !important;
+    height: 27px !important;
+  }
+
+  .home-container .ant-card-body {
+    padding: 10px !important;
+  }
+
+  .ant-card-body .system-name{
+    width: 100%;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
+}
+
 .home-container{
   width: 100vw;
   height: 100vh;
@@ -42,7 +108,7 @@
   width: inherit;
   height: auto;
   /* margin: 20px; */
-  padding: 20px 0 0 20px;
+  padding: 20px 0;
   position: relative;
 }
 
@@ -61,7 +127,7 @@
   width: 545px;
   height: 75px;
   position: absolute;
-  top: 40px;
+  top: 15px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -122,4 +188,8 @@
 
 .home-container .ant-card-body{
   padding: 20px;
+}
+
+.changePsw .ant-form :global(.ant-form-item .ant-form-item-label label){
+  color: #666;
 }

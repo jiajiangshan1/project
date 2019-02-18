@@ -3,19 +3,22 @@ label{
     font-size: 14px;
 }
 .outer-container {
-    width: 97%; height: 673px;
+    width: 97%; height: 565px;
     background: none;
 }
-.container .main  .content{
-    width: 97%;
-    height: 650px;
-    background: none;
-}
+
 .container .main .content{
+    width: 97%;
+    float: left;
+    margin: 0 20px;
+    border-radius: 8px
+}
+.container .main .scroll-content{
+    height: 78vh;
     background: none;
 }
 .outer-container {
-    position: relative;
+    /*position: relative;*/
     overflow: hidden;
 }
 .inner-container {
@@ -115,7 +118,7 @@ label{
 .content .form1 table{
     margin: 20px 0 20px 0;
     border: 1px solid #235e99;
-    width: 78%;
+    /*width: 78%;*/
     border-radius: 8px;
     border-spacing: 0;
     border-collapse: separate;
@@ -131,7 +134,7 @@ label{
     height: 38px;
     line-height: 38px;
 }
-.ant-form-item .ant-form-item-label label{
+.ant-form-item-label label{
     color:#ffffff;
 }
 
@@ -151,8 +154,16 @@ label{
     border-bottom:none;
 }
 .ant-table-pagination{
-    /* margin-right: 184px; */
+    margin-right: 184px;
 }
-.color .ant-form-item-label label{
-    color: #666;
+
+.ant-form .color .ant-form-item-label label{
+    color:#000000;
+}
+
+.server-path{
+   margin-top: 18px;
+    font-size: 16px;
+    border: 1px solid #ffffff;
+    border-radius: 6px;
 }

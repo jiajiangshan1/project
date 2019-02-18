@@ -34,29 +34,36 @@ class Sider extends React.Component {
     var listData = data.dataObject;
     console.log('---',listData);
     var arrData = [];
-    for (var i = 0; i < listData.length; i++) {
+    
+    listData.forEach(item => {
       var obj = {};
-      obj.authorityId = listData[i].authorityId;
-      obj.authorityName = listData[i].authorityName;
-      obj.systemId = listData[i].systemId;
-      obj.parent = listData[i].parent;
-      obj.requestUrl = listData[i].requestUrl ? listData[i].requestUrl : 'javascript:;';
-      if (obj.parent == 0) {
-        obj.subMenu = [];
-        arrData.push(obj)
-        for (var j = 0; j < listData.length; j++) {
-          if (listData[j].parent == listData[i].authorityId) {
-            var obj = {};
-            obj.authorityId = listData[j].authorityId;
-            obj.authorityName = listData[j].authorityName;
-            obj.systemId = listData[j].systemId;
-            obj.parent = listData[j].parent;
-            obj.requestUrl = listData[j].requestUrl ? listData[j].requestUrl : 'javascript:;';
-            arrData[arrData.length - 1].subMenu.push(obj);
-          }
+      for(var key in item){
+        if(key == "requestUrl"){
+          obj[key] = item[key] ? item[key] : 'javascript:;';
+        }else{
+          obj[key] = item[key];
         }
       }
-    }
+
+      if (item.parent == 0) {
+        obj.subMenu = [];
+        arrData.push(obj);
+
+        listData.forEach(el => {
+          if (el.parent == item.authorityId) {
+            var obj = {};
+            for(var key in el){
+              if(key == "requestUrl"){
+                obj[key] = el[key] ? el[key] : 'javascript:;';
+              }else{
+                obj[key] = el[key];
+              }
+            }
+            arrData[arrData.length - 1].subMenu.push(obj);
+          }
+        })
+      }
+    })
     console.log('菜单数据=========', arrData)
     this.setState({ menuData: arrData });
   }
@@ -76,18 +83,58 @@ class Sider extends React.Component {
         >
           {
             this.state.menuData.map(function (item) {
-              return (<SubMenu key={item.authorityId}
-                title={<span><Icon type="appstore" /><span className="nav-text">
-                  <Link to={{pathname: `/about${item.requestUrl}`, state: {systemId: item.systemId}}}>{item.authorityName}</Link>
-                </span></span>}>
+              if(item.authorityId >= 28 && item.authorityId <= 35){
+                return (
+                  <SubMenu key={item.authorityId}
+                    title={<span><Icon type="appstore" /><span className="nav-text">
+  
+                      <a href={item.requestUrl}>
+                        {item.authorityName}
+                      </a> 
+                      
+                    </span></span>}
+                  >
+  
+                  {
+                    item.subMenu.map((el) => (
+                      <Menu.Item key={el.authorityId}>
+                        <span className="nav-text">
+                          <a href={el.requestUrl}>
+                            {el.authorityName}
+                          </a>
+                        </span>
+                      </Menu.Item>
+                    ))
+                  }
+                </SubMenu>)
 
-                {item.subMenu.map((el) => (
-                  <Menu.Item key={el.authorityId}>
-                    <span className="nav-text">{el.authorityName}</span>
-                  </Menu.Item>
-                ))}
-              </SubMenu>)
-            }
+              }else{
+                return (
+                  <SubMenu key={item.authorityId}
+                    title={<span><Icon type="appstore" /><span className="nav-text">
+  
+                      <Link to={{pathname: `/about${item.requestUrl}`, state: {systemId: item.systemId}}}>
+                        {item.authorityName}
+                      </Link>
+                      
+                    </span></span>}
+                  >
+  
+                  {
+                    item.subMenu.map((el) => (
+                      <Menu.Item key={el.authorityId}>
+                        <span className="nav-text">
+                          <Link to={{pathname: `/about${el.requestUrl}`, state: {systemId: el.systemId}}}>
+                            {el.authorityName}
+                          </Link>
+                        </span>
+                      </Menu.Item>
+                    ))
+                  }
+                </SubMenu>)
+              }
+              
+            } 
             )
           }
         </Menu>

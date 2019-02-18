@@ -40,3 +40,12 @@
 .business .ant-table-placeholder > span{
     color: #fefefe;
 }
+
+.business-table-container{
+    position: relative;
+}
+
+.business-button{
+    position: absolute !important;
+    right: 0 !important;
+}

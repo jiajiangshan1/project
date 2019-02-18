@@ -74,8 +74,7 @@ export let getRegisterData = async (data) => {
  */
 export let getSubNodes = async (zoningCode,ownZoningCode='000000000000000') => {
     let response = await axios({
-        // url: 'http://172.30.3.11:8251/queryZoningData/getSubNodes',
-        url: 'zcms/queryZoningData/getSubNodes',
+        url: 'zcmsapi/queryZoningData/getSubNodes',
         method: 'get',
         params: {
             zoningCode: zoningCode,
@@ -84,6 +83,16 @@ export let getSubNodes = async (zoningCode,ownZoningCode='000000000000000') => {
     })
     return response.data
 }
+
+// zoningChangeManager/index
+export let getCustInfo = async () => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/index',
+        method: 'get',
+    })
+    return response.data
+}
+
 
 /**
  * 系统查询

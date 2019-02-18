@@ -1,24 +1,57 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import styles from './apilist.css'
-import {hashHistory,Link} from "react-router";
+import {hashHistory, Link} from "react-router";
 import {List} from "../../../../Components/wpdmp/dmp/List/list1"
 import {GetApi} from "../../../../Service/wpdmp/dmp/categories"
 import {message} from 'antd';
 
+function Group(apiGroup) {
+    switch (apiGroup) {
+        case 1:
+            return "统计分析管理分系统"
+        case 2:
+            return "辅助决策管理分系统"
+        case 3:
+            return "生育和家庭管理分系统"
+        case 4:
+            return"流动人口服务管理分系统"
+        case  5 :
+            return"内部综合管理分系统"
+        case 6 :
+            return"监测分析管理分系统"
+        case 7 :
+            return"区划代码管理分系统"
+        case 8 :
+            return"托育系统"
+        case 9 :
+            return"全员人口数据管理平台"
+        case 10 :
+            return"人口变动信息校核与引导服务应用系统"
+    }
+}
+function Status(apiStatus) {
+    switch (apiStatus) {
+        case 0 :
+            return "编辑"
+        case 1 :
+            return"发布"
+        case 2 :
+            return"下线"
+    }
+}
 class ApiList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             apiInput: '',
-            pageNum:1,
+            pageNum: 1,
             list: [],
-            title: title,
-            pageSize:5,
-            totalUser:'',
-            current:'',
-            checked:false,
-            selected:true
+            pageSize: 5,
+            totalUser: '',
+            current: '',
+            checked: false,
+            selected: true
         }
     }
 
@@ -35,7 +68,7 @@ class ApiList extends React.Component {
     // }
 
     handleChange(e) {
-        this.setState({apiInput: e.target.value,selected:true})
+        this.setState({apiInput: e.target.value, selected: true})
     }
 
     // newBuilt(e) {
@@ -52,37 +85,50 @@ class ApiList extends React.Component {
     // }
     //查询api
     findApi() {
-        this.setState({list: [],totalUser:'',current:'',})
+        this.setState({list: [], totalUser: '', current: '',})
         this.find(this.state.apiInput, this.state.pageNum)
     }
+
     //api接口
     async find(api, page) {
         let api2 = api.replace(/(^\s*)|(\s*$)/g, "");
-        if(api2){
+        if (api2) {
             // let {data:{data,totalUsers,currentPage}} = await GetApi(api2, page);
-            let {data:{object,totalUsers,currentPage}} = await GetApi(api2, page);
-            console.log(object);
-            if (object.code == "000000") {
-                let list = this.state.list;
-                this.setState({list: list.concat(object.data),totalUser:totalUsers,current:currentPage})
-               // console.log(this.state.list);
-            } else {
-                message.warning(object.msg)
+            let {data: {object, totalUsers, currentPage},status} = await GetApi(api2, page);
+            console.log(status);
+            if(status>=200){
+                if (object.code == "000000") {
+                    let list = this.state.list;
+                    object.data.map((item, index) => {
+                        item['isUse'] ? item['isUse'] = "是" : item['isUse'] = '否';
+                        item.timeOut=item.timeOut+'天'
+                        item.groupId=Group(item.groupId)
+                        item.apiStatus=Status(item.apiStatus)
+                    })
+                    this.setState({list: list.concat(object.data), totalUser: totalUsers, current: currentPage})
+                } else {
+                    alert(object.msg)
+                }
+            }else {
+                alert(status)
             }
-        }else {
-            message.warning('输入内容不能为空哦^_^')
+
+        } else {
+            alert('输入内容不能为空哦^_^')
         }
 
     }
+
     //修改api内容
-    changeApi(){
+    changeApi() {
 
     }
+
     //页面跳转
-    changePage1(current){
+    changePage1(current) {
         this.setState({
-            pageNum:current,selected:false
-        },this.findApi)
+            pageNum: current, selected: false
+        }, this.findApi)
     }
 
 
@@ -106,41 +152,15 @@ class ApiList extends React.Component {
                                 </div>
                             </div>
                             <div className="content apiContent">
-                                {/*<div className="contentBtn clearfix">*/}
-                                    {/*/!*<div className="setUp btn">*!/*/}
-                                        {/*/!*<input type="button" value="新建" onClick={this.newBuilt.bind(this)}/>*!/*/}
-                                    {/*/!*</div>*!/*/}
-                                    {/*<div className="setUp btn">*/}
-                                        {/*<Link to='/entry/apilist/apiDetail'>新建</Link>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="revise btn">*/}
-                                        {/*<Link to='/entry/apilist/apiDetailChange' onClick={this.changeApi.bind(this)} >修改</Link>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="del btn">*/}
-                                        {/*<input type="button" value="删除"/>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="publish btn">*/}
-                                        {/*<input type="button" value="发布"/>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="stopStart btn">*/}
-                                        {/*<input type="button" value="启停"/>*/}
-                                    {/*</div>*/}
-                                    {/*<div className="list btn">*/}
-                                        {/*<Link to='/entry/apilist/blackList'>黑白名单</Link>*/}
-                                    {/*</div>*/}
-                                    {/*/!*<div className="authority btn">*!/*/}
-                                        {/*/!*<input type="button" value="授权"/>*!/*/}
-                                    {/*/!*</div>*!/*/}
-                                {/*</div>*/}
                                 <div className="contentApi">
-                                    {/*<List list={this.state.list} title={this.state.title} checkboxChange={this.checkboxChange.bind(this)}/>*/}
-                                    <List list={this.state.list} totalUser={this.state.totalUser} current={this.state.current} handleChange={this.changePage1.bind(this)} selected={this.state.selected} />
-                                    {/*<Page list={this.state.list} handleChange={this.changePage1.bind(this)} totalUser={this.state.totalUser} current={this.state.current}/>*/}
+                                    <List list={this.state.list} totalUser={this.state.totalUser}
+                                          current={this.state.current} handleChange={this.changePage1.bind(this)}
+                                          selected={this.state.selected}/>
                                 </div>
-
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -149,7 +169,5 @@ class ApiList extends React.Component {
 }
 
 
-let title = ['','API名称', "分组", 'API路径', '服务ID', '版本号', '状态', '是否启用', '创建时间', '结束时间', '有效期',
-];
 
 export default ApiList;
