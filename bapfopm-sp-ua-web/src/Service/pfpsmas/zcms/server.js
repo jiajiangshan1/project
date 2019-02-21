@@ -29,8 +29,8 @@ export let getZoningChangeRequestList = async (params) => {
 export let getAddZoningChangeRequest = async (params) => {
     let response = await axios({
         url: 'zcmsapi/zoningChangeManager/addZoningChangeRequest',
-        method: 'get',
-        params: params
+        method: 'post',
+        data: params
     })
     return response.data
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { hashHistory, Link } from "react-router";
+import qs from 'qs'
 
 import blue from "../../../asset/pfpsmas/zcms/img/blue.png";
 import black from "../../../asset/pfpsmas/zcms/img/black.png"
@@ -52,6 +53,15 @@ class Test extends React.Component{
         postDataObj.notes = notes;
         postDataObj.zoningName = zoningName;
         postDataObj.levelCode = levelCode;
+        console.log(postDataObj);
+
+        postDataObj = qs.stringify({
+            name: name,
+            notes: notes,
+            zoningName: zoningName,
+            levelCode: levelCode,
+        })  
+
         this.axiosAddZoningChangeRequest(postDataObj);
     }
 
