@@ -2,6 +2,8 @@ import axios from "axios";
 
 //  rzc
 //  区划代码接收与更新
+//  在线上报
+//  建立变更申请表
 
 /**
  * 用户申请单信息查询接口
@@ -46,7 +48,61 @@ export let getFindWritableZCCRequests = async () => {
     return response.data
 }
 
+//  rzc
+//  区划代码接收与更新
+//  在线上报
+//  维护变更申请表
 
+/**
+ * 查看变更对照明细数据接口
+ * @param {number} requestSeq 区划变更申请单序号
+ * @param {string} changeType 变更类型
+ * @param {string} assigningCode 操作区划的级次代码
+ * @param {number} pageIndex 当前页码
+ * @param {number} pageSize 每页条数
+ */
+export let getSearchDetails = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/searchDetails',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
 
+/**
+ * 修改申请单接口
+ * @param {number} requestSeq 申请单序号
+ * @param {string} name 申请单名称
+ * @param {string} notes 备注
+ */
+export let getUpdateZCCRequest = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/updateZCCRequest',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
 
+/**
+ * 导出变更明细对照数据接口  excel表格式
+ * @param 申请单序号 requestSeq
+ */
+let getExportExcel = (requestSeq) => {
+    window.location.href = 'zcmsapi/zoningChangeManager/exportExcel?seq=' + requestSeq
+}
 
+/**
+ * 删除明细数据接口
+ * @param {string} groupSeqs 变更组序号
+ * @param {string} requestSeq 申请单序号
+ */
+export let getDeleteDetails = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/deleteDetails',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}

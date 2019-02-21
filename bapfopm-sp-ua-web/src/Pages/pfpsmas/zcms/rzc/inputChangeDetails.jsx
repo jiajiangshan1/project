@@ -266,7 +266,8 @@ class Test extends React.Component {
                                 <Col span={18}>
                                     <Select placeholder="--请选择--" defaultValue="null" style={{
                                         width: "80%"
-                                    }}>
+                                    }}
+                                    onSelect={this.changeAssigningCode.bind(this)}>
                                         <Option value="null">全部</Option>
                                         <Option value="1">省级</Option>
                                         <Option value="2">市级</Option>
@@ -286,7 +287,8 @@ class Test extends React.Component {
                                 <Col span={18}>
                                     <Select placeholder="--请选择--" defaultValue="null" style={{
                                         width: "80%"
-                                    }}>
+                                    }}
+                                    onSelect={this.changeAdjustmentType.bind(this)}>
                                         <Option value="null">全部</Option>
                                         <Option value="11">新增</Option>
                                         <Option value="21">变更</Option>

@@ -33,3 +33,29 @@
   position: absolute;
   left: 0;
 }
+
+.button-group{
+  margin: 0 auto;
+  text-align: center;
+}
+
+.button-group :global(button){
+  margin-right: 20px;
+}
+
+.search-condition{
+  margin-top: 20px;
+}
+
+.search-condition span{
+  display: inline-block;
+  width: 100%;
+  height: inherit;
+  color: #fff;
+  font-size: 14px;
+  
+}
+
+.a .ant-table-tbody > tr > td{
+  border: none;
+}
