@@ -20,7 +20,7 @@ var options = {
 
 var options1 = {
     // target: 'http://10.131.101.11:8251/', // 目标服务器 host
-    target: 'http://192.168.2.12:8251/;', // 目标服务器 host
+    target: 'http://192.168.3.238:8251/;', // 目标服务器 host
     changeOrigin: true,               // 默认false，是否需要改变原始主机头为目标URL
     ws: true,                         // 是否代理websockets
     onProxyRes: function(proxyRes, req, res) {
