@@ -10,6 +10,8 @@ import Approval from "../../../../Pages/sp/ua/Approval/approval";
 import EditUserInfo from "../../../../Pages/sp/ua/EditUserInfo/editUserInfo";
 import CreateAuth from "../../../../Pages/sp/ua/CreateAuth/createAuth";
 import Bread from '../BreadCrumb/breadCrumb'
+
+import Test from "../../../../Pages/common/Test/test"
 //  wpdmp-dmp
 import ApiList from '../../../../Pages/wpdmp/dmp/ApiList/apilist'
 import ApiDetail from "../../../../Pages/wpdmp/dmp/ApiDetail/apiDetail";
@@ -56,6 +58,7 @@ export const Template = (props) => (
                         <Route path='/about/sp/ua/editUserInfo' component={EditUserInfo} />
                         <Route path='/about/sp/ua/createAuth' component={CreateAuth} />
 
+                        <Route path='/about/test' component={Test} />
 
                         <Route path='/about/wpdmp/dmp/apilist' component={ApiList}/>
                         <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>

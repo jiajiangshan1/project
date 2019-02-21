@@ -30,7 +30,7 @@ class UserInfo extends React.Component {
         if(data.status == 200){
             message.success(data.description);
             this.setState({
-                userInfo: data.dataObject
+                userInfo: data.dataObject.userInfo
             })
         }else{
             message.error(data.description);

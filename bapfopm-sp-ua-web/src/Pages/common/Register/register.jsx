@@ -177,7 +177,7 @@ class Register extends React.Component {
                 } else {
                     callback();
                 }
-            }, 50000);
+            }, 500);
         }
     }
 

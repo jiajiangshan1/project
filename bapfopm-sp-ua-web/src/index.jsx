@@ -63,6 +63,8 @@ ReactDOM.render(
                 <Route path='/about/sp/ua/editUserInfo' component={EditUserInfo} />
                 <Route path='/about/sp/ua/createAuth' component={CreateAuth} />
 
+                <Route path='/about/test' component={Test} />
+
                 <Route path='/about/wpdmp/dmp/apilist' component={ApiList}>
                     <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>
                     <Route path='/about/wpdmp/dmp/apilist/apiDetailChange' component={ApiDetailChange}/>
