@@ -89,7 +89,7 @@ export let getUpdateZCCRequest = async (params) => {
  * 导出变更明细对照数据接口  excel表格式
  * @param 申请单序号 requestSeq
  */
-let getExportExcel = (requestSeq) => {
+export let getExportExcel = (requestSeq) => {
     window.location.href = 'zcmsapi/zoningChangeManager/exportExcel?seq=' + requestSeq
 }
 
@@ -101,6 +101,54 @@ let getExportExcel = (requestSeq) => {
 export let getDeleteDetails = async (params) => {
     let response = await axios({
         url: 'zcmsapi/zoningChangeManager/deleteDetails',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+//  rzc
+//  区划代码接收与更新
+//  变更明细审核
+/**
+ * 审核变更明细
+ * @param {number} seqStr
+ * @param {string} isPassed 
+ * @param {string} msg 
+ */
+export let getAuditDetail = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/auditDetail',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+//  rzc 
+//  区划代码接收与更新
+//  申请单复用
+
+/**
+ * 查询申请单中可复用的变更明细
+ * @param {number} requestSeq 申请单序号
+ */
+export let getTraceabilityOfChangeDetails = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/TraceabilityOfChangeDetails',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+/**
+ * 申请单复用
+ * @param {number} seqStr 申请单序号
+ */
+export let getChangeDetailedReproduction = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/ChangeDetailedReproduction',
         method: 'get',
         params: params
     })

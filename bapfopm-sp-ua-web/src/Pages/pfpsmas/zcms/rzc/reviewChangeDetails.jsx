@@ -6,90 +6,114 @@ import blue from "../../../asset/pfpsmas/zcms/img/blue.png";
 import black from "../../../asset/pfpsmas/zcms/img/black.png"
 import gray from "../../../asset/pfpsmas/zcms/img/gray.png"
 
-import './test.css'
+import './reviewChangeDetails.css'
 
 import { Table, Button, Modal, Input, Select, Row, Col } from 'antd';
-import { getZoningChangeRequestList, getSearchDetails, getUpdateZCCRequest, getExportExcel, getDeleteDetails } from "../../../Service/pfpsmas/zcms/server";
+import { getZoningChangeRequestList, getSearchDetails, getAuditDetail } from "../../../../Service/pfpsmas/zcms/server";
+
 
 const Option = Select.Option;
 
-class Test extends React.Component {
+class Shenhe extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             requestList: [],    //  申请单存放数组
             detailsList: [],    //  申请单变更明细存放数组
 
-            updateRequestToggle: false, //  添加申请单确认框显隐开关
+            auditDetailToggle: false, //  添加申请单确认框显隐开关
             isDisabled: true,   //  添加按钮是否禁用
 
             zoningName: sessionStorage.getItem("zoningName"),   //  行政区划名称
             levelCode: sessionStorage.getItem("levelCode"), //  级次代码
 
             requestSeq: "", //  申请单序号
-            name: "",   //  申请单名称
-            notes: "",  //  申请单备注
+
+            seqStr: "", //  变更明细序号
+            msg: "", // 审批意见
+            isPassed: "",   //  审批状态
+
+            //  查询变更明细条件
+            changeType: "",
+            assigningCode: "",
+            pageIndex: 1,
+            pageSize: 5,
 
             selectedRowKeys: [],  // 这里配置默认勾选列
-            selectRows: {},
             selectedRows: {},
+
+            detailsSelectedRowKeys: [],  // 这里配置默认勾选列
+            detailsSelectedRows: {},
         }
     }
 
-    showPrompt() {
-        let myDate = new Date();
-        let year = myDate.getFullYear();
-        let month = myDate.getMonth() + 1;
-        let { zoningName } = this.state;
-        let name;
-        name = `${zoningName}${year}年${month}月的区划代码变更表`;
+    //  获取级次
+    getAssigningCode(value, option) {
+        console.log("12323", value, option);
         this.setState({
-            updateRequestToggle: true,
-            name: name
+            assigningCode: value
         })
     }
 
-    handleCancel() {
+    //  获取变更类型
+    getChangeType(value, option) {
+        console.log("12323", value, option);
         this.setState({
-            updateRequestToggle: false
+            changeType: value
         })
     }
 
-    handleSubmit() {
+    showPrompt(params){
+        if(params){
+            this.setState({
+                msg: "审批通过"
+            })
+        }else{
+            this.setState({
+                msg: ""
+            })
+        }
+
+        this.setState({
+            auditDetailToggle: true,
+            isPassed: params
+        })
+    }
+
+    handleSubmit(){
         let postDataObj = {};
-        let { name, notes, zoningName, levelCode } = this.state;
-        postDataObj.name = name;
-        postDataObj.notes = notes;
-        postDataObj.zoningName = zoningName;
-        postDataObj.levelCode = levelCode;
-        console.log(postDataObj);
-
-        postDataObj = qs.stringify({
-            name: name,
-            notes: notes,
-            zoningName: zoningName,
-            levelCode: levelCode,
-        })
-
-        this.axiosAddZoningChangeRequest(postDataObj);
+        let {msg, isPassed} = this.state;
+        postDataObj.msg = msg;
+        postDataObj.isPassed = isPassed;
+        this.axiosAuditDetail()
     }
 
-    changeName(e) {
+    handleCancel(){
         this.setState({
-            name: e.target.value
+            auditDetailToggle: false
         })
     }
 
-    changeNote(e) {
+    showDetails() {
+        let postDataObj = {};
+        let { changeType, assigningCode, pageIndex, pageSize, requestSeq } = this.state;
+        postDataObj.requestSeq = requestSeq;
+        postDataObj.changeType = changeType;
+        postDataObj.assigningCode = assigningCode;
+        postDataObj.pageIndex = pageIndex;
+        postDataObj.pageSize = pageSize;
+
+        this.axiosSearchDetails(postDataObj);
+    }
+
+    changeMsg(e) {
         this.setState({
-            notes: e.target.value
+            msg: e.target.value
         })
     }
 
     onSelectChange(selectedRowKeys, selectedRows) {
         let requestSeq = selectedRows[0].seq;
-        let notes = selectedRows[0].notes;
-        let name = selectedRows[0].name;
         let arr = Array.from(new Set(selectedRowKeys))
 
         if (requestSeq) {
@@ -104,12 +128,32 @@ class Test extends React.Component {
 
         this.setState({
             requestSeq: requestSeq,
-            notes: notes,
-            name: name,
             selectedRowKeys: arr,
             selectedRows: selectedRows
         })
     }
+
+    onDetailsSelectChange(selectedRowKeys, selectedRows) {
+        let requestSeq = selectedRows[0].seq;
+        let arr = Array.from(new Set(selectedRowKeys))
+
+        if (requestSeq) {
+            this.setState({
+                isDisabled: false
+            })
+        } else {
+            this.setState({
+                isDisabled: true
+            })
+        }
+
+        this.setState({
+            detailsSelectedRowKeys: arr,
+            detailsSelectedRows: selectedRows
+        })
+    }
+
+
 
     /**
      *  查询申请单
@@ -125,21 +169,19 @@ class Test extends React.Component {
     }
 
     /**
-     * 修改申请单接口
-     * @param 申请单序号 requestSeq
-     * @param 申请单名称 name
-     * @param 备注 notes
+     * 查询变更明细
      */
-    async axiosUpdateZCCRequest(params) {
-        let res = await getUpdateZCCRequest(params);
-        if (res.rtnCode == "000000") {
-            this.axiosZoningChangeRequestList();
-        } else {
-            alert(res.rtnMessage);
-        }
-        this.setState({
-            updateRequestToggle: false
-        })
+    async axiosSearchDetails(params) {
+        let res = await getSearchDetails(params);
+        console.log("变更明细=======", res);
+    }
+
+    /**
+     * 审核明细
+     */
+    async axiosAuditDetail(params){
+        let res = await getAuditDetail(params);
+        console.log("审批结果==========", res);
     }
 
     componentWillMount() {
@@ -163,6 +205,10 @@ class Test extends React.Component {
             title: '备注',
             dataIndex: 'notes',
             key: 'notes',
+        }, {
+            title: '审批意见',
+            dataIndex: 'device',
+            key: 'device',
         }, {
             title: '录入时间',
             dataIndex: 'createDate',
@@ -200,27 +246,25 @@ class Test extends React.Component {
         }];
 
         const navbar = [{
-            name: "建立变更对照表",
+            name: "省级区划代码预览",
             routerPath: "javascript:;",
             imgPath: gray
         }, {
-            name: "录入变更明细",
-            routerPath: "javascript:;",
-            imgPath: gray
-        }, {
-            name: "维护变更对照表",
+            name: "变更明细审核",
             routerPath: "javascript:;",
             imgPath: blue
-        }, {
-            name: "审核变更对照表",
-            routerPath: "javascript:;",
-            imgPath: black
         }]
 
         const requestRowSelection = {
             type: 'radio',
             selectedRowKeys: this.state.selectedRowKeys,
             onChange: this.onSelectChange.bind(this),
+        }
+
+        const detailsRowSelection = {
+            type: 'checkbox',
+            selectedRowKeys: this.state.selectedRowKeys,
+            onChange: this.onDetailsSelectChange.bind(this),
         }
 
         const loop = data => data.map(item => {
@@ -248,14 +292,18 @@ class Test extends React.Component {
 
                 {/* 功能按钮组 */}
                 <div className="button-group">
-                    <Button type="primary" size="large" disabled={this.state.isDisabled} onClick={this.showPrompt.bind(this)}>查看明细</Button>
+                    <Button type="primary" size="large" disabled={this.state.isDisabled} onClick={this.showDetails.bind(this)}>查看明细</Button>
 
-                    <Button type="primary" size="large" disabled={this.state.isDisabled} onClick={this.showPrompt.bind(this)}>修改</Button>
+                    <Button type="primary" size="large" disabled={this.state.isDisabled} onClick={this.showPrompt.bind(this, true)} >审核通过</Button>
 
-                    <Button type="primary" size="large" disabled={this.state.isDisabled} onClick={this.showPrompt.bind(this)}>导出明细</Button>
+                    <Button type="primary" size="large" disabled={this.state.isDisabled} onClick={this.showPrompt.bind(this, false)} >审核不通过</Button>
                 </div>
 
+                {/*分割线*/}
+
+                <div className="line"></div>
                 {/* 查询条件 */}
+
                 <div className="search-condition">
                     <Row>
                         <Col span={8} offset={4}>
@@ -264,11 +312,10 @@ class Test extends React.Component {
                                     <span class="sele" ms-data-typecode="data.temp_typeCode">区划级次</span>
                                 </Col>
                                 <Col span={18}>
-                                    <Select placeholder="--请选择--" defaultValue="null" style={{
+                                    <Select placeholder="--请选择--" defaultValue="" style={{
                                         width: "80%"
-                                    }}
-                                    onSelect={this.changeAssigningCode.bind(this)}>
-                                        <Option value="null">全部</Option>
+                                    }} onSelect={this.getAssigningCode.bind(this)}>
+                                        <Option value="">全部</Option>
                                         <Option value="1">省级</Option>
                                         <Option value="2">市级</Option>
                                         <Option value="3">县级</Option>
@@ -285,11 +332,10 @@ class Test extends React.Component {
                                     <span class="sele" ms-data-typecode="data.temp_typeCode">变更类型</span>
                                 </Col>
                                 <Col span={18}>
-                                    <Select placeholder="--请选择--" defaultValue="null" style={{
+                                    <Select placeholder="--请选择--" defaultValue="" style={{
                                         width: "80%"
-                                    }}
-                                    onSelect={this.changeAdjustmentType.bind(this)}>
-                                        <Option value="null">全部</Option>
+                                    }} onSelect={this.getChangeType.bind(this)}>
+                                        <Option value="">全部</Option>
                                         <Option value="11">新增</Option>
                                         <Option value="21">变更</Option>
                                         <Option value="31">并入</Option>
@@ -305,30 +351,27 @@ class Test extends React.Component {
                 <div style={{
                     marginTop: 20
                 }}>
-                    <Table columns={detailsColumns} dataSource={this.state.detailsList} rowSelection={{ type: "checkbox" }} />
+                    <Table columns={detailsColumns} dataSource={this.state.detailsList} rowSelection={detailsRowSelection} />
                 </div>
 
-                {/* 修改申请单模态框 */}
+                {/* 审核变更明细模态框 */}
                 <div>
-                    <Modal title="添加申请单" visible={this.state.updateRequestToggle}
-                        okText="提交" cancelText="返回"
+                    <Modal title="变更明细审核" visible={this.state.auditDetailToggle}
+                        okText="同意" cancelText="返回"
                         onOk={this.handleSubmit.bind(this)}
                         onCancel={this.handleCancel.bind(this)}
                     >
                         <div>
                             <div>
-                                <span>变更对照表名称</span>
-                                <Input onChange={this.changeName.bind(this)} value={this.state.name}></Input>
-                            </div>
-                            <div>
-                                <span>备注</span>
-                                <Input type="textarea" onChange={this.changeNote.bind(this)} value={this.state.notes}></Input>
+                                <span>审批意见</span>
+                                <Input type="textarea" onChange={this.changeMsg.bind(this)} value={this.state.msg}></Input>
                             </div>
                         </div>
                     </Modal>
                 </div>
+
             </div>
         )
     }
 }
-export default Test;
+export default Shenhe;
