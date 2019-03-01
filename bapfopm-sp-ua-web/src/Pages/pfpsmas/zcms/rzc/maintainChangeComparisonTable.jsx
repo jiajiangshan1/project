@@ -272,7 +272,7 @@ class Test extends React.Component {
 
 
         return (
-            <div className="a">
+            <div className="maintain">
                 <div className="nav">
                     {loop(navbar)}
                 </div>

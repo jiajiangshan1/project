@@ -4,7 +4,7 @@ var proxy = require('http-proxy-middleware');
 // proxy 中间件的选择项
 var options = {
     // target: 'http://172.30.3.159:7331', // 目标服务器 host
-    target: 'http://192.168.2.252:7331/;',
+    target: 'http://10.1.92.19:7331/;',
     changeOrigin: true,               // 默认false，是否需要改变原始主机头为目标URL
     ws: true,                         // 是否代理websockets
     onProxyRes: function(proxyRes, req, res) {
@@ -20,7 +20,7 @@ var options = {
 
 var options1 = {
     // target: 'http://10.131.101.11:8251/', // 目标服务器 host
-    target: 'http://192.168.4.248:8251/;', // 目标服务器 host
+    target: 'http://10.1.92.3:8251/;', // 目标服务器 host
     changeOrigin: true,               // 默认false，是否需要改变原始主机头为目标URL
     ws: true,                         // 是否代理websockets
     onProxyRes: function(proxyRes, req, res) {
