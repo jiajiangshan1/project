@@ -440,7 +440,6 @@ class InputChangeDetails extends React.Component {
      */
     handleDelete(text, record) {
         console.log(text, record);
-        let { displayDetails } = this.state;
         this.axiosRemoveDraftsOfDetails(text.id);
     }
 
@@ -816,19 +815,17 @@ class InputChangeDetails extends React.Component {
     render() {
         const navbar = [{
             name: "建立变更对照表",
-            routerPath: "javascript:;",
+            routerPath: "/about/createChangeComparisonTable",
             imgPath: gray
-        }, {
+        },
+        {
             name: "录入变更明细",
-            routerPath: "javascript:;",
+            routerPath: "/about/inputChangeDetails",
             imgPath: blue
-        }, {
-            name: "维护变更对照表",
-            routerPath: "javascript:;",
-            imgPath: black
-        }, {
-            name: "审核变更对照表",
-            routerPath: "javascript:;",
+        },
+        {
+            name: "变更明细预览",
+            routerPath: "/about/previewChangeDetails",
             imgPath: black
         }];
 

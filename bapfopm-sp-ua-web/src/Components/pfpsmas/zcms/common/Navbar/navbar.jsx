@@ -8,12 +8,14 @@ class Navbar extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            navbarData: []
+            navbarData: [],
+            systemId: "",
         }
     }
 
     componentWillMount(){
         this.setState({
+            systemId: sessionStorage.getItem("systemId"),
             navbarData: this.props.data
         })
     }
@@ -21,7 +23,10 @@ class Navbar extends React.Component {
     render() {
         const loop = data => data.map(item => {
             return (
-                <Link to={item.routerPath} className="navbar-a">
+                <Link to={{
+                    pathname: item.routerPath,
+                    state: {systemId: this.state.systemId}
+                }} className="navbar-a">
                     <img src={item.imgPath} alt="导航背景" />
                     <span className="">{item.name}</span>
                 </Link>
@@ -30,7 +35,7 @@ class Navbar extends React.Component {
 
         return (
             <div className="nav">
-                    {loop(this.state.navbarData)}
+                {loop(this.state.navbarData)}
             </div>
         );
     }

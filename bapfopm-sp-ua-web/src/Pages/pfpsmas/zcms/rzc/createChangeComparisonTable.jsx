@@ -1,0 +1,227 @@
+import React from 'react';
+import { hashHistory, Link } from "react-router";
+import qs from 'qs'
+
+import blue from "../../../../asset/pfpsmas/zcms/img/blue.png";
+import black from "../../../../asset/pfpsmas/zcms/img/black.png"
+import gray from "../../../../asset/pfpsmas/zcms/img/gray.png"
+
+import './createChangeComparisonTable.css'
+
+import { Table, Button, Modal, Input } from 'antd';
+import { Navbar, Hr } from "../../../../Components/index";
+import { getZoningChangeRequestList, getAddZoningChangeRequest, getFindWritableZCCRequests } from "../../../../Service/pfpsmas/zcms/server";
+
+class CreateChangeComparisonTable extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            requestList: [],    //  申请单存放数组
+            addRequestToggle: false, //  添加申请单确认框显隐开关
+            isDisabled: false,   //  添加按钮是否禁用
+
+            zoningName: sessionStorage.getItem("zoningName"),   //  行政区划名称
+            levelCode: sessionStorage.getItem("levelCode"), //  级次代码
+
+            name: "",   //  申请单名称
+            notes: "",  //  申请单备注
+        }
+    }
+
+    showPrompt() {
+        let myDate = new Date();
+        let year = myDate.getFullYear();
+        let month = myDate.getMonth() + 1;
+        let { zoningName } = this.state;
+        let name;
+        name = `${zoningName}${year}年${month}月的区划代码变更表`;
+        this.setState({
+            addRequestToggle: true,
+            name: name
+        })
+    }
+
+    handleCancel() {
+        this.setState({
+            addRequestToggle: false
+        })
+    }
+
+    handleSubmit() {
+        let postDataObj = {};
+        let { name, notes, zoningName, levelCode } = this.state;
+        postDataObj.name = name;
+        postDataObj.notes = notes;
+        postDataObj.zoningName = zoningName;
+        postDataObj.levelCode = levelCode;
+        console.log(postDataObj);
+
+        postDataObj = qs.stringify({
+            name: name,
+            notes: notes,
+            zoningName: zoningName,
+            levelCode: levelCode,
+        })
+
+        this.axiosAddZoningChangeRequest(postDataObj);
+    }
+
+    changeName(e) {
+        this.setState({
+            name: e.target.value
+        })
+    }
+
+    changeNote(e) {
+        this.setState({
+            notes: e.target.value
+        })
+    }
+
+    /**
+     *  查询申请单
+     */
+    async axiosZoningChangeRequestList() {
+        let res = await getZoningChangeRequestList();
+        console.log("数据", res);
+        if (res.rtnCode == "000000") {
+            this.setState({
+                requestList: res.responseData.dataList
+            })
+        }
+    }
+
+    /**
+     * 查询是否存在可录入的申请单
+     */
+    async axiosFindWritableZCCRequests() {
+        let res = await getFindWritableZCCRequests();
+        if (res.rtnCode == "000000" && res.responseData != 0) {
+            this.setState({
+                isDisabled: true
+            })
+        } else {
+            this.setState({
+                isDisabled: false
+            })
+        }
+        console.log(this.state.isDisabled)
+        return res;
+    }
+
+    /**
+     * 添加申请单
+     * @param name — 申请单名字
+     * @param levelCode — 上报区划的级别代码
+     * @param notes — 备注
+     * @param zoningName — 区划名称
+     */
+    async axiosAddZoningChangeRequest(params) {
+        let res = await getAddZoningChangeRequest(params);
+        if (res.rtnCode == "000000") {
+            this.axiosZoningChangeRequestList();
+        } else {
+            alert(res.rtnMessage);
+        }
+        this.setState({
+            addRequestToggle: false
+        })
+    }
+
+    componentWillMount() {
+        this.axiosZoningChangeRequestList();
+        this.axiosFindWritableZCCRequests();
+    }
+
+    render() {
+        const columns = [{
+            title: '区划代码',
+            dataIndex: 'levelCode',
+            key: 'levelCode',
+        }, {
+            title: '区划名称',
+            dataIndex: 'zoningName',
+            key: 'zoningName',
+        }, {
+            title: '变更对照表名称',
+            dataIndex: 'name',
+            key: 'name',
+        }, {
+            title: '备注',
+            dataIndex: 'notes',
+            key: 'notes',
+        }, {
+            title: '录入时间',
+            dataIndex: 'createDate',
+            key: 'createDate',
+        }, {
+            title: '操作',
+            render: (text, record) => (
+                <span>
+                    <Link to={{
+                        pathname: "/about/inputChangeDetails",
+                        state: {
+                            systemId: sessionStorage.getItem("systemId")
+                        }
+                    }}>录入明细</Link>
+                </span> 
+            ),
+        }];
+
+        const navbar = [{
+            name: "建立变更对照表",
+            routerPath: "/about/createChangeComparisonTable",
+            imgPath: blue
+        },
+        {
+            name: "录入变更明细",
+            routerPath: "/about/inputChangeDetails",
+            imgPath: black
+        },
+        {
+            name: "变更明细预览",
+            routerPath: "/about/previewChangeDetails",
+            imgPath: black
+        }];
+
+        return (
+            <div>
+                <Navbar data={navbar}></Navbar>
+
+                <div style={{
+                    marginTop: 20
+                }}>
+                    <Table columns={columns} dataSource={this.state.requestList} />
+                </div>
+
+                <div>
+                    <Button type="primary" size="large" style={{
+                        position: "absolute",
+                        left: "50%",
+                        marginTop: 20
+                    }} disabled={this.state.isDisabled} onClick={this.showPrompt.bind(this)}>添加</Button>
+                </div>
+
+                <div>
+                    <Modal title="添加申请单" visible={this.state.addRequestToggle}
+                        okText="提交" cancelText="返回"
+                        onOk={this.handleSubmit.bind(this)}
+                        onCancel={this.handleCancel.bind(this)}
+                    >
+                        <div>
+                            <div>
+                                <span>变更对照表名称</span>
+                                <Input onChange={this.changeName.bind(this)} value={this.state.name}></Input>
+                            </div>
+                            <div>
+                                <span>备注</span>
+                                <Input type="textarea" onChange={this.changeNote.bind(this)} value={this.state.notes}></Input>
+                            </div>
+                        </div>
+                    </Modal>
+                </div>
+            </div>
+        )
+    }
+}
+export default CreateChangeComparisonTable;
