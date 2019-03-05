@@ -12,6 +12,8 @@ import CreateAuth from "../../../../Pages/sp/ua/CreateAuth/createAuth";
 import Bread from '../BreadCrumb/breadCrumb'
 
 import Test from "../../../../Pages/common/Test/test"
+import Test2 from "../../../../Pages/common/Test2/test2"
+
 //  wpdmp-dmp
 import ApiList from '../../../../Pages/wpdmp/dmp/ApiList/apilist'
 import ApiDetail from "../../../../Pages/wpdmp/dmp/ApiDetail/apiDetail";
@@ -22,6 +24,9 @@ import ApplyApiCheck from "../../../../Pages/wpdmp/dmp/ApplyApiCheck/applyApiChe
 import {ApplyApiList} from "../../../../Pages/wpdmp/dmp/ApplyApiList/applyApiList";
 import {ApplyApi} from "../../../../Pages/wpdmp/dmp/ApplyApi/applyApi";
 import {ReviewApi} from "../../../../Pages/wpdmp/dmp/ReviewApi/reviewApi";
+
+//  pfpsmas-zcms
+import InputChangeDetails from "../../../../Pages/pfpsmas/zcms/rzc/inputChangeDetails";
 
 require('./template.css')
 
@@ -59,6 +64,9 @@ export const Template = (props) => (
                         <Route path='/about/sp/ua/createAuth' component={CreateAuth} />
 
                         <Route path='/about/test' component={Test} />
+                        <Route path='/about/test2' component={Test2} />
+
+                        <Route path='/about/inputChangeDetails' component={InputChangeDetails} />
 
                         <Route path='/about/wpdmp/dmp/apilist' component={ApiList}/>
                         <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>

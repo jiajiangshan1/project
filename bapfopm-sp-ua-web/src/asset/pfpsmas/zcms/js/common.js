@@ -66,3 +66,126 @@
         }
         return zoningCodeArray;
     }
+
+    /**
+     * 组合指定的区划代码
+     * @param {arr} arr 切分开的区划数组
+     */
+    export let combinSpecifiedCode = (arr) => {
+        var result = "";
+        arr.forEach(item => {
+            result += item;
+        });
+        return result;
+    }
+
+    /**
+     * 变更类型转化
+     */
+    export let changeTypeConversion = (status) => {
+        status = Number(status) || "";
+        switch (status) {
+        case 11:
+            status = "新增"
+            break;
+        case 21:
+            status = "变更"
+            break;
+        case 31:
+            status = "并入"
+            break;
+        case 41:
+            status = "迁移"
+            break;
+        default:
+            break;
+        }
+        return status;
+    }
+
+    /**
+     *  根据行政区划代码获取相应级次代码
+     * @method  getAssigningCode
+     * @param   zoningCode
+     * @return java.lang.String
+     */
+    export let getAssigningCode = (zoningCode) => {
+
+        if (zoningCode == null || zoningCode === ("") || zoningCode.length != 15) {
+            return "";
+        }
+        var assigningCode = "";
+        if (zoningCode.substring(0, 2) === ("00")) {
+            return "0";
+        } else if (zoningCode.substring(2, 4) === ("00")) {
+            assigningCode = "1";
+        } else if (zoningCode.substring(4, 6) === ("00")) {
+            assigningCode = "2";
+        } else if (zoningCode.substring(6, 9) === ("000")) {
+            assigningCode = "3";
+        } else if (zoningCode.substring(9, 12) === ("000")) {
+            assigningCode = "4";
+        } else if (zoningCode.substring(12, 15) === ("000")) {
+            assigningCode = "5";
+        } else {
+            assigningCode = "6";
+        }
+        return assigningCode;
+    }
+
+    var translateAssigningCodes = ["province",
+        "city",
+        "county",
+        "township",
+        "village",
+        "group"
+    ];
+
+    /**
+     * 根据级次代码取得区划数据
+     * @param assigningCode
+     * @param codeRank 各级次区划数据
+     * @returns {detail...}
+     */
+    function getZoningsByAssCode(assigningCode, codeRank) {
+        return codeRank[translateAssigningCodes[Number(assigningCode) - 1]];
+    }
+
+    /**
+     *  获取子级区划
+     * @param assigningCode
+     * @param codeRank
+     * @returns {detail}
+     */
+    export let getSubZoning = (assigningCode, codeRank) => {
+        return getZoningsByAssCode(Number(assigningCode) + 1, codeRank);
+    }
+
+        /**
+     * @description 获取该行政区划的上级行政区划
+     * @method  getSuperiorZoningCode
+     * @params [xzqh_dm：行政区划代码]
+     * @return java.lang.String：上级行政区划代码
+     */
+    export let getSuperiorZoningCode = (zoningCode) => {
+        if (zoningCode == null || zoningCode === "" || zoningCode.length != 15) {
+            return "";
+        }
+        var superiorZoningCode = "";
+        if (zoningCode.substring(0, 2) === ("00")) {
+            return "";
+        } else if (zoningCode.substring(2, 4) === ("00")) {
+            superiorZoningCode = "000000000000000";
+        } else if (zoningCode.substring(4, 6) === ("00")) {
+            superiorZoningCode = zoningCode.substring(0, 2) + "0000000000000";
+        } else if (zoningCode.substring(6, 9) === ("000")) {
+            superiorZoningCode = zoningCode.substring(0, 4) + "00000000000";
+        } else if (zoningCode.substring(9, 12) === ("000")) {
+            superiorZoningCode = zoningCode.substring(0, 6) + "000000000";
+        } else if (zoningCode.substring(12, 15) === ("000")) {
+            superiorZoningCode = zoningCode.substring(0, 9) + "000000";
+        } else {
+            superiorZoningCode = zoningCode.substring(0, 12) + "000";
+        }
+        return superiorZoningCode;
+    }

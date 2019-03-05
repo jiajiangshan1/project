@@ -1,0 +1,140 @@
+.outer-box{
+    overflow: hidden;
+    height: 800px;
+    width: 1693px;
+}
+
+.inputchangedetails{
+    overflow: auto;
+    height: 800px;
+}
+
+.inputchangedetails .container{
+    margin-top: 20px;
+}
+
+.inputchangedetails .container .container-top :global(.ant-row-flex){
+    height: 180px;
+}
+
+.inputchangedetails .container .container-top :global(.ant-row-flex .ant-col-3){
+    background: url("../../../../asset/sp/ua/img/portal/1/2.png") repeat;
+    height: inherit;
+    overflow: auto;
+}
+
+.inputchangedetails .container .container-top .zoningcode-tr{
+    width: 100%;
+    display: inline-block;
+    font-size: 14px;
+    color: #fff;
+    line-height: 30px;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.inputchangedetails .container .container-top .zoningcode-tr:hover{
+    background: #3ea7d4;
+}
+
+.container-top-2 .civil-content{
+    padding-left: 10%;
+}
+
+.container-top-2 .civil-span{
+    display: inline-block;
+    height: 37px;
+    line-height: 37px;
+    font-size: 16px;
+    background-color: transparent;
+    border: none;
+    padding: 0 20px;
+}
+
+.container-top-2 .civil-input{
+    display: inline-block;
+    height: 37px;
+    line-height: 37px;
+    background-color: transparent;
+    /* border: 1px solid #fff; */
+    padding: 0 10px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.container-top-2 .civil-color {
+    color: #DF9810;
+}
+
+.input-small-length{
+    width: 10%;
+    height: 37px;
+    float: left;
+    margin-left: 3%;
+    border: 1px solid #e0fffd;
+    font-size: 14px;
+    color: #999;
+    line-height: 37px;
+    text-align: center;
+    background-color: transparent;
+}
+
+.ant-col-18 .input-small-length:nth-child(1){
+    margin-left: 0;
+}
+
+.input-large-length{
+    width: 75%;
+    height: 37px;
+    float: left;
+    border: 1px solid #e0fffd;
+    padding-left: 15px;
+    background-color: transparent;
+    color: #999;
+}
+
+.input-font-color{
+    color: #fff;
+    border-color: #1589cd;
+}
+
+.margin-top-10{
+    margin-top: 15px;
+}
+
+.text-align-left{
+    text-align: left;
+}
+
+.label-font-16{
+    display: inline-block;
+    height: 37px;
+    line-height: 37px;
+    font-size: 16px;
+}
+
+.color-red-margin{
+    margin-left: 5px;
+    font-size: 16px;
+    color: #f00;
+}
+
+.speech-bubble{
+    cursor: pointer;
+}
+
+.speech-bubble :global(.ant-tooltip-inner){
+    color: #d7f7ff;
+    background-color: #0e1c21;
+    font-size: 14px;
+}
+
+.icon-show{
+    display: block;
+}
+
+.icon-hide{
+    display: none;
+}
+
+    

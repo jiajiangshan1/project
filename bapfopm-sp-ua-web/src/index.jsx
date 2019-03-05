@@ -11,6 +11,7 @@ import Register from "./Pages/common/Register/register";
 import Home from "./Pages/common/Home/home";
 import About from "./Pages/common/About/about";
 import Test from "./Pages/common/Test/test";
+import Test2 from "./Pages/common/Test2/test2";
 
 import 'antd/dist/antd.css';
 
@@ -28,6 +29,8 @@ import Manage from "./Pages/sp/ua/Manage/manage";
 import Busin from "./Pages/sp/ua/Business/business";
 import EditUserInfo from "./Pages/sp/ua/EditUserInfo/editUserInfo";
 import CreateAuth from "./Pages/sp/ua/CreateAuth/createAuth";
+
+import InputChangeDetails from "./Pages/pfpsmas/zcms/rzc/inputChangeDetails";
 
 import axios from "axios";
 
@@ -64,6 +67,9 @@ ReactDOM.render(
                 <Route path='/about/sp/ua/createAuth' component={CreateAuth} />
 
                 <Route path='/about/test' component={Test} />
+                <Route path='/about/test2' component={Test2} />
+
+                <Route path='/about/inputChangeDetails' component={InputChangeDetails} />
 
                 <Route path='/about/wpdmp/dmp/apilist' component={ApiList}>
                     <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>

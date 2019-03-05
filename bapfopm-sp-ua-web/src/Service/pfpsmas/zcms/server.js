@@ -97,17 +97,93 @@ export let getZoningCompareAffairByOne = async (params) => {
 }
 
 /**
+ * 变更明细草稿箱
+ * @param {string} requestSeq 申请单序号
+ */
+export let getDraftsOfDetails = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/getDraftsOfDetails',
+        method: 'get',
+        params: {requestSeq: params}
+    })
+    return response.data
+}
+
+/**
+ * 删除草稿箱明细
+ */
+export let getRemoveDraftsOfDetails = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/removeDraftsOfDetails',
+        method: 'get',
+        params: {ids: params}
+    })
+    return response.data
+}
+
+/**
+ * 保存明细前校验
+ * @param {obj} params  变更明细对象
+ */
+export let getLogicCheckBeforeSave = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/logicCheckBeforeSave',
+        method: 'get',
+        params: {detail: params}
+    })
+    return response.data
+}
+
+/**
+ * 保存明细前校验
+ * @param {obj} params  变更明细对象
+ */
+export let getLogicCheckBeforeChange = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/queryZoningData/logicCheckBeforeChange',
+        method: 'get',
+        params: {zoningCode: params}
+    })
+    return response.data
+}
+
+/**
+ * 获取迁移并入区划数据
+ * @param {string} rootCode    根区划     登录人区划
+ * @param {string} excludeCode  排除区划   用户选择需要变更的原区划
+ * @param {string} zoningCode  区划    用户选择迁移并入的现区划
+ */
+export let getZoningMergeSelectTree = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/zoningChangeManager/zoningMergeSelectTree',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+/**
  * 提交区划变更对照明细接口
- * @param {string} group 存放文件序号,变更组名称 
- * @param {string} details 存放变更明细数据 
- * @param {string} zoningCode 区划代码 
- * @param {string} requestSeq 申请单序号  
+ * @param 存放文件序号,变更组名称 group
+ * @param 存放变更明细数据 details
+ * @param 区划代码 zoningCode
+ * @param 申请单序号 requestSeq 
  */
 export let getSaveDetails = async (params) => {
     let response = await axios({
         url: 'zcmsapi/zoningChangeManager/saveDetails',
-        method: 'get',
-        params: params
+        method: 'post',
+        transformRequest: [
+            function(data) {
+                let ret = '';
+                for (let it in data) {
+                    ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&';
+                }
+                console.log(ret);
+                return ret;
+            }
+        ],
+        data: params
     })
     return response.data
 }
