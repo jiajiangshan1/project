@@ -189,3 +189,18 @@
         }
         return superiorZoningCode;
     }
+
+    /**
+     * 将日期对象转化成字符串
+     * @param {obj} date 日期对象
+     */
+    export let formatDateToStr = date => {
+        let y = date.getFullYear();
+        let m = date.getMonth()+1;
+        let d = date.getDate();
+        let str;
+        m = m > 10 ? m : "0" + m;
+        d = d > 10 ? d : "0" + d;
+        str = `${y}${m}${d}`;
+        return str;
+    }
