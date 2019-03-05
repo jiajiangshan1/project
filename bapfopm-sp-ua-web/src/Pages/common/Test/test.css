@@ -1,3 +1,14 @@
+.outer-box{
+    overflow: hidden;
+    height: 800px;
+    width: 1693px;
+}
+
+.inputchangedetails{
+    overflow: auto;
+    height: 800px;
+}
+
 .inputchangedetails .container{
     margin-top: 20px;
 }
@@ -84,6 +95,7 @@
 
 .input-font-color{
     color: #fff;
+    border-color: #1589cd;
 }
 
 .margin-top-10{
@@ -105,6 +117,24 @@
     margin-left: 5px;
     font-size: 16px;
     color: #f00;
+}
+
+.speech-bubble{
+    cursor: pointer;
+}
+
+.speech-bubble :global(.ant-tooltip-inner){
+    color: #d7f7ff;
+    background-color: #0e1c21;
+    font-size: 14px;
+}
+
+.icon-show{
+    display: block;
+}
+
+.icon-hide{
+    display: none;
 }
 
     

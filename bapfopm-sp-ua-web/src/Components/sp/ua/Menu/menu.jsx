@@ -88,7 +88,7 @@ class Sider extends React.Component {
                   <SubMenu key={item.authorityId}
                     title={<span><Icon type="appstore" /><span className="nav-text">
   
-                      <a href={item.requestUrl}>
+                      <a href={item.requestUrl} title={item.authorityName}>
                         {item.authorityName}
                       </a> 
                       
@@ -99,7 +99,7 @@ class Sider extends React.Component {
                     item.subMenu.map((el) => (
                       <Menu.Item key={el.authorityId}>
                         <span className="nav-text">
-                          <a href={el.requestUrl}>
+                          <a href={el.requestUrl} title={el.authorityName}>
                             {el.authorityName}
                           </a>
                         </span>
