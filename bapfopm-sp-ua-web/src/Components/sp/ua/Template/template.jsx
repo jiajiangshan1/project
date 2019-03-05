@@ -26,7 +26,10 @@ import {ApplyApi} from "../../../../Pages/wpdmp/dmp/ApplyApi/applyApi";
 import {ReviewApi} from "../../../../Pages/wpdmp/dmp/ReviewApi/reviewApi";
 
 //  pfpsmas-zcms
+import CreateChangeComparisonTable from "../../../../Pages/pfpsmas/zcms/rzc/createChangeComparisonTable";
 import InputChangeDetails from "../../../../Pages/pfpsmas/zcms/rzc/inputChangeDetails";
+import PreviewChangeDetails from "../../../../Pages/pfpsmas/zcms/rzc/previewChangeDetails";
+import Download from "../../../../Pages/pfpsmas/zcms/rzc/download";
 
 require('./template.css')
 
@@ -66,7 +69,10 @@ export const Template = (props) => (
                         <Route path='/about/test' component={Test} />
                         <Route path='/about/test2' component={Test2} />
 
+                        <Route path='/about/createChangeComparisonTable' component={CreateChangeComparisonTable} />
                         <Route path='/about/inputChangeDetails' component={InputChangeDetails} />
+                        <Route path='/about/previewChangeDetails' component={PreviewChangeDetails} />
+                        <Route path='/about/download' component={Download} />
 
                         <Route path='/about/wpdmp/dmp/apilist' component={ApiList}/>
                         <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>

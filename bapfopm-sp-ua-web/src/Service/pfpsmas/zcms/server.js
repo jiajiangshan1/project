@@ -189,6 +189,104 @@ export let getSaveDetails = async (params) => {
 }
 
 //  rzc
+//  变更明细预览
+//  在线上报
+//  previewChangeDetails
+
+/**
+ * 获取预览表数据
+ * @param {string} zoningCode 六位区划代码
+ */
+export let getInitPreviewZoningData = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/queryZoningData/initPreviewZoningData',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+/**
+ * 获取预览表下级区划
+ * @param {string} zoningCode 区划代码
+ */
+export let getCheckPreviewZoning = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/queryZoningData/checkPreviewZoning',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+/**
+ * 对照表中明细确认校验
+ * @param {string} seqStr 申请单序号
+ */
+export let getDetailedConfirmationVerification = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/zoningChangeManager/detailedConfirmationVerification',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+/**
+ * 驳回变更明细
+ * @param {string} seqStr 申请单序号
+ */
+export let getRejectionChangeDetails = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/zoningChangeManager/rejectionChangeDetails',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+/**
+ * 确认变更明细
+ * @param {string} seqStr 申请单序号
+ */
+export let getConfirmationChangeDetails = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/zoningChangeManager/confirmationChangeDetails',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+//  rzc
+//  区划下载
+//  download
+
+/**
+ * 查看区划发布信息 || 按照时间查询
+ * @param {string} exportDate 导入时间起
+ * @param {string} deadline 导入时间止
+ * @param {number} pageNum 当前页码
+ * @param {number} pageSize 每页显示条数
+ */
+export let getQueryReleaseFormalCode = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi/release/query/formalCode',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+/**
+ * 下载全国区划代码zip
+ * @param {string} zipPath 文件路径
+ */
+export let getDownloadFormalRelease = (params) => {
+    window.location.href = 'zcmsapi/release/download/formalCodeZip?zipPath=' + params;
+}
+
+//  rzc
 //  区划代码接收与更新
 //  在线上报
 //  维护变更明细

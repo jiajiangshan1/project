@@ -4,8 +4,9 @@ import ReactDOM from "react-dom";
 import { Router, Route, IndexRedirect, IndexRoute, Link, hashHistory } from 'react-router'
 import { relative } from "path";
 
-import {Navigation} from "./Components"
+import 'antd/dist/antd.css';
 
+//  common
 import Login from "./Pages/common/Login/login";
 import Register from "./Pages/common/Register/register";
 import Home from "./Pages/common/Home/home";
@@ -13,8 +14,7 @@ import About from "./Pages/common/About/about";
 import Test from "./Pages/common/Test/test";
 import Test2 from "./Pages/common/Test2/test2";
 
-import 'antd/dist/antd.css';
-
+//  wpdmp-dmp
 import ApiList from "./Pages/wpdmp/dmp/ApiList/apilist";
 import ApiDetail from "./Pages/wpdmp/dmp/ApiDetail/apiDetail";
 import ApiDetailChange from "./Components/wpdmp/dmp/ApiDetailChange/apiDetailChange";
@@ -24,16 +24,23 @@ import ApplyApiCheck from "./Pages/wpdmp/dmp/ApplyApiCheck/applyApiCheck";
 import {ApplyApiList} from "./Pages/wpdmp/dmp/ApplyApiList/applyApiList";
 import {ApplyApi} from "./Pages/wpdmp/dmp/ApplyApi/applyApi";
 import {ReviewApi} from "./Pages/wpdmp/dmp/ReviewApi/reviewApi";
+
+//  sp-ua
 import Approval from "./Pages/sp/ua/Approval/approval";
 import Manage from "./Pages/sp/ua/Manage/manage";
 import Busin from "./Pages/sp/ua/Business/business";
 import EditUserInfo from "./Pages/sp/ua/EditUserInfo/editUserInfo";
 import CreateAuth from "./Pages/sp/ua/CreateAuth/createAuth";
 
+//  pfpsmas-zcms
+import CreateChangeComparisonTable from "./Pages/pfpsmas/zcms/rzc/createChangeComparisonTable";
 import InputChangeDetails from "./Pages/pfpsmas/zcms/rzc/inputChangeDetails";
+import PreviewChangeDetails from "./Pages/pfpsmas/zcms/rzc/previewChangeDetails";
+import Download from "./Pages/pfpsmas/zcms/rzc/download";
 
+//  引入axios
+//  并做全局配置
 import axios from "axios";
-
 axios.defaults.baseURL = `http://localhost:9999`;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
@@ -69,7 +76,11 @@ ReactDOM.render(
                 <Route path='/about/test' component={Test} />
                 <Route path='/about/test2' component={Test2} />
 
+                <Route path='/about/createChangeComparisonTable' component={CreateChangeComparisonTable} />
                 <Route path='/about/inputChangeDetails' component={InputChangeDetails} />
+                <Route path='/about/previewChangeDetails' component={PreviewChangeDetails} />
+                <Route path='/about/download' component={Download} />
+                
 
                 <Route path='/about/wpdmp/dmp/apilist' component={ApiList}>
                     <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>
@@ -82,6 +93,7 @@ ReactDOM.render(
                     <Route path='/about/wpdmp/dmp/applyCHeck/apiList/applyApi' component={ApplyApi}/>
                 </Route>
                 <Route path='/about/wpdmp/dmp/reviewApi' component={ReviewApi}/>
+
             </Route>
 
             <Router path='/test' component={Test}/>
