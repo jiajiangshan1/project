@@ -12,7 +12,7 @@ import './inputChangeDetails.css'
 import { Table, Button, Modal, Input, Checkbox, Select, Row, Col, Tooltip, Tree } from 'antd';
 import { Navbar, Hr } from "../../../../Components/index"
 
-import { clearData, placeData, sliceSpecifiedCode, combinSpecifiedCode, changeTypeConversion, getAssigningCode, getSubZoning, getSuperiorZoningCode } from "../../../../asset/pfpsmas/zcms/js/common";
+import { openNotificationWithIcon, clearData, placeData, sliceSpecifiedCode, combinSpecifiedCode, changeTypeConversion, getAssigningCode, getSubZoning, getSuperiorZoningCode } from "../../../../asset/pfpsmas/zcms/js/common";
 import { getInitAddDetails, getSubordinateZoning, getZoningCompareAffairByOne, getLogicCheckBeforeSave, getDraftsOfDetails, getRemoveDraftsOfDetails, getLogicCheckBeforeChange, getZoningMergeSelectTree, getSaveDetails } from "../../../../Service/pfpsmas/zcms/server";
 
 const Option = Select.Option;
@@ -343,7 +343,7 @@ class InputChangeDetails extends React.Component {
         if (requestName != "" && targetZoningCode != "" && targetZoningName != "" && (changeType != "" || isNaN(Number(changeType)))) {
             this.checkAdd();
         } else {
-            alert('完善变更明细数据后才能保存!');
+            openNotificationWithIcon("warning", "完善变更明细数据后才能保存!");
         }
     }
 
@@ -369,15 +369,14 @@ class InputChangeDetails extends React.Component {
         // basket = data.basket;
 
         if (!/(\d){15}/.test(changeInfo.targetZoningCode)) {
-
-            alert('现区划代码不是符合规范的15位阿拉伯数字');
+            openNotificationWithIcon("warning", "现区划代码不是符合规范的15位阿拉伯数字!");
         } else {
 
             if (changeType == "11") {
                 this.axiosLogicCheckBeforeSave(changeInfo);
             } else if (changeType == "21") {
                 if (changeInfo.targetZoningCode == changeInfo.originalZoningCode && changeInfo.targetZoningName == changeInfo.originalZoningName) {
-                    alert('无效的变更，原区划代码、原区划名称与现区划代码、现区划名称完全一致！');
+                    openNotificationWithIcon("warning", "无效的变更，原区划代码、原区划名称与现区划代码、现区划名称完全一致!");
                 } else {
                     this.axiosLogicCheckBeforeSave(changeInfo);
                 }
@@ -388,7 +387,7 @@ class InputChangeDetails extends React.Component {
 
                 //比较区划级次
                 if (targetAssCode !== originalAssCode) {
-                    alert('并入的目标区划与原区划级次不一样！');
+                    openNotificationWithIcon("warning", "并入的目标区划与原区划级次不一样!");
                 } else {
                     this.axiosLogicCheckBeforeSave(changeInfo);
                 }
@@ -472,7 +471,7 @@ class InputChangeDetails extends React.Component {
 
                 //含有多条链
                 if (count > 1) {
-                    alert("本次的变更组中的重用变更明细数据具有多条链，不符合规范！");
+                    openNotificationWithIcon("warning", "本次的变更组中的重用变更明细数据具有多条链，不符合规范!");
                     return false;
                 } else {
 
@@ -492,7 +491,7 @@ class InputChangeDetails extends React.Component {
                             }
                         })(tail);
                         if (line.length !== size) {
-                            alert("变更组中的链状变更不是一条完整的链，请注意！")
+                            openNotificationWithIcon("warning", "变更组中的链状变更不是一条完整的链，请注意!");
                         }
                     }
 
@@ -501,7 +500,7 @@ class InputChangeDetails extends React.Component {
                         var ring = [first],
                             size = list.length;
                         if (size === 1) {
-                            alert("变更组中的重用变更是不完整的环！");
+                            openNotificationWithIcon("warning", "变更组中的重用变更是不完整的环!");
                             return false;
                         } else {
 
@@ -517,7 +516,7 @@ class InputChangeDetails extends React.Component {
                             })(first);
 
                             if (ring.length !== size) {
-                                alert("变更组中的重用变更不是单个环");
+                                openNotificationWithIcon("warning", "变更组中的重用变更不是单个环!");
                                 return false;
                             }
                         }
@@ -533,7 +532,7 @@ class InputChangeDetails extends React.Component {
         
             this.axiosSaveDetails(postData);
         } else {
-            alert("尚未录入明细！");
+            openNotificationWithIcon("warning", "尚未录入明细!");
         }
     }
 
@@ -618,7 +617,7 @@ class InputChangeDetails extends React.Component {
                 requestSeq: requestSeq
             })
         } else {
-            alert("数据加载异常，请联系管理员!");
+            openNotificationWithIcon("error", "数据加载异常，请联系管理员!");
         }
     }
 
@@ -664,7 +663,7 @@ class InputChangeDetails extends React.Component {
         if (res.rtnCode == "000000") {
             this.flushDetails();
         } else {
-            alert("提示：" + res.rtnMessage)
+            openNotificationWithIcon("error", res.rtnMessage);
         }
     }
 
@@ -724,7 +723,7 @@ class InputChangeDetails extends React.Component {
                 }
             });
         } else {
-            alert("获取草稿箱信息出错！");
+            openNotificationWithIcon("error", "获取草稿箱信息出错!");
         }
     }
 
@@ -736,10 +735,10 @@ class InputChangeDetails extends React.Component {
         let res = await getRemoveDraftsOfDetails(params);
         let { requestSeq } = this.state;
         if (res.rtnCode === "000000") {
-            alert("明细删除成功!");
+            openNotificationWithIcon("success", "明细删除成功!");
             this.axiosDraftsOfDetails(requestSeq);
         } else {
-            alert("删除变更明细出错！");
+            openNotificationWithIcon("error", "删除变更明细出错!");
         }
     }
 
@@ -749,7 +748,7 @@ class InputChangeDetails extends React.Component {
     async axiosLogicCheckBeforeChange(params) {
         let res = await getLogicCheckBeforeChange(params);
         if (res.rtnCode != "000000") {
-            alert("该区划不可变更明细!");
+            openNotificationWithIcon("info", "该区划不可变更明细!");
             this.setState({
                 changeType: "--请选择--",
                 targetZoningCode: "",
@@ -781,10 +780,9 @@ class InputChangeDetails extends React.Component {
     async axiosSaveDetails(params){
         let res = await getSaveDetails(params);
         if (res.rtnCode === "999999") {
-            alert("变更失败，请联系管理员！");
+            openNotificationWithIcon("error", "变更失败，请联系管理员!");
         } else {
-            alert("操作成功！");
-
+            openNotificationWithIcon("success", "变更明细提交成功!");
             let basket = {};
             //清理环状、链状数据
             basket.list = [];
@@ -810,6 +808,8 @@ class InputChangeDetails extends React.Component {
         let { zoningCode } = this.state;
         postData.zoningCode = zoningCode;
         this.axiosInitAddDetails(postData);
+
+        console.log(this.props.location.state.requestSeq);
     }
 
     render() {
