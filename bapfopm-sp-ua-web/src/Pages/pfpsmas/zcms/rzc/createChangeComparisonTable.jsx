@@ -10,7 +10,9 @@ import './createChangeComparisonTable.css'
 
 import { Table, Button, Modal, Input } from 'antd';
 import { Navbar, Hr } from "../../../../Components/index";
-import { getZoningChangeRequestList, getAddZoningChangeRequest, getFindWritableZCCRequests } from "../../../../Service/pfpsmas/zcms/server";
+
+import {openNotificationWithIcon} from "../../../../asset/pfpsmas/zcms/js/common";
+import { getZoningChangeRequestList, getAddZoningChangeRequest, getFindWritableZCCRequests, getDetailedConfirmationVerification } from "../../../../Service/pfpsmas/zcms/server";
 
 class CreateChangeComparisonTable extends React.Component {
     constructor(props) {
@@ -20,14 +22,21 @@ class CreateChangeComparisonTable extends React.Component {
             addRequestToggle: false, //  添加申请单确认框显隐开关
             isDisabled: false,   //  添加按钮是否禁用
 
+            systemId: sessionStorage.getItem("systemId"),   //  系统id
             zoningName: sessionStorage.getItem("zoningName"),   //  行政区划名称
             levelCode: sessionStorage.getItem("levelCode"), //  级次代码
 
             name: "",   //  申请单名称
             notes: "",  //  申请单备注
+
+            requestSeq: "", //  变更申请单序号
+            nextRouter: "", //  下一步路由
         }
     }
 
+    /**
+     * 显示添加申请单模态框
+     */
     showPrompt() {
         let myDate = new Date();
         let year = myDate.getFullYear();
@@ -41,12 +50,18 @@ class CreateChangeComparisonTable extends React.Component {
         })
     }
 
+    /**
+     * 隐藏添加申请单模态框
+     */
     handleCancel() {
         this.setState({
             addRequestToggle: false
         })
     }
 
+    /**
+     * 提交添加申请单
+     */
     handleSubmit() {
         let postDataObj = {};
         let { name, notes, zoningName, levelCode } = this.state;
@@ -64,6 +79,15 @@ class CreateChangeComparisonTable extends React.Component {
         })
 
         this.axiosAddZoningChangeRequest(postDataObj);
+    }
+
+    handleNextRouter(record){        
+        let postData = {};
+        postData.seqStr = record.seq;
+        this.setState({
+            requestSeq: record.seq
+        })
+        this.axiosDetailedConfirmationVerification(postData);
     }
 
     changeName(e) {
@@ -120,12 +144,55 @@ class CreateChangeComparisonTable extends React.Component {
         let res = await getAddZoningChangeRequest(params);
         if (res.rtnCode == "000000") {
             this.axiosZoningChangeRequestList();
+            this.setState({
+                isDisabled: true
+            })
         } else {
-            alert(res.rtnMessage);
+            openNotificationWithIcon("error", res.rtnMessage);
         }
         this.setState({
             addRequestToggle: false
         })
+    }
+
+    /**
+     * 变更对照表中是否存在未确认的变更明细
+     * 存在 预览页面; 不存在  录入页面
+     * @param {String} seqStr 
+     */
+    async axiosDetailedConfirmationVerification(params){
+        let res = await getDetailedConfirmationVerification(params);
+        if(res.rtnCode == "000000"){
+            this.setState({
+                nextRouter: "/about/previewChangeDetails"
+            },()=>{
+                this.handleHashHistory();
+            })
+        }else{
+            this.setState({
+                nextRouter: "/about/inputChangeDetails"
+            },()=>{
+                this.handleHashHistory();
+            })
+        }      
+    }
+
+    /**
+     * 跳转
+     */
+    handleHashHistory(){
+        let {nextRouter, systemId, requestSeq} = this.state;
+        let data = {
+            systemId: systemId,
+            requestSeq: requestSeq
+        }
+
+        console.log(nextRouter);
+
+        hashHistory.push({
+            pathname: nextRouter,
+            state: data
+        }); 
     }
 
     componentWillMount() {
@@ -157,14 +224,7 @@ class CreateChangeComparisonTable extends React.Component {
         }, {
             title: '操作',
             render: (text, record) => (
-                <span>
-                    <Link to={{
-                        pathname: "/about/inputChangeDetails",
-                        state: {
-                            systemId: sessionStorage.getItem("systemId")
-                        }
-                    }}>录入明细</Link>
-                </span> 
+                <Button type="primary" size="large" onClick={this.handleNextRouter.bind(this, record)}>录入明细</Button>
             ),
         }];
 
