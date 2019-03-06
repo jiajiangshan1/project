@@ -74,7 +74,7 @@ export let getRegisterData = async (data) => {
  */
 export let getSubNodes = async (zoningCode,ownZoningCode='000000000000000') => {
     let response = await axios({
-        url: 'zcmsapi/queryZoningData/getSubNodes',
+        url: 'zcmsapi1/queryZoningData/getSubNodes',
         method: 'get',
         params: {
             zoningCode: zoningCode,
@@ -87,7 +87,7 @@ export let getSubNodes = async (zoningCode,ownZoningCode='000000000000000') => {
 // zoningChangeManager/index
 export let getCustInfo = async () => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/index',
+        url: 'zcmsapi1/zoningChangeManager/index',
         method: 'get',
     })
     return response.data

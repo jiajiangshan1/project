@@ -5,6 +5,7 @@ import { Router, Route, IndexRedirect, IndexRoute, Link, hashHistory } from 'rea
 import { relative } from "path";
 
 import 'antd/dist/antd.css';
+import './asset/pfpsmas/zcms/css/common.css';
 
 //  common
 import Login from "./Pages/common/Login/login";
@@ -37,6 +38,7 @@ import CreateChangeComparisonTable from "./Pages/pfpsmas/zcms/rzc/createChangeCo
 import InputChangeDetails from "./Pages/pfpsmas/zcms/rzc/inputChangeDetails";
 import PreviewChangeDetails from "./Pages/pfpsmas/zcms/rzc/previewChangeDetails";
 import Download from "./Pages/pfpsmas/zcms/rzc/download";
+import TimedTask from "./Pages/pfpsmas/zcms/rzc/timedTask";
 
 //  引入axios
 //  并做全局配置
@@ -80,6 +82,7 @@ ReactDOM.render(
                 <Route path='/about/inputChangeDetails' component={InputChangeDetails} />
                 <Route path='/about/previewChangeDetails' component={PreviewChangeDetails} />
                 <Route path='/about/download' component={Download} />
+                <Route path='/about/timedTask' component={TimedTask} />
                 
 
                 <Route path='/about/wpdmp/dmp/apilist' component={ApiList}>

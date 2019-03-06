@@ -45,7 +45,7 @@ var options4 = {
 
     },
     pathRewrite: {
-        '^/zcmsapi' : '',
+        '^/zcmsapi1' : '',
     }
 };
 

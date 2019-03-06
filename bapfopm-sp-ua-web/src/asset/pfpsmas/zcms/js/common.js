@@ -3,7 +3,7 @@
      * @param {string} levelCode 本级级次代码
      * @param {*} codeRank 各级区划存放的数组对象
      */
-     export let clearData = (levelCode, codeRank) => {
+    export let clearData = (levelCode, codeRank) => {
         switch (Number(levelCode)) {
             case 1:
                 codeRank.city = codeRank.county = codeRank.township = codeRank.village = [];
@@ -85,20 +85,20 @@
     export let changeTypeConversion = (status) => {
         status = Number(status) || "";
         switch (status) {
-        case 11:
-            status = "新增"
-            break;
-        case 21:
-            status = "变更"
-            break;
-        case 31:
-            status = "并入"
-            break;
-        case 41:
-            status = "迁移"
-            break;
-        default:
-            break;
+            case 11:
+                status = "新增"
+                break;
+            case 21:
+                status = "变更"
+                break;
+            case 31:
+                status = "并入"
+                break;
+            case 41:
+                status = "迁移"
+                break;
+            default:
+                break;
         }
         return status;
     }
@@ -161,7 +161,7 @@
         return getZoningsByAssCode(Number(assigningCode) + 1, codeRank);
     }
 
-        /**
+    /**
      * @description 获取该行政区划的上级行政区划
      * @method  getSuperiorZoningCode
      * @params [xzqh_dm：行政区划代码]
@@ -196,7 +196,7 @@
      */
     export let formatDateToStr = date => {
         let y = date.getFullYear();
-        let m = date.getMonth()+1;
+        let m = date.getMonth() + 1;
         let d = date.getDate();
         let str;
         m = m > 10 ? m : "0" + m;
@@ -204,3 +204,37 @@
         str = `${y}${m}${d}`;
         return str;
     }
+
+    import {
+        notification
+    } from "antd"
+
+    notification.config({
+        top: 180,
+        duration: 3,
+    });
+
+    /**
+     * 全局消息提示
+     * @param {string} type 提示类型
+     * @param {string} description 提示信息
+     */
+    export let openNotificationWithIcon = (type, description) => {
+        return (function () {
+            let message;
+            if(type == "success"){
+                message = "成功";
+            }else if(type == "error"){
+                message = "失败";
+            }else if(type == "warning"){
+                message = "警告";
+            }else if(type == "info"){
+                message = "消息";
+            }
+
+            notification[type]({
+                message: message + '提示',
+                description: description,
+            });
+        })();
+    };

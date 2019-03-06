@@ -15,7 +15,7 @@ import axios from "axios";
  */
 export let getZoningChangeRequestList = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/ZoningChangeRequestList',
+        url: 'zcmsapi1/zoningChangeManager/ZoningChangeRequestList',
         method: 'get',
         params: params
     })
@@ -31,7 +31,7 @@ export let getZoningChangeRequestList = async (params) => {
  */
 export let getAddZoningChangeRequest = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/addZoningChangeRequest',
+        url: 'zcmsapi1/zoningChangeManager/addZoningChangeRequest',
         method: 'post',
         data: params
     })
@@ -43,8 +43,21 @@ export let getAddZoningChangeRequest = async (params) => {
  */
 export let getFindWritableZCCRequests = async () => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/findWritableZCCRequests',
+        url: 'zcmsapi1/zoningChangeManager/findWritableZCCRequests',
         method: 'get'
+    })
+    return response.data
+}
+
+/**
+ * 对照表中明细确认校验
+ * @param {string} seqStr 申请单序号
+ */
+export let getDetailedConfirmationVerification = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/zoningChangeManager/detailedConfirmationVerification',
+        method: 'get',
+        params: params
     })
     return response.data
 }
@@ -62,7 +75,7 @@ export let getFindWritableZCCRequests = async () => {
  */
 export let getInitAddDetails = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/initAddDetails',
+        url: 'zcmsapi1/zoningChangeManager/initAddDetails',
         method: 'get',
         params: params
     })
@@ -75,7 +88,7 @@ export let getInitAddDetails = async (params) => {
  */
 export let getSubordinateZoning = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/getSubordinateZoning',
+        url: 'zcmsapi1/zoningChangeManager/getSubordinateZoning',
         method: 'get',
         params: params
     })
@@ -89,7 +102,7 @@ export let getSubordinateZoning = async (params) => {
  */
 export let getZoningCompareAffairByOne = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/civilAffair/zoningCompareAffairByOne',
+        url: 'zcmsapi1/civilAffair/zoningCompareAffairByOne',
         method: 'get',
         params: params
     })
@@ -102,7 +115,7 @@ export let getZoningCompareAffairByOne = async (params) => {
  */
 export let getDraftsOfDetails = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/getDraftsOfDetails',
+        url: 'zcmsapi1/zoningChangeManager/getDraftsOfDetails',
         method: 'get',
         params: {requestSeq: params}
     })
@@ -114,7 +127,7 @@ export let getDraftsOfDetails = async (params) => {
  */
 export let getRemoveDraftsOfDetails = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/removeDraftsOfDetails',
+        url: 'zcmsapi1/zoningChangeManager/removeDraftsOfDetails',
         method: 'get',
         params: {ids: params}
     })
@@ -127,7 +140,7 @@ export let getRemoveDraftsOfDetails = async (params) => {
  */
 export let getLogicCheckBeforeSave = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/logicCheckBeforeSave',
+        url: 'zcmsapi1/zoningChangeManager/logicCheckBeforeSave',
         method: 'get',
         params: {detail: params}
     })
@@ -140,7 +153,7 @@ export let getLogicCheckBeforeSave = async (params) => {
  */
 export let getLogicCheckBeforeChange = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/queryZoningData/logicCheckBeforeChange',
+        url: 'zcmsapi1/queryZoningData/logicCheckBeforeChange',
         method: 'get',
         params: {zoningCode: params}
     })
@@ -155,7 +168,7 @@ export let getLogicCheckBeforeChange = async (params) => {
  */
 export let getZoningMergeSelectTree = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/zoningMergeSelectTree',
+        url: 'zcmsapi1/zoningChangeManager/zoningMergeSelectTree',
         method: 'get',
         params: params
     })
@@ -171,7 +184,7 @@ export let getZoningMergeSelectTree = async (params) => {
  */
 export let getSaveDetails = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/saveDetails',
+        url: 'zcmsapi1/zoningChangeManager/saveDetails',
         method: 'post',
         transformRequest: [
             function(data) {
@@ -199,7 +212,7 @@ export let getSaveDetails = async (params) => {
  */
 export let getInitPreviewZoningData = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/queryZoningData/initPreviewZoningData',
+        url: 'zcmsapi1/queryZoningData/initPreviewZoningData',
         method: 'get',
         params: params
     })
@@ -212,20 +225,7 @@ export let getInitPreviewZoningData = async (params) => {
  */
 export let getCheckPreviewZoning = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/queryZoningData/checkPreviewZoning',
-        method: 'get',
-        params: params
-    })
-    return response.data
-}
-
-/**
- * 对照表中明细确认校验
- * @param {string} seqStr 申请单序号
- */
-export let getDetailedConfirmationVerification = async (params) => {
-    let response = await axios({
-        url: 'zcmsapi1/zoningChangeManager/detailedConfirmationVerification',
+        url: 'zcmsapi1/queryZoningData/checkPreviewZoning',
         method: 'get',
         params: params
     })
@@ -271,7 +271,7 @@ export let getConfirmationChangeDetails = async (params) => {
  */
 export let getQueryReleaseFormalCode = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/release/query/formalCode',
+        url: 'zcmsapi1/release/query/formalCode',
         method: 'get',
         params: params
     })
@@ -283,8 +283,30 @@ export let getQueryReleaseFormalCode = async (params) => {
  * @param {string} zipPath 文件路径
  */
 export let getDownloadFormalRelease = (params) => {
-    window.location.href = 'zcmsapi/release/download/formalCodeZip?zipPath=' + params;
+    window.location.href = 'zcmsapi1/release/download/formalCodeZip?zipPath=' + params;
 }
+
+//  rzc
+//  区划定时发布设置
+//  timedTask
+
+/**
+ * 设置定时任务
+ * @param {String} day  天
+ * @param {String} hour 时
+ * @param {String} minute   分
+ * @param {String} second   秒
+ */
+export let getSettingTheCronExpression = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/MyScheduledTask/settingTheCronExpression',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+
 
 //  rzc
 //  区划代码接收与更新
@@ -302,7 +324,7 @@ export let getDownloadFormalRelease = (params) => {
  */
 export let getSearchDetails = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/searchDetails',
+        url: 'zcmsapi1/zoningChangeManager/searchDetails',
         method: 'get',
         params: params
     })
@@ -317,7 +339,7 @@ export let getSearchDetails = async (params) => {
  */
 export let getUpdateZCCRequest = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/updateZCCRequest',
+        url: 'zcmsapi1/zoningChangeManager/updateZCCRequest',
         method: 'get',
         params: params
     })
@@ -329,7 +351,7 @@ export let getUpdateZCCRequest = async (params) => {
  * @param 申请单序号 requestSeq
  */
 export let getExportExcel = (requestSeq) => {
-    window.location.href = 'zcmsapi/zoningChangeManager/exportExcel?seq=' + requestSeq
+    window.location.href = 'zcmsapi1/zoningChangeManager/exportExcel?seq=' + requestSeq
 }
 
 /**
@@ -339,7 +361,7 @@ export let getExportExcel = (requestSeq) => {
  */
 export let getDeleteDetails = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/deleteDetails',
+        url: 'zcmsapi1/zoningChangeManager/deleteDetails',
         method: 'get',
         params: params
     })
@@ -360,7 +382,7 @@ export let getDeleteDetails = async (params) => {
  */
 export let getAuditDetail = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/auditDetail',
+        url: 'zcmsapi1/zoningChangeManager/auditDetail',
         method: 'get',
         params: params
     })
@@ -378,7 +400,7 @@ export let getAuditDetail = async (params) => {
  */
 export let getTraceabilityOfChangeDetails = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/TraceabilityOfChangeDetails',
+        url: 'zcmsapi1/zoningChangeManager/TraceabilityOfChangeDetails',
         method: 'get',
         params: params
     })
@@ -391,7 +413,7 @@ export let getTraceabilityOfChangeDetails = async (params) => {
  */
 export let getChangeDetailedReproduction = async (params) => {
     let response = await axios({
-        url: 'zcmsapi/zoningChangeManager/ChangeDetailedReproduction',
+        url: 'zcmsapi1/zoningChangeManager/ChangeDetailedReproduction',
         method: 'get',
         params: params
     })
