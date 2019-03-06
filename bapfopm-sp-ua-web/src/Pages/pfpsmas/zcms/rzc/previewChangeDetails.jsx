@@ -7,7 +7,7 @@ import black from "../../../../asset/pfpsmas/zcms/img/black.png";
 import gray from "../../../../asset/pfpsmas/zcms/img/gray.png";
 
 import { clearData, placeData, changeTypeConversion, getAssigningCode, getSubZoning, getSuperiorZoningCode } from "../../../../asset/pfpsmas/zcms/js/common";
-import { getInitPreviewZoningData, getCheckPreviewZoning, getDetailedConfirmationVerification, getRejectionChangeDetails, getConfirmationChangeDetails} from "../../../../Service/pfpsmas/zcms/server";
+import { getInitPreviewZoningData, getCheckPreviewZoning, getRejectionChangeDetails, getConfirmationChangeDetails} from "../../../../Service/pfpsmas/zcms/server";
 import { Navbar, Hr } from "../../../../Components/index";
 import { Table, Button, Modal, Input, Checkbox, Select, Row, Col, Tooltip, Tree } from 'antd';
 
@@ -28,9 +28,14 @@ class PreviewChangeDetails extends React.Component {
             },
 
             displayDetails: [], //  变更明细展示
+
+            requestSeq: "", //  申请单序号
         }
     }
 
+    /**
+     * 获取预览表下级区划
+     */
     handleAxiosCheckPreviewZoning(e){
         let postData = {};
         let { codeRankPreview } = this.state;
@@ -57,6 +62,22 @@ class PreviewChangeDetails extends React.Component {
         }
     }
 
+    handleAxiosConfirmationChangeDetails(){
+        let {requestSeq} = this.state;
+        let postData = {};
+        postData.seqStr = requestSeq;
+
+        this.axiosConfirmationChangeDetails(postData);
+    }
+
+    handleAxiosRejectionChangeDetails(){
+        let {requestSeq} = this.state;
+        let postData = {};
+        postData.seqStr = requestSeq;
+
+        this.axiosRejectionChangeDetails(postData)
+    }
+
     /**
      * 获取预览表下级区划
      */
@@ -74,15 +95,8 @@ class PreviewChangeDetails extends React.Component {
     }
 
     /**
-     * 对照表中明细确认校验
-     */
-    async getDetailedConfirmationVerification(params){
-        let res = await getDetailedConfirmationVerification(params);
-        console.log(res);
-    }
-
-    /**
      * 确认变更明细
+     * @param seqStr 申请单序号
      */
     async axiosConfirmationChangeDetails(params){
         let res = await getConfirmationChangeDetails(params);
@@ -91,8 +105,9 @@ class PreviewChangeDetails extends React.Component {
 
     /**
      * 驳回变更明细
+     * @param seqStr 申请单序号
      */
-    async getRejectionChangeDetails(params){
+    async axiosRejectionChangeDetails(params){
         let res = await getRejectionChangeDetails(params);
         console.log(res);
     }
@@ -100,8 +115,12 @@ class PreviewChangeDetails extends React.Component {
     componentWillMount() {
         let { zoningCode } = this.state;
         let postData = {};
+        let requestSeq = this.props.location.state.requestSeq;
         postData.zoningCode = zoningCode.substr(0, 6);        
         this.axiosInitPreviewZoningData(postData);
+        this.setState({
+            requestSeq: requestSeq
+        })
     }
 
     render() {
@@ -197,8 +216,8 @@ class PreviewChangeDetails extends React.Component {
                     </div>
 
                     <div className="container-footer margin-top-10">
-                        <Button type="primary" size="large">驳回</Button>
-                        <Button type="primary" size="large" style={{ marginLeft: 20 }}>确认</Button>
+                        <Button type="primary" size="large" onClick={this.handleAxiosRejectionChangeDetails.bind(this)}>驳回</Button>
+                        <Button type="primary" size="large" style={{ marginLeft: 20 }} onClick={this.handleAxiosConfirmationChangeDetails.bind(this)}>确认</Button>
                     </div>
                 </div>
             </div>

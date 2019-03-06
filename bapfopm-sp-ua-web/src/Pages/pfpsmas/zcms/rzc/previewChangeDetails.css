@@ -30,6 +30,9 @@
 .previewchangedetails .container .container-top .zoningcode-tr:hover{
     background: #3ea7d4;
 }
+.previewchangedetails .container .container-top .zoningcode-tr td{
+    text-align: left;
+}
 
 .margin-top-10{
     margin-top: 10px;
