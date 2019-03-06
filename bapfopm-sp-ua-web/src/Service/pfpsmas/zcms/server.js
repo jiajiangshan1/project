@@ -306,7 +306,77 @@ export let getSettingTheCronExpression = async (params) => {
     return response.data
 }
 
+//  rzc
+//  区划代码接收与更新
+//  区划预览
+//  previewFormalZoningCode
 
+/**
+ * 初始化已发布的正式区划代码
+ * @param {string} zoningCode 区划代码
+ */
+export let getInitFormalZoningData = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/queryZoningData/initFormalZoningData',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+/**
+ * 获取下级正式区划
+ * @param {string} zoningCode 区划代码
+ */
+export let getCheckFormalZoning = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/queryZoningData/checkFormalZoning',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+//  rzc
+//  区划代码接收与更新
+//  省级版本控制
+//  provincialVersionControl
+
+/**
+ * 查询已发布版本
+ */
+export let getFindVersionExist = async () => {
+    let response = await axios({
+        url: 'zcmsapi1/zoningChangeManager/findVersionExist',
+        method: 'get',
+    })
+    return response.data
+}
+
+/**
+ * 查询版本记录
+ */
+export let getFindVersionRecord = async () => {
+    let response = await axios({
+        url: 'zcmsapi1/zoningChangeManager/findVersionRecord',
+        method: 'get',
+    })
+    return response.data
+}
+
+/**
+ * 提交版本记录
+ * @param {string} dmxzqh 行政区划代码
+ * @param {string} bbfbrq 版本发布日期
+ */
+export let getRecordVersion = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/zoningChangeManager/recordVersion',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
 
 //  rzc
 //  区划代码接收与更新

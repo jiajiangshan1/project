@@ -39,6 +39,8 @@ import InputChangeDetails from "./Pages/pfpsmas/zcms/rzc/inputChangeDetails";
 import PreviewChangeDetails from "./Pages/pfpsmas/zcms/rzc/previewChangeDetails";
 import Download from "./Pages/pfpsmas/zcms/rzc/download";
 import TimedTask from "./Pages/pfpsmas/zcms/rzc/timedTask";
+import PreviewFormalZoningCode from "./Pages/pfpsmas/zcms/rzc/previewFormalZoningCode";
+import ProvincialVersionControl from "./Pages/pfpsmas/zcms/rzc/provincialVersionControl";
 
 //  引入axios
 //  并做全局配置
@@ -83,6 +85,8 @@ ReactDOM.render(
                 <Route path='/about/previewChangeDetails' component={PreviewChangeDetails} />
                 <Route path='/about/download' component={Download} />
                 <Route path='/about/timedTask' component={TimedTask} />
+                <Route path='/about/previewFormalZoningCode' component={PreviewFormalZoningCode} />
+                <Route path='/about/provincialVersionControl' component={ProvincialVersionControl} />
                 
 
                 <Route path='/about/wpdmp/dmp/apilist' component={ApiList}>

@@ -1,0 +1,39 @@
+.previewFormalZoningCode .container{
+    margin-top: 20px;
+}
+
+.previewFormalZoningCode .container .container-header{
+    margin: 20px 0;
+}
+
+.previewFormalZoningCode .container .container-top :global(.ant-row-flex){
+    height: 180px;
+}
+
+.previewFormalZoningCode .container .container-top :global(.ant-row-flex .ant-col-3){
+    background: url("../../../../asset/sp/ua/img/portal/1/2.png") repeat;
+    height: inherit;
+    overflow: auto;
+}
+
+.previewFormalZoningCode .container .container-top .zoningcode-tr{
+    width: 100%;
+    display: inline-block;
+    font-size: 14px;
+    color: #fff;
+    line-height: 30px;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.previewFormalZoningCode .container .container-top .zoningcode-tr:hover{
+    background: #3ea7d4;
+}
+.previewFormalZoningCode .container .container-top .zoningcode-tr td{
+    text-align: left;
+}
+
+.previewFormalZoningCode :global(.ant-col-8), 
+.previewFormalZoningCode :global(.ant-col-16){
+    font-size: 16px;
+}

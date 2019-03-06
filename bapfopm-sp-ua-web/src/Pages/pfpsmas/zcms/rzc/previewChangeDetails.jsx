@@ -47,21 +47,6 @@ class PreviewChangeDetails extends React.Component {
         clearData(selectedAssigningCode, codeRankPreview);
     }
 
-    /**
-     * 初始化预览表数据
-     */
-    async axiosInitPreviewZoningData(params) {   
-        let res = await getInitPreviewZoningData(params);
-        let { codeRankPreview } = this.state;
-        if (res.rtnCode == "000000") {
-            let dataCode = res.responseData;
-            placeData(dataCode, codeRankPreview);
-            this.setState({
-                codeRankPreview: codeRankPreview
-            })
-        }
-    }
-
     handleAxiosConfirmationChangeDetails(){
         let {requestSeq} = this.state;
         let postData = {};
@@ -76,6 +61,21 @@ class PreviewChangeDetails extends React.Component {
         postData.seqStr = requestSeq;
 
         this.axiosRejectionChangeDetails(postData)
+    }
+
+    /**
+     * 初始化预览表数据
+     */
+    async axiosInitPreviewZoningData(params) { 
+        let { codeRankPreview } = this.state;  
+        let res = await getInitPreviewZoningData(params);      
+        if (res.rtnCode == "000000") {
+            let dataCode = res.responseData;
+            placeData(dataCode, codeRankPreview);
+            this.setState({
+                codeRankPreview: codeRankPreview
+            })
+        }
     }
 
     /**
