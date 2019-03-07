@@ -7,6 +7,14 @@
     font-size: 14px;
 }
 
+.margin-top-15{
+    margin-top: 15px;
+}
+
 .margin-left-20{
     margin-left: 20px;
+}
+
+.zoningCode-actived{
+    background: #3ea7d4;
 }

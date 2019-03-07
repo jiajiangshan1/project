@@ -6,8 +6,8 @@ import blue from "../../../../asset/pfpsmas/zcms/img/blue.png";
 import black from "../../../../asset/pfpsmas/zcms/img/black.png";
 import gray from "../../../../asset/pfpsmas/zcms/img/gray.png";
 
-import { clearData, placeData, changeTypeConversion, getAssigningCode, getSubZoning, getSuperiorZoningCode } from "../../../../asset/pfpsmas/zcms/js/common";
-import { getInitPreviewZoningData, getCheckPreviewZoning, getRejectionChangeDetails, getConfirmationChangeDetails} from "../../../../Service/pfpsmas/zcms/server";
+import { clearData, placeData, changeTypeConversion, getAssigningCode, getSubZoning, getSuperiorZoningCode, openNotificationWithIcon } from "../../../../asset/pfpsmas/zcms/js/common";
+import { getInitPreviewZoningData, getCheckPreviewZoning, getRejectionChangeDetails, getConfirmationChangeDetails, getFindChangeDetails} from "../../../../Service/pfpsmas/zcms/server";
 import { Navbar, Hr } from "../../../../Components/index";
 import { Table, Button, Modal, Input, Checkbox, Select, Row, Col, Tooltip, Tree } from 'antd';
 
@@ -43,6 +43,7 @@ class PreviewChangeDetails extends React.Component {
 
         postData.zoningCode = e.target.dataset.zoningcode;
         this.axiosCheckPreviewZoning(postData);
+        this.axiosFindChangeDetails(postData);
 
         clearData(selectedAssigningCode, codeRankPreview);
     }
@@ -87,10 +88,26 @@ class PreviewChangeDetails extends React.Component {
         if (res.rtnCode == "000000") {
             let dataCode = res.responseData;
             placeData(dataCode, codeRankPreview);
-            console.log("--------------", codeRankPreview)
             this.setState({
                 codeRankPreview: codeRankPreview
             })
+        }
+    }
+
+    /**
+     * 根据行政区划查询当月变更明细
+     * @param {string} zoningCode 区划代码
+     */
+    async axiosFindChangeDetails(params){
+        let res = await getFindChangeDetails(params);
+        console.log(res);
+        if (res.rtnCode == "000000") {
+            let data = res.responseData;
+            this.setState({
+                displayDetails: data
+            })
+        }else{
+            openNotificationWithIcon("error", res.rtnMessage);
         }
     }
 
@@ -126,17 +143,17 @@ class PreviewChangeDetails extends React.Component {
     render() {
         const navbar = [{
             name: "建立变更对照表",
-            routerPath: "/about/createChangeComparisonTable",
+            routerPath: "/about/pfpsmas/zcms/createChangeComparisonTable",
             imgPath: gray
         },
         {
             name: "录入变更明细",
-            routerPath: "/about/inputChangeDetails",
+            routerPath: "/about/pfpsmas/zcms/inputChangeDetails",
             imgPath: gray
         },
         {
             name: "变更明细预览",
-            routerPath: "/about/previewChangeDetails",
+            routerPath: "/about/pfpsmas/zcms/previewChangeDetails",
             imgPath: blue
         }];
 
@@ -157,13 +174,13 @@ class PreviewChangeDetails extends React.Component {
             width: 150,
         }, {
             title: '现区划代码',
-            dataIndex: 'targetZoningCode',
-            key: 'targetZoningCode',
+            dataIndex: 'currentZoningCode',
+            key: 'currentZoningCode',
             width: 150,
         }, {
             title: '现区划名称',
-            dataIndex: 'targetZoningName',
-            key: 'targetZoningName',
+            dataIndex: 'currentZoningName',
+            key: 'currentZoningName',
             width: 150,
         }, {
             title: '备注',

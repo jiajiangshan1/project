@@ -233,6 +233,19 @@ export let getCheckPreviewZoning = async (params) => {
 }
 
 /**
+ * 根据行政区划查询当月变更明细
+ * @param {string} zoningCode 区划代码
+ */
+export let getFindChangeDetails = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/zoningChangeManager/findChangeDetails',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+/**
  * 驳回变更明细
  * @param {string} seqStr 申请单序号
  */

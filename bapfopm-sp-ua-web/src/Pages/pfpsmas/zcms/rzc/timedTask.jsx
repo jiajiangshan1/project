@@ -143,7 +143,7 @@ class TimedTask extends React.Component {
 
         const navbar = [{
             name: "定时发布区划",
-            routerPath: "/about/timedTask",
+            routerPath: "/about/pfpsmas/zcms/timedTask",
             imgPath: blue
         }]
 

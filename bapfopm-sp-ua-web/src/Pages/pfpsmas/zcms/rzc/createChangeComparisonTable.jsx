@@ -164,13 +164,13 @@ class CreateChangeComparisonTable extends React.Component {
         let res = await getDetailedConfirmationVerification(params);
         if(res.rtnCode == "000000"){
             this.setState({
-                nextRouter: "/about/previewChangeDetails"
+                nextRouter: "/about/pfpsmas/zcms/previewChangeDetails"
             },()=>{
                 this.handleHashHistory();
             })
         }else{
             this.setState({
-                nextRouter: "/about/inputChangeDetails"
+                nextRouter: "/about/pfpsmas/zcms/inputChangeDetails"
             },()=>{
                 this.handleHashHistory();
             })
@@ -230,17 +230,17 @@ class CreateChangeComparisonTable extends React.Component {
 
         const navbar = [{
             name: "建立变更对照表",
-            routerPath: "/about/createChangeComparisonTable",
+            routerPath: "/about/pfpsmas/zcms/createChangeComparisonTable",
             imgPath: blue
         },
         {
             name: "录入变更明细",
-            routerPath: "/about/inputChangeDetails",
+            routerPath: "/about/pfpsmas/zcms/inputChangeDetails",
             imgPath: black
         },
         {
             name: "变更明细预览",
-            routerPath: "/about/previewChangeDetails",
+            routerPath: "/about/pfpsmas/zcms/previewChangeDetails",
             imgPath: black
         }];
 
@@ -248,38 +248,33 @@ class CreateChangeComparisonTable extends React.Component {
             <div>
                 <Navbar data={navbar}></Navbar>
 
-                <div style={{
-                    marginTop: 20
-                }}>
-                    <Table columns={columns} dataSource={this.state.requestList} />
-                </div>
+                <div className="container"> 
 
-                <div>
-                    <Button type="primary" size="large" style={{
-                        position: "absolute",
-                        left: "50%",
-                        marginTop: 20
-                    }} disabled={this.state.isDisabled} onClick={this.showPrompt.bind(this)}>添加</Button>
-                </div>
+                    <div className="container-top margin-top-10">
+                        <Table columns={columns} dataSource={this.state.requestList} />
+                    </div>
 
-                <div>
-                    <Modal title="添加申请单" visible={this.state.addRequestToggle}
-                        okText="提交" cancelText="返回"
-                        onOk={this.handleSubmit.bind(this)}
-                        onCancel={this.handleCancel.bind(this)}
-                    >
+                    <div className="container-bottom margin-top-10">
+                        <Button type="primary" size="large" disabled={this.state.isDisabled} onClick={this.showPrompt.bind(this)}>添加</Button>
+                    </div>
+                </div>
+                
+                <Modal title="添加申请单" visible={this.state.addRequestToggle}
+                    okText="提交" cancelText="返回"
+                    onOk={this.handleSubmit.bind(this)}
+                    onCancel={this.handleCancel.bind(this)}
+                >
+                    <div>
                         <div>
-                            <div>
-                                <span>变更对照表名称</span>
-                                <Input onChange={this.changeName.bind(this)} value={this.state.name}></Input>
-                            </div>
-                            <div>
-                                <span>备注</span>
-                                <Input type="textarea" onChange={this.changeNote.bind(this)} value={this.state.notes}></Input>
-                            </div>
+                            <span>变更对照表名称</span>
+                            <Input onChange={this.changeName.bind(this)} value={this.state.name}></Input>
                         </div>
-                    </Modal>
-                </div>
+                        <div>
+                            <span>备注</span>
+                            <Input type="textarea" onChange={this.changeNote.bind(this)} value={this.state.notes}></Input>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         )
     }

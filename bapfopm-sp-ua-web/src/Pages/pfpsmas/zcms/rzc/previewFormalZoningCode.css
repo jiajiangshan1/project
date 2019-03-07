@@ -37,3 +37,7 @@
 .previewFormalZoningCode :global(.ant-col-16){
     font-size: 16px;
 }
+
+.zoningCode-actived{
+    background: #3ea7d4;
+}

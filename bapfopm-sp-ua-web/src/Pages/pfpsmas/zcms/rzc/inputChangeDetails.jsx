@@ -34,6 +34,15 @@ class InputChangeDetails extends React.Component {
                 "village": []
             },
 
+            //  各级选中区划颜色状态判定
+            activedColor: {
+                "province": "",
+                "city": "",
+                "county": "",
+                "township": "",
+                "village": ""
+            },  
+
             //  获取下级区划代码
             selectedZoningCode: "", //  用户有效的点击，选中区划代码
             selectedZoningName: "", // 用户选中的区划区划名称
@@ -96,7 +105,7 @@ class InputChangeDetails extends React.Component {
 
     //  选择需要录入的区划事件
     handleAxiosSubordinateZoning(e) {
-        let { assigningCode, codeRankPreview, ringFlagToggle } = this.state;
+        let { assigningCode, codeRankPreview, ringFlagToggle, activedColor } = this.state;
         let selectedAssigningCode = Number(e.target.dataset.assigningcode);
         let originalZoningCodeArray;
         let targetZoningCodeArray;
@@ -104,6 +113,7 @@ class InputChangeDetails extends React.Component {
         let targetZoningName;
         let differ;
         let tempChangeTypeOption;
+        let colorRank = {};
 
         tempChangeTypeOption = [
             { value: "11", text: "新增", disabled: true },
@@ -122,6 +132,10 @@ class InputChangeDetails extends React.Component {
         //  用户权限判定 只能操作下级数据
         if (selectedAssigningCode >= assigningCode) {
             differ = selectedAssigningCode - assigningCode;
+            
+            colorRank[e.target.dataset.assigningcode] = e.target.dataset.zoningcode;
+            placeData(colorRank, activedColor);
+
 
             if (ringFlagToggle) {
                 if (differ != 0) {
@@ -815,17 +829,17 @@ class InputChangeDetails extends React.Component {
     render() {
         const navbar = [{
             name: "建立变更对照表",
-            routerPath: "/about/createChangeComparisonTable",
+            routerPath: "/about/pfpsmas/zcms/createChangeComparisonTable",
             imgPath: gray
         },
         {
             name: "录入变更明细",
-            routerPath: "/about/inputChangeDetails",
+            routerPath: "/about/pfpsmas/zcms/inputChangeDetails",
             imgPath: blue
         },
         {
             name: "变更明细预览",
-            routerPath: "/about/previewChangeDetails",
+            routerPath: "/about/pfpsmas/zcms/previewChangeDetails",
             imgPath: black
         }];
 
@@ -870,28 +884,46 @@ class InputChangeDetails extends React.Component {
             ),
         }];
 
-        const displayDom = data => Object.keys(data).map(key => {
+        const displayDom = (data, color) => Object.keys(data).map(key => {
             return (
                 <Col span={3}>
-                    {loop(data[key])}
+                    {loop(data[key], color[key])}
                 </Col>
             )
         });
 
-        const loop = data => data.map((item) => {
-            return (
-                <tr className="zoningcode-tr"
-                    data-zoningCode={item.zoningCode}
-                    data-zoningName={item.divisionName}
-                    data-assigningCode={item.assigningCode}
-                    onClick={this.handleAxiosSubordinateZoning.bind(this)}>
-                    <td data-zoningCode={item.zoningCode}
+        const loop = (data, color) => data.map((item) => {
+            if(color == item.zoningCode){
+                return (
+                    <tr className="zoningcode-tr zoningCode-actived"
+                        data-zoningCode={item.zoningCode}
                         data-zoningName={item.divisionName}
-                        data-assigningCode={item.assigningCode}>
-                        {item.divisionName} {item.ownCode}
-                    </td>
-                </tr>
-            )
+                        data-assigningCode={item.assigningCode}
+                        onClick={this.handleAxiosSubordinateZoning.bind(this)}
+                        >
+                        <td data-zoningCode={item.zoningCode}
+                            data-zoningName={item.divisionName}
+                            data-assigningCode={item.assigningCode}>
+                            {item.divisionName} {item.ownCode}
+                        </td>
+                    </tr>
+                )
+            }else{
+                return (
+                    <tr className="zoningcode-tr"
+                        data-zoningCode={item.zoningCode}
+                        data-zoningName={item.divisionName}
+                        data-assigningCode={item.assigningCode}
+                        onClick={this.handleAxiosSubordinateZoning.bind(this)}
+                        >
+                        <td data-zoningCode={item.zoningCode}
+                            data-zoningName={item.divisionName}
+                            data-assigningCode={item.assigningCode}>
+                            {item.divisionName} {item.ownCode}
+                        </td>
+                    </tr>
+                )
+            }
         })
 
         const loopInput = (data, assigningcode, changeType) => data.map((item, index) => {
@@ -956,7 +988,7 @@ class InputChangeDetails extends React.Component {
                     <div className="container">
                         <div className="container-top">
                             <Row type="flex" justify="space-around">
-                                {displayDom(this.state.codeRankPreview)}
+                                {displayDom(this.state.codeRankPreview, this.state.activedColor)}
                             </Row>
                         </div>
 
@@ -996,8 +1028,8 @@ class InputChangeDetails extends React.Component {
                                 {/* 调整类型 */}
                                 <Col span={12}>
                                     <Row>
-                                        <Col span={6}>
-                                            <Checkbox onChange={this.handleChecked.bind(this)}>重用变更</Checkbox>
+                                        <Col span={6} style={{marginTop: 7}}>
+                                            <Checkbox onChange={this.handleChecked.bind(this)} style={{fontSize: 16}}>环链变更</Checkbox>
                                         </Col>
                                         <Col span={18}>
                                             <Row>

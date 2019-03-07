@@ -20,22 +20,28 @@ class ProvincialVersionControl extends React.Component{
             zoningCode: sessionStorage.getItem("zoningCode"),   //  用户登录区划
     
             displayVersion: [], //  各省使用区划版本
-            usedVersion: "" //  所使用的版本
+            usedVersionList: [],    //  已发布版本列表
+            usedVersion: "--请选择--" //  所使用的版本
+            
         }
     }
 
     handleUsedVersion(e){
         console.log(e);
+        this.setState({
+            usedVersion: e
+        })
     }
 
     /**
      * 提交版本记录
      */
     handleAxiosRecordVersion(){
-        let {zoningCode} = this.state;
+        let {zoningCode, usedVersion} = this.state;
         let postData = {};
 
         postData.dmxzqh = zoningCode;
+        postData.bbfbrq = usedVersion;
 
         this.axiosRecordVersion(postData);
     }
@@ -46,6 +52,14 @@ class ProvincialVersionControl extends React.Component{
     async axiosFindVersionExist(){
         let res = await getFindVersionExist();
         console.log(res);
+        if(res.rtnCode == "000000"){
+            let data = res.responseData;
+            this.setState({
+                usedVersionList: data
+            })
+        }else{
+            openNotificationWithIcon("error", res.rtnMessage);
+        }
     }
 
     /**
@@ -54,6 +68,14 @@ class ProvincialVersionControl extends React.Component{
     async axiosFindVersionRecord(){
         let res = await getFindVersionRecord();
         console.log(res);
+        if(res.rtnCode == "000000"){
+            let data = res.responseData;
+            this.setState({
+                displayVersion: data
+            })
+        }else{
+            openNotificationWithIcon("error", res.rtnMessage);
+        }
     }
 
     /**
@@ -65,26 +87,49 @@ class ProvincialVersionControl extends React.Component{
         let res = await getRecordVersion(params);
         console.log(res);
         if(res.rtnCode == "000000"){
-            openNotificationWithIcon("success", rtnMessage);
+            openNotificationWithIcon("success", res.rtnMessage);
             this.axiosFindVersionRecord();
+            this.setState({
+                usedVersion: "--请选择--"
+            })
         }else{
-            openNotificationWithIcon("error", rtnMessage);
+            openNotificationWithIcon("error", res.rtnMessage);
         }
     }
 
     componentWillMount(){
-        this.axiosFindVersionExist();
+        this.axiosFindVersionExist();   
         this.axiosFindVersionRecord();
     }
 
     render(){
-        const columns = [];
+        const columns = [{
+            title: '区划名称',
+            dataIndex: 'xzqhmc',
+            key: 'xzqhmc',
+            width: 150
+        }, {
+            title: '版本号(版本发布日期)',
+            dataIndex: 'bbfbrq',
+            key: 'bbfbrq',
+            width: 150
+        }];
 
         const navbar = [{
-            name: "省级版本控制",
-            routerPath: "/about/provincialVersionControl",
+            name: "区划下载",
+            routerPath: "/about/pfpsmas/zcms/download",
+            imgPath: gray
+        },{
+            name: "省级版本记录",
+            routerPath: "/about/pfpsmas/zcms/provincialVersionControl",
             imgPath: blue
         }]
+
+        const loopOption = data => data.map(item => {
+            return (
+                <Option value={item.bbfbrq}>{item.bbfbrq}</Option>
+            )
+        })
 
         return (
             <div className="provincialVersionControl">
@@ -93,25 +138,34 @@ class ProvincialVersionControl extends React.Component{
 
                 <div className="container">
 
-                    <div className="container-top">
-                        <Table dataSource={this.state.displayVersion} columns={columns} pagination={{ pageSize: 5 }} />
+                    <div className="container-top margin-top-15">
+                        <Table className="provincialVersionControl-table" dataSource={this.state.displayVersion} columns={columns} pagination={{ pageSize: 5 }} />
                     </div>
 
                     <Hr />
 
-                    <div className="container-bottom">
-                        <span>
-                            请选择所使用区划的版本
-                        </span>
-
-                        <Select 
-                            defaultValue="--请选择" 
-                            value={this.state.usedVersion} 
-                            onChange={this.handleUsedVersion.bind(this)}>
-
-                        </Select>
-
-                        <Button type="primary" size="large" onClick={this.handleAxiosRecordVersion.bind(this)}>提交</Button>
+                    <div className="container-bottom margin-top-15">
+                        <Row>
+                            <Col span={4} offset={6}>
+                                <span style={{fontSize: 16}}>
+                                    请选择所使用区划的版本
+                                </span>
+                            </Col>
+                            <Col span={6}>
+                                <Select 
+                                    defaultValue="--请选择" 
+                                    value={this.state.usedVersion} 
+                                    onChange={this.handleUsedVersion.bind(this)}
+                                    style={{
+                                        width: "80%"
+                                    }}>
+                                    {loopOption(this.state.usedVersionList)}
+                                </Select>
+                            </Col>
+                            <Col span={2}>
+                                <Button type="primary" size="large" onClick={this.handleAxiosRecordVersion.bind(this)}>提交</Button>
+                            </Col>
+                        </Row>
                     </div>
                     
                 </div>

@@ -31,9 +31,21 @@ class PreviewFormalZoningCode extends React.Component{
             selectedZoningCode: "", //  已选择区划代码
             selectedZoningName: "", //  已选择区划名称
             selectedAssigningCode: "", //  已选择的级次代码
+
+            //  各级选中区划,颜色样式状态标志
+            activedColor: {
+                "province": "",
+                "city": "",
+                "county": "",
+                "township": "",
+                "village": ""
+            }    
         }
     }
 
+    /**
+     * 初始化正式表数据
+     */
     handleAxiosInitFormalZoningData(zoningCode){
         let { codeRankPreview, assigningCode} = this.state;
         let postData = {};
@@ -43,15 +55,25 @@ class PreviewFormalZoningCode extends React.Component{
         this.axiosInitFormalZoningData(postData);
     }
 
+    /**
+     * 获取下级正式数据
+     * @param {*} e 
+     */
     handleAxiosCheckFormalZoning(e){
-        let { codeRankPreview} = this.state;
+        let { codeRankPreview, activedColor} = this.state;
         let postData = {};
+
+        let colorRank = {};
 
         let selectedZoningCode, selectedZoningName, selectedAssigningCode;
 
         selectedAssigningCode = e.target.dataset.assigningcode;
         selectedZoningCode = e.target.dataset.zoningcode
         selectedZoningName = e.target.dataset.zoningname;
+
+        colorRank[selectedAssigningCode] = selectedZoningCode;
+
+        placeData(colorRank, activedColor);
 
         postData.zoningCode = selectedZoningCode;
 
@@ -114,33 +136,51 @@ class PreviewFormalZoningCode extends React.Component{
 
         const navbar = [{
             name: "区划预览",
-            routerPath: "/about/previewFormalZoningCode",
+            routerPath: "/about/pfpsmas/zcms/previewFormalZoningCode",
             imgPath: blue
         }];
 
-        const displayDom = data => Object.keys(data).map(key => {
+        const displayDom = (data, color) => Object.keys(data).map(key => {
             return (
                 <Col span={3}>
-                    {loop(data[key])}
+                    {loop(data[key], color[key])}
                 </Col>
             )
         });
 
-        const loop = data => data.map((item) => {
-            return (
-                <tr className="zoningcode-tr"
-                    data-zoningCode={item.zoningCode}
-                    data-zoningName={item.divisionName}
-                    data-assigningCode={item.assigningCode}
-                    onClick={this.handleAxiosCheckFormalZoning.bind(this)}
-                    >
-                    <td data-zoningCode={item.zoningCode}
+        const loop = (data, color) => data.map((item) => {
+
+            if(color == item.zoningCode){
+                return (
+                    <tr className="zoningcode-tr zoningCode-actived"
+                        data-zoningCode={item.zoningCode}
                         data-zoningName={item.divisionName}
-                        data-assigningCode={item.assigningCode}>
-                        {item.divisionName} {item.ownCode}
-                    </td>
-                </tr>
-            )
+                        data-assigningCode={item.assigningCode}
+                        onClick={this.handleAxiosCheckFormalZoning.bind(this)}
+                        >
+                        <td data-zoningCode={item.zoningCode}
+                            data-zoningName={item.divisionName}
+                            data-assigningCode={item.assigningCode}>
+                            {item.divisionName} {item.ownCode}
+                        </td>
+                    </tr>
+                )
+            }else{
+                return (
+                    <tr className="zoningcode-tr"
+                        data-zoningCode={item.zoningCode}
+                        data-zoningName={item.divisionName}
+                        data-assigningCode={item.assigningCode}
+                        onClick={this.handleAxiosCheckFormalZoning.bind(this)}
+                        >
+                        <td data-zoningCode={item.zoningCode}
+                            data-zoningName={item.divisionName}
+                            data-assigningCode={item.assigningCode}>
+                            {item.divisionName} {item.ownCode}
+                        </td>
+                    </tr>
+                )
+            }
         })
 
         return (
@@ -155,7 +195,7 @@ class PreviewFormalZoningCode extends React.Component{
 
                     <div className="container-top">
                         <Row type="flex" justify="space-around">
-                            {displayDom(this.state.codeRankPreview)}
+                            {displayDom(this.state.codeRankPreview, this.state.activedColor)}
                         </Row>
                     </div>
 

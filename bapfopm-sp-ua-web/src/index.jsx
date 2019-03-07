@@ -80,13 +80,13 @@ ReactDOM.render(
                 <Route path='/about/test' component={Test} />
                 <Route path='/about/test2' component={Test2} />
 
-                <Route path='/about/createChangeComparisonTable' component={CreateChangeComparisonTable} />
-                <Route path='/about/inputChangeDetails' component={InputChangeDetails} />
-                <Route path='/about/previewChangeDetails' component={PreviewChangeDetails} />
-                <Route path='/about/download' component={Download} />
-                <Route path='/about/timedTask' component={TimedTask} />
-                <Route path='/about/previewFormalZoningCode' component={PreviewFormalZoningCode} />
-                <Route path='/about/provincialVersionControl' component={ProvincialVersionControl} />
+                <Route path='/about/pfpsmas/zcms/createChangeComparisonTable' component={CreateChangeComparisonTable} />
+                <Route path='/about/pfpsmas/zcms/inputChangeDetails' component={InputChangeDetails} />
+                <Route path='/about/pfpsmas/zcms/previewChangeDetails' component={PreviewChangeDetails} />
+                <Route path='/about/pfpsmas/zcms/download' component={Download} />
+                <Route path='/about/pfpsmas/zcms/timedTask' component={TimedTask} />
+                <Route path='/about/pfpsmas/zcms/previewFormalZoningCode' component={PreviewFormalZoningCode} />
+                <Route path='/about/pfpsmas/zcms/provincialVersionControl' component={ProvincialVersionControl} />
                 
 
                 <Route path='/about/wpdmp/dmp/apilist' component={ApiList}>

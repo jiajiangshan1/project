@@ -31,6 +31,7 @@
     line-height: 30px;
     cursor: pointer;
     padding-left: 10px;
+    text-align: left;
 }
 
 .inputchangedetails .container .container-top .zoningcode-tr:hover{
@@ -135,6 +136,10 @@
 
 .icon-hide{
     display: none;
+}
+
+.zoningCode-actived{
+    background: #3ea7d4;
 }
 
     

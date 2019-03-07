@@ -184,8 +184,12 @@ class Download extends React.Component {
 
         const navbar = [{
             name: "区划下载",
-            routerPath: "/about/download",
+            routerPath: "/about/pfpsmas/zcms/download",
             imgPath: blue
+        },{
+            name: "省级版本记录",
+            routerPath: "/about/pfpsmas/zcms/provincialVersionControl",
+            imgPath: black
         }];
 
         const data = [];
