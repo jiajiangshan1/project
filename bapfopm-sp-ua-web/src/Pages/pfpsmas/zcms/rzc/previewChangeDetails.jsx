@@ -30,6 +30,15 @@ class PreviewChangeDetails extends React.Component {
             displayDetails: [], //  变更明细展示
 
             requestSeq: "", //  申请单序号
+
+            //  各级选中区划,颜色样式状态标志
+            activedColor: {
+                "province": "",
+                "city": "",
+                "county": "",
+                "township": "",
+                "village": ""
+            }  
         }
     }
 
@@ -38,8 +47,15 @@ class PreviewChangeDetails extends React.Component {
      */
     handleAxiosCheckPreviewZoning(e){
         let postData = {};
-        let { codeRankPreview } = this.state;
+        let colorRank = {};
+
+        let { codeRankPreview, activedColor } = this.state;
         let selectedAssigningCode = e.target.dataset.assigningcode;
+        let selectedZoningCode = e.target.dataset.zoningcode;
+
+        colorRank[selectedAssigningCode] = selectedZoningCode;
+
+        placeData(colorRank, activedColor);
 
         postData.zoningCode = e.target.dataset.zoningcode;
         this.axiosCheckPreviewZoning(postData);
@@ -60,6 +76,7 @@ class PreviewChangeDetails extends React.Component {
         let {requestSeq} = this.state;
         let postData = {};
         postData.seqStr = requestSeq;
+        console.log(postData);
 
         this.axiosRejectionChangeDetails(postData)
     }
@@ -100,11 +117,18 @@ class PreviewChangeDetails extends React.Component {
      */
     async axiosFindChangeDetails(params){
         let res = await getFindChangeDetails(params);
+        let tempArr = [];
+
         console.log(res);
         if (res.rtnCode == "000000") {
-            let data = res.responseData;
+    
+            res.responseData.forEach(item => {
+                item.disChangeType= changeTypeConversion(item.changeType)
+                tempArr.push(item);
+            });
+
             this.setState({
-                displayDetails: data
+                displayDetails: tempArr
             })
         }else{
             openNotificationWithIcon("error", res.rtnMessage);
@@ -118,6 +142,11 @@ class PreviewChangeDetails extends React.Component {
     async axiosConfirmationChangeDetails(params){
         let res = await getConfirmationChangeDetails(params);
         console.log(res);
+        if(res.rtnCode == "000000"){
+            openNotificationWithIcon("success", res.rtnMessage);
+        }else{
+            openNotificationWithIcon("error", res.rtnMessage);
+        }
     }
 
     /**
@@ -127,17 +156,26 @@ class PreviewChangeDetails extends React.Component {
     async axiosRejectionChangeDetails(params){
         let res = await getRejectionChangeDetails(params);
         console.log(res);
+        if(res.rtnCode == "000000"){
+            openNotificationWithIcon("success", res.rtnMessage);
+            hashHistory.push({
+                pathname: "/about/pfpsmas/zcms/inputChangeDetails"
+            })
+        }else{
+            openNotificationWithIcon("error", res.rtnMessage);
+        }
     }
 
     componentWillMount() {
         let { zoningCode } = this.state;
         let postData = {};
         let requestSeq = this.props.location.state.requestSeq;
+        console.log(requestSeq);
         postData.zoningCode = zoningCode.substr(0, 6);        
         this.axiosInitPreviewZoningData(postData);
         this.setState({
             requestSeq: requestSeq
-        })
+        })  
     }
 
     render() {
@@ -189,17 +227,18 @@ class PreviewChangeDetails extends React.Component {
             width: 150,
         }];
 
-        const displayDom = data => Object.keys(data).map(key => {
+        const displayDom = (data, color) => Object.keys(data).map(key => {
             return (
                 <Col span={3}>
-                    {loop(data[key])}
+                    {loop(data[key], color[key])}
                 </Col>
             )
         });
 
-        const loop = data => data.map((item) => {
+        const loop = (data, color) => data.map((item) => {
+
             return (
-                <tr className="zoningcode-tr"
+                <tr className={`zoningcode-tr ${(item.sfbh && item.sfbh == "1") ? "background-color-red": null} ${color == item.zoningCode?"zoningCode-actived" : null }`}
                     data-zoningCode={item.zoningCode}
                     data-zoningName={item.divisionName}
                     data-assigningCode={item.assigningCode}
@@ -222,7 +261,7 @@ class PreviewChangeDetails extends React.Component {
                 <div className="container">
                     <div className="container-top">
                         <Row type="flex" justify="space-around">
-                            {displayDom(this.state.codeRankPreview)}
+                            {displayDom(this.state.codeRankPreview, this.state.activedColor)}
                         </Row>
                     </div>
 

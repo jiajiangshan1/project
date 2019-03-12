@@ -15,7 +15,7 @@ import {openNotificationWithIcon} from "../../../../asset/pfpsmas/zcms/js/common
 import { getZoningChangeRequestList, getAddZoningChangeRequest, getFindWritableZCCRequests, getDetailedConfirmationVerification } from "../../../../Service/pfpsmas/zcms/server";
 
 class CreateChangeComparisonTable extends React.Component {
-    constructor(props) {
+    constructor(props) {    
         super(props);
         this.state = {
             requestList: [],    //  申请单存放数组

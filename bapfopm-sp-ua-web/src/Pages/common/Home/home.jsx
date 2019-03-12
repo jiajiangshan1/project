@@ -26,21 +26,21 @@ class Home extends React.Component {
      */
     async axiosSystemList() {
         let data = await getSystemList();
-        if(data.status == 200){
+        if (data.status == 200) {
             message.success(data.description);
             this.setState({ systemData: data.dataObject });
-        }else{
+        } else {
             message.error(data.description);
-        } 
+        }
         console.log("查询系统", this.state.systemData);
     }
 
     /**
      * 将区划信息放入sessionStorage里面
      */
-    async axiosCustInfo(){
+    async axiosCustInfo() {
         let data = await getCustInfo();
-        if(data.rtnCode == "000000"){
+        if (data.rtnCode == "000000") {
             sessionStorage.setItem('levelCode', data.responseData.levelCode);
             sessionStorage.setItem('zoningCode', data.responseData.zoningCode);
             sessionStorage.setItem('zoningName', data.responseData.zoningName);
@@ -60,7 +60,7 @@ class Home extends React.Component {
                 visible: false
             });
             message.success(data.description);
-        }else{
+        } else {
             message.error(data.description);
         }
     }
@@ -79,7 +79,7 @@ class Home extends React.Component {
         }
         console.log(data);
     }
-    
+
     logOut() {
         this.axiosLogOut()
     }
@@ -90,7 +90,7 @@ class Home extends React.Component {
     showModal() {
         this.setState({
             visible: true
-        })  
+        })
     }
 
     /**
@@ -173,16 +173,34 @@ class Home extends React.Component {
         });
 
         let systemDom;
-        if(this.state.systemData.length > 0){
+        if (this.state.systemData.length > 0) {
             systemDom = this.state.systemData.map(el => {
-                return (
-                    <Col span="4">
-                        <Card bordered={true} style={{ backgroundColor: 'transparent', borderColor: "#4cb8e9" }}>
-                            <p><img className="system-logo" src={el.systemId < 11 ? require(`../../../asset/sp/ua/img/portal/${el.systemId}.png`) : require(`../../../asset/sp/ua/img/portal/1.png`)} alt="" /></p>
-                            <p className='system-name'><Link className="system-a" to={{ pathname: "/about", state: { systemId: el.systemId } }}>{el.systemName}</Link></p>
-                        </Card>
-                    </Col>
-                );
+                // if(el.systemId == 7){
+                    // return (
+                    //     <Col span="4">
+                    //     <Card bordered={true} style={{ backgroundColor: 'transparent', borderColor: "#4cb8e9" }}>
+                    //         <p>
+                    //             <img className="system-logo" src={require(`../../../asset/sp/ua/img/portal/${el.systemId}.png`)} alt="" /></p>
+                    //         <p className='system-name'>
+                    //             <a href="/pfpsmas/zcms" className="system-a">{el.systemName}</a>
+                    //         </p>
+                    //     </Card>
+                    // </Col>
+                    // )
+                // }else{
+                    return (
+                        <Col span="4">
+                            <Card bordered={true} style={{ backgroundColor: 'transparent', borderColor: "#4cb8e9" }}>
+                                <p>
+                                    <img className="system-logo" src={el.systemId < 11 ? require(`../../../asset/sp/ua/img/portal/${el.systemId}.png`) : require(`../../../asset/sp/ua/img/portal/1.png`)} alt="" /></p>
+                                <p className='system-name'>
+                                    <Link className="system-a" to={{ pathname: "/about", state: { systemId: el.systemId } }}>{el.systemName}
+                                    </Link>
+                                </p>
+                            </Card>
+                        </Col>
+                    );
+                // }  
             })
         }
 
@@ -198,7 +216,7 @@ class Home extends React.Component {
                             <span className="home-span" onClick={this.showModal.bind(this)}>修改密码</span>
                             <span style={{ margin: '0 10px 0 10px', color: '#4cb8e9', fontSize: 14 }}>\</span>
                             <span className="home-span" onClick={this.showModal.bind(this)}>
-                                <Link to={{pathname: '/about', state:{systemId: '11'}}}>用户信息</Link>
+                                <Link to={{ pathname: '/about', state: { systemId: '11' } }}>用户信息</Link>
                             </span>
                             <span style={{ margin: '0 40px 0 10px', color: '#4cb8e9', fontSize: 14 }}>\</span>
                             <i className="home-span logout" onClick={this.logOut.bind(this)}></i>

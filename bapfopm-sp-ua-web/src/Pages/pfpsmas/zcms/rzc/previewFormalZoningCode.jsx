@@ -150,37 +150,20 @@ class PreviewFormalZoningCode extends React.Component{
 
         const loop = (data, color) => data.map((item) => {
 
-            if(color == item.zoningCode){
-                return (
-                    <tr className="zoningcode-tr zoningCode-actived"
-                        data-zoningCode={item.zoningCode}
+            return (
+                <tr className={`zoningcode-tr ${color == item.zoningCode?"zoningCode-actived" : null }`}
+                    data-zoningCode={item.zoningCode}
+                    data-zoningName={item.divisionName}
+                    data-assigningCode={item.assigningCode}
+                    onClick={this.handleAxiosCheckFormalZoning.bind(this)}
+                    >
+                    <td data-zoningCode={item.zoningCode}
                         data-zoningName={item.divisionName}
-                        data-assigningCode={item.assigningCode}
-                        onClick={this.handleAxiosCheckFormalZoning.bind(this)}
-                        >
-                        <td data-zoningCode={item.zoningCode}
-                            data-zoningName={item.divisionName}
-                            data-assigningCode={item.assigningCode}>
-                            {item.divisionName} {item.ownCode}
-                        </td>
-                    </tr>
-                )
-            }else{
-                return (
-                    <tr className="zoningcode-tr"
-                        data-zoningCode={item.zoningCode}
-                        data-zoningName={item.divisionName}
-                        data-assigningCode={item.assigningCode}
-                        onClick={this.handleAxiosCheckFormalZoning.bind(this)}
-                        >
-                        <td data-zoningCode={item.zoningCode}
-                            data-zoningName={item.divisionName}
-                            data-assigningCode={item.assigningCode}>
-                            {item.divisionName} {item.ownCode}
-                        </td>
-                    </tr>
-                )
-            }
+                        data-assigningCode={item.assigningCode}>
+                        {item.divisionName} {item.ownCode}
+                    </td>
+                </tr>
+            )
         })
 
         return (
@@ -230,7 +213,6 @@ class PreviewFormalZoningCode extends React.Component{
                         </Row>
                     </div>
                 </div>
-
             </div>
         )
     }

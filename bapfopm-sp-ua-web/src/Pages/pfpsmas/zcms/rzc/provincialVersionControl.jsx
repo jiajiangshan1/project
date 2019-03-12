@@ -148,7 +148,7 @@ class ProvincialVersionControl extends React.Component{
                         <Row>
                             <Col span={4} offset={6}>
                                 <span style={{fontSize: 16}}>
-                                    请选择所使用区划的版本
+                                    请选择当前使用的区划版本
                                 </span>
                             </Col>
                             <Col span={6}>

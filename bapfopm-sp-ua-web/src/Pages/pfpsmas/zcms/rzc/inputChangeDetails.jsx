@@ -9,6 +9,9 @@ import star from "../../../../asset/pfpsmas/zcms/img/xingxing.png"
 
 import './inputChangeDetails.css'
 
+//  自定义滚动条
+import FreeScrollBar from 'react-free-scrollbar';
+
 import { Table, Button, Modal, Input, Checkbox, Select, Row, Col, Tooltip, Tree } from 'antd';
 import { Navbar, Hr } from "../../../../Components/index"
 
@@ -41,7 +44,7 @@ class InputChangeDetails extends React.Component {
                 "county": "",
                 "township": "",
                 "village": ""
-            },  
+            },
 
             //  获取下级区划代码
             selectedZoningCode: "", //  用户有效的点击，选中区划代码
@@ -100,10 +103,15 @@ class InputChangeDetails extends React.Component {
             searchValue: '',
             autoExpandParent: true,
             treeData: [],
+
+            //  并入时有下级区划出现模态框的数据存放
+            moreForMerge: [],
+            //  并入时有下级区划出现模态框的显隐标识
+            moreForMergeVisible: false
         }
     }
 
-    //  选择需要录入的区划事件
+    //  选择需要录入的区划
     handleAxiosSubordinateZoning(e) {
         let { assigningCode, codeRankPreview, ringFlagToggle, activedColor } = this.state;
         let selectedAssigningCode = Number(e.target.dataset.assigningcode);
@@ -132,10 +140,10 @@ class InputChangeDetails extends React.Component {
         //  用户权限判定 只能操作下级数据
         if (selectedAssigningCode >= assigningCode) {
             differ = selectedAssigningCode - assigningCode;
-            
-            colorRank[e.target.dataset.assigningcode] = e.target.dataset.zoningcode;
-            placeData(colorRank, activedColor);
 
+            colorRank[e.target.dataset.assigningcode] = e.target.dataset.zoningcode;
+            //  将每个级次选中的区划存入对象中, 并转化
+            placeData(colorRank, activedColor);
 
             if (ringFlagToggle) {
                 if (differ != 0) {
@@ -174,9 +182,9 @@ class InputChangeDetails extends React.Component {
             this.axiosZoningCompareAffairByOne(postData);
 
             originalZoningCodeArray = sliceSpecifiedCode(e.target.dataset.zoningcode);
-            targetZoningCodeArray = originalZoningCodeArray;
+            targetZoningCodeArray = sliceSpecifiedCode(e.target.dataset.zoningcode);;
             originalZoningName = e.target.dataset.zoningname;
-            targetZoningName = originalZoningName;
+            targetZoningName = e.target.dataset.zoningname;
 
             this.setState({
                 selectedAssigningCode: selectedAssigningCode,
@@ -287,33 +295,39 @@ class InputChangeDetails extends React.Component {
     }
 
     /**
-     * 变更类型
+     * 变更类型更改
      */
     handleChangeType(e) {
-        let { selectedZoningCode, selectedZoningName, ringFlag } = this.state;
+        let { selectedZoningCode, selectedZoningName, ringFlag, ringFlagToggle, selectedAssigningCode, codeRankPreview } = this.state;
         let originalZoningCode, originalZoningName, originalZoningCodeArray = [];
+        let postData = {};
 
         originalZoningCode = selectedZoningCode;
         originalZoningName = selectedZoningName;
         originalZoningCodeArray = sliceSpecifiedCode(originalZoningCode);
 
-        this.axiosLogicCheckBeforeChange(selectedZoningCode)
+        this.axiosLogicCheckBeforeChange(selectedZoningCode);
 
-        if (e == "11") {
-            this.setState({
-                changeType: e,
-                originalZoningCode: "",
-                originalZoningCodeArray: ["", "", "", "", "", ""],
-                originalZoningName: ""
-            })
-        } else if (e == "21") {
-            this.setState({
-                changeType: e,
-                originalZoningCode: originalZoningCode,
-                originalZoningCodeArray: originalZoningCodeArray,
-                originalZoningName: originalZoningName
-            })
-        } else {
+        //  是否选择环链变更
+        //  是的话   取同级区划做叶子节点
+        if (ringFlagToggle) {
+            let data = [];
+
+            switch (selectedAssigningCode + "") {
+                case "1": data = codeRankPreview["province"];
+                    break;
+                case "2": data = codeRankPreview["city"];
+                    break;
+                case "3": data = codeRankPreview["county"];
+                    break;
+                case "4": data = codeRankPreview["township"];
+                    break;
+                case "5": data = codeRankPreview["village"];
+                    break;
+                default:
+                    break;
+            }
+
             this.setState({
                 changeType: e,
                 originalZoningCode: originalZoningCode,
@@ -322,9 +336,49 @@ class InputChangeDetails extends React.Component {
                 targetZoningCode: "",
                 targetZoningName: "",
                 targetZoningCodeArray: ["", "", "", "", "", ""],
-                iconToggle: true
+                iconToggle: true,
+                ringFlag: 1,
+                treeData: data
             })
+
+        } else {
+            if (e == "11") {
+                this.setState({
+                    changeType: e,
+                    originalZoningCode: "",
+                    originalZoningCodeArray: ["", "", "", "", "", ""],
+                    originalZoningName: "",
+                    targetZoningName: "",
+                    iconToggle: false,
+                    ringFlag: 0
+                })
+            } else if (e == "21") {
+                this.setState({
+                    changeType: e,
+                    originalZoningCode: originalZoningCode,
+                    originalZoningCodeArray: originalZoningCodeArray,
+                    originalZoningName: originalZoningName,
+                    targetZoningName: originalZoningName,
+                    targetZoningCodeArray: originalZoningCodeArray,
+                    iconToggle: false,
+                    ringFlag: 0
+                })
+            } else {
+                this.setState({
+                    changeType: e,
+                    originalZoningCode: originalZoningCode,
+                    originalZoningCodeArray: originalZoningCodeArray,
+                    originalZoningName: originalZoningName,
+                    targetZoningCode: "",
+                    targetZoningName: "",
+                    targetZoningCodeArray: ["", "", "", "", "", ""],
+                    iconToggle: true,
+                    ringFlag: 0
+                })
+            }
         }
+
+
     }
 
     /**
@@ -346,15 +400,15 @@ class InputChangeDetails extends React.Component {
         obj.notes = notes;
         obj.disChangeType = changeTypeConversion(changeType);
 
-        
         group.requestSeq = requestSeq;
         group.name = requestName;
 
         this.setState({
-            group: group 
+            group: group,
+            displayDetails: tempArr
         })
 
-        if (requestName != "" && targetZoningCode != "" && targetZoningName != "" && (changeType != "" || isNaN(Number(changeType)))) {
+        if (targetZoningCode != "" && targetZoningName != "" && (changeType != "" || isNaN(Number(changeType)))) {
             this.checkAdd();
         } else {
             openNotificationWithIcon("warning", "完善变更明细数据后才能保存!");
@@ -366,7 +420,7 @@ class InputChangeDetails extends React.Component {
      * @param 区划信息 changeInfo
      */
     checkAdd() {
-        let { originalZoningCode, originalZoningName, targetZoningCode, targetZoningName, changeType, notes, requestSeq, ringFlag } = this.state;
+        let { originalZoningCode, originalZoningName, targetZoningCode, targetZoningName, targetZoningCodeArray, selectedAssigningCode, changeType, notes, requestSeq, ringFlag, sourceId, targetId } = this.state;
         let changeInfo = {
             originalZoningCode: originalZoningCode,
             originalZoningName: originalZoningName,
@@ -375,8 +429,8 @@ class InputChangeDetails extends React.Component {
             changeType: changeType,
             notes: notes,
             ringFlag: ringFlag,
-            // sourceId: sourceId,
-            // targetId: targetId,
+            sourceId: sourceId,
+            targetId: targetId,
             requestSeq: requestSeq
         };
         // let  changeType = changeInfo.changeType.toString();
@@ -388,6 +442,7 @@ class InputChangeDetails extends React.Component {
 
             if (changeType == "11") {
                 this.axiosLogicCheckBeforeSave(changeInfo);
+
             } else if (changeType == "21") {
                 if (changeInfo.targetZoningCode == changeInfo.originalZoningCode && changeInfo.targetZoningName == changeInfo.originalZoningName) {
                     openNotificationWithIcon("warning", "无效的变更，原区划代码、原区划名称与现区划代码、现区划名称完全一致!");
@@ -403,7 +458,44 @@ class InputChangeDetails extends React.Component {
                 if (targetAssCode !== originalAssCode) {
                     openNotificationWithIcon("warning", "并入的目标区划与原区划级次不一样!");
                 } else {
-                    this.axiosLogicCheckBeforeSave(changeInfo);
+                    let postData = {};
+                    postData.zoningCode = originalZoningCode;
+
+                    getSubordinateZoning(postData).then(res => {
+                        let tempObj = res.responseData;
+                        let tempArr = [];
+                        let obj = {};
+                        let targetParentCode = "";
+                        targetZoningCodeArray.forEach((item, index) => {
+                            if (index < selectedAssigningCode) {
+                                targetParentCode += item;
+                            }
+                        })
+
+                        for (var key in tempObj) {
+                            if (tempObj[key].length > 0) {
+
+                                //  拿到下级区划数据
+                                tempObj[key].forEach(item => {
+                                    obj.targetParentCode = targetParentCode
+                                    obj.originalSubCode = item.zoningCode;
+                                    obj.originalSubName = item.divisionName;
+                                    obj.targetSubName = item.divisionName;
+                                    tempArr.push(obj);
+                                    obj = {};
+                                })
+
+                                alert(`${originalZoningName}该区划存在下级`);
+                            }
+                        }
+
+                        this.setState({
+                            moreForMerge: tempArr,
+                            moreForMergeVisible: true
+                        })
+                    })
+
+                    // this.axiosLogicCheckBeforeSave(changeInfo);
                 }
             } else if (changeType == "41") {
 
@@ -417,7 +509,7 @@ class InputChangeDetails extends React.Component {
      * 刷新变更明细数据
      */
     flushDetails() {
-        let {requestSeq, requestName} = this.state;
+        let { requestSeq, requestName } = this.state;
         let obj = {};
         obj.requestSeq = requestSeq;
         obj.name = requestName;
@@ -460,7 +552,7 @@ class InputChangeDetails extends React.Component {
      * 提交区划变更对照明细
      */
     handleSubmitDetails() {
-        let {group, displayDetails, zoningCode, requestSeq, basket} = this.state;
+        let { group, displayDetails, zoningCode, requestSeq, basket } = this.state;
 
         if (displayDetails.length > 0) {
 
@@ -543,10 +635,15 @@ class InputChangeDetails extends React.Component {
             postData.details = JSON.stringify(displayDetails);
             postData.zoningCode = zoningCode;
             postData.requestSeq = requestSeq;
-        
+
             this.axiosSaveDetails(postData);
         } else {
-            openNotificationWithIcon("warning", "尚未录入明细!");
+            hashHistory.push({
+                pathname: "/about/pfpsmas/zcms/previewChangeDetails",
+                state: {
+                    systemId: sessionStorage.getItem("systemId")
+                }
+            })
         }
     }
 
@@ -558,32 +655,46 @@ class InputChangeDetails extends React.Component {
 
     handleCancel() {
         this.setState({
-            visible: false
+            visible: false,
+            moreForMergeVisible: false
         })
     }
 
     showTree() {
         let postData = {};
-        let { zoningCode, originalZoningCode } = this.state;
+        let { zoningCode, originalZoningCode, ringFlagToggle } = this.state;
 
         postData.rootCode = zoningCode;
         postData.excludeCode = originalZoningCode;
 
-        this.axiosZoningMergeSelectTree(postData).then(res => {
-            if (res.rtnCode == "000000") {
-                this.setState({
-                    treeData: res.responseData
-                })
-            }
-        });
-
+        if(!ringFlagToggle){
+            this.axiosZoningMergeSelectTree(postData).then(res => {
+                if (res.rtnCode == "000000") {
+                    this.setState({
+                        treeData: res.responseData
+                    })
+                }
+            });
+        }
+        
         this.setState({
             visible: true
         })
     }
 
     onSelectTreeNode(info, e) {
-        console.log('selected', info, e);
+        console.log('selected', info, e.node.props.dataRef);
+        let tempObj = e.node.props.dataRef;
+
+        this.setState({
+            targetZoningCode: tempObj.zoningCode,
+            targetZoningName: tempObj.divisionName,
+            targetZoningCodeArray: sliceSpecifiedCode(tempObj.zoningCode)
+        })
+    }
+
+    inputMoveCode(record, text) {
+        console.log(record, text);
     }
 
     /**
@@ -637,6 +748,7 @@ class InputChangeDetails extends React.Component {
 
     /**
      * 获取子级区划代码
+     * @param zoningCode — 区划代码
      */
     async axiosSubordinateZoning(params) {
         let res = await getSubordinateZoning(params);
@@ -670,6 +782,7 @@ class InputChangeDetails extends React.Component {
 
     /**
      * 在每次保存录入的变更明细时，进行一次逻辑校验
+     * @param params — 变更明细对象
      */
     async axiosLogicCheckBeforeSave(params) {
         params = JSON.stringify(params);
@@ -690,9 +803,11 @@ class InputChangeDetails extends React.Component {
         let tempArr = [];
         if (res.rtnCode == "000000") {
             this.state.displayDetails = [];
-            res.responseData.forEach(function (e) {
-                tempArr.push(e);
+            res.responseData.forEach(item => {
+                item.disChangeType = changeTypeConversion(item.changeType)
+                tempArr.push(item);
             });
+
             this.setState({
                 displayDetails: tempArr
             })
@@ -791,8 +906,9 @@ class InputChangeDetails extends React.Component {
      * @param  zoningCode 区划代码
      * @param  requestSeq 申请单序号
      */
-    async axiosSaveDetails(params){
+    async axiosSaveDetails(params) {
         let res = await getSaveDetails(params);
+
         if (res.rtnCode === "999999") {
             openNotificationWithIcon("error", "变更失败，请联系管理员!");
         } else {
@@ -812,8 +928,14 @@ class InputChangeDetails extends React.Component {
                 originalZoningName: "",
                 originalZoningCodeArray: ["", "", "", "", "", ""]
             })
-
             getDraftsOfDetails(this.state.requestSeq);
+
+            hashHistory.push({
+                pathname: "/about/pfpsmas/zcms/previewChangeDetails",
+                state: {
+                    systemId: sessionStorage.getItem("systemId")
+                }
+            })
         }
     }
 
@@ -831,13 +953,11 @@ class InputChangeDetails extends React.Component {
             name: "建立变更对照表",
             routerPath: "/about/pfpsmas/zcms/createChangeComparisonTable",
             imgPath: gray
-        },
-        {
+        }, {
             name: "录入变更明细",
             routerPath: "/about/pfpsmas/zcms/inputChangeDetails",
             imgPath: blue
-        },
-        {
+        }, {
             name: "变更明细预览",
             routerPath: "/about/pfpsmas/zcms/previewChangeDetails",
             imgPath: black
@@ -884,46 +1004,62 @@ class InputChangeDetails extends React.Component {
             ),
         }];
 
+        const moreColumns = [{
+            title: '并入区划代码',
+            dataIndex: 'targetParentCode',
+            key: 'targetParentCode',
+            width: 150,
+        }, {
+            title: '原区划代码',
+            dataIndex: 'originalSubCode',
+            key: 'originalSubCode',
+            width: 150,
+        }, {
+            title: '原区划名称',
+            dataIndex: 'originalSubName',
+            key: 'originalSubName',
+            width: 150,
+        }, {
+            title: '迁移后区划名称',
+            dataIndex: 'targetSubName',
+            key: 'targetSubName',
+            width: 150,
+        }, {
+            title: '迁移后区划代码',
+            key: 'operation',
+            width: 150,
+            render: (text, record) => (
+                <Input size="large" onChange={this.inputMoveCode.bind(this, record)} />
+            ),
+        }];
+
         const displayDom = (data, color) => Object.keys(data).map(key => {
             return (
-                <Col span={3}>
+                <Col span={4}>
+                    <FreeScrollBar>
                     {loop(data[key], color[key])}
+                    </FreeScrollBar>
                 </Col>
             )
         });
 
         const loop = (data, color) => data.map((item) => {
-            if(color == item.zoningCode){
-                return (
-                    <tr className="zoningcode-tr zoningCode-actived"
-                        data-zoningCode={item.zoningCode}
-                        data-zoningName={item.divisionName}
-                        data-assigningCode={item.assigningCode}
-                        onClick={this.handleAxiosSubordinateZoning.bind(this)}
-                        >
+
+            return (
+                    <tr className={`zoningcode-tr ${color == item.zoningCode ? "zoningCode-actived" : null}`}
+                    data-zoningCode={item.zoningCode}
+                    data-zoningName={item.divisionName}
+                    data-assigningCode={item.assigningCode}
+                    onClick={this.handleAxiosSubordinateZoning.bind(this)}
+                    >
                         <td data-zoningCode={item.zoningCode}
                             data-zoningName={item.divisionName}
                             data-assigningCode={item.assigningCode}>
                             {item.divisionName} {item.ownCode}
                         </td>
                     </tr>
-                )
-            }else{
-                return (
-                    <tr className="zoningcode-tr"
-                        data-zoningCode={item.zoningCode}
-                        data-zoningName={item.divisionName}
-                        data-assigningCode={item.assigningCode}
-                        onClick={this.handleAxiosSubordinateZoning.bind(this)}
-                        >
-                        <td data-zoningCode={item.zoningCode}
-                            data-zoningName={item.divisionName}
-                            data-assigningCode={item.assigningCode}>
-                            {item.divisionName} {item.ownCode}
-                        </td>
-                    </tr>
-                )
-            }
+                
+            )
         })
 
         const loopInput = (data, assigningcode, changeType) => data.map((item, index) => {
@@ -967,22 +1103,41 @@ class InputChangeDetails extends React.Component {
         })
 
         const loopTree = data => data.map((item) => {
-            if (item.children) {
-                console.log("children", item.children)
-                return <TreeNode title={item.divisionName} key={item.zoningCode} dataRef={item}>
-                    {loopTree(item.children)}
-                </TreeNode>;
+            if(this.state.ringFlagToggle){
+                return <TreeNode title={item.divisionName} key={item.zoningCode} dataRef={item} isLeaf="true"/>;
+            }else{
+                if (item.children) {
+                    console.log("children", item.children)
+                    return <TreeNode title={item.divisionName} key={item.zoningCode} dataRef={item}>
+                        {loopTree(item.children)}
+                    </TreeNode>;
+                }
+                return <TreeNode title={item.divisionName} key={item.zoningCode} dataRef={item} />;
             }
-            return <TreeNode title={item.divisionName} key={item.zoningCode} dataRef={item} />;
         });
 
         const treeNodes = loopTree(this.state.treeData);
+
+        const rowSelection = {
+
+            onChange(selectedRowKeys, selectedRows) {
+                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            },
+
+            onSelect(record, selected, selectedRows) {
+                console.log(record, selected, selectedRows);
+            },
+
+            onSelectAll(selected, selectedRows, changeRows) {
+                console.log(selected, selectedRows, changeRows);
+            },
+        };
 
         return (
             <div className="outer-box">
 
                 <div className="inputchangedetails">
-
+                <FreeScrollBar autohide="true">
                     <Navbar data={navbar}></Navbar>
 
                     <div className="container">
@@ -1015,7 +1170,7 @@ class InputChangeDetails extends React.Component {
                                     <Row>
                                         <Col span={6}>
                                             <label className="label-font-16">调整说明
-                                                <span className="color-red-margin">*</span>
+                                                {/* <span className="color-red-margin">*</span> */}
                                             </label>
                                         </Col>
                                         <Col span={18}>
@@ -1028,8 +1183,8 @@ class InputChangeDetails extends React.Component {
                                 {/* 调整类型 */}
                                 <Col span={12}>
                                     <Row>
-                                        <Col span={6} style={{marginTop: 7}}>
-                                            <Checkbox onChange={this.handleChecked.bind(this)} style={{fontSize: 16}}>环链变更</Checkbox>
+                                        <Col span={6} style={{ marginTop: 7 }}>
+                                            <Checkbox onChange={this.handleChecked.bind(this)} style={{ fontSize: 16 }}>环链变更</Checkbox>
                                         </Col>
                                         <Col span={18}>
                                             <Row>
@@ -1142,6 +1297,7 @@ class InputChangeDetails extends React.Component {
                             <Button type="primary" size="large" className="margin-top-10" onClick={this.handleSubmitDetails.bind(this)}>预览</Button>
                         </div>
                     </div>
+                    </FreeScrollBar>
                 </div>
 
                 {/* 区划树模态框 */}
@@ -1151,19 +1307,23 @@ class InputChangeDetails extends React.Component {
                     <div>
                         {/* <Input style={{ marginBottom: 8 }} placeholder="Search" onChange={this.onSearchTreeChange.bind(this)} /> */}
 
-                        {/* <Tree
-                            // onExpand={this.onExpand.bind(this)}
-                            expandedKeys={this.state.expandedKeys}
-                            autoExpandParent={this.state.autoExpandParent}
-                            loadData={this.onLoadData.bind(this)}
-                        >
-                            {treeNodes}
-                        </Tree> */}
-
                         <Tree onSelect={this.onSelectTreeNode.bind(this)} loadData={this.onLoadData.bind(this)}>
                             {treeNodes}
                         </Tree>
                     </div>
+                </Modal>
+
+                <Modal title="并入区划下要迁移的下级行政区划" visible={this.state.moreForMergeVisible}
+                    onOk={this.handleOk.bind(this)} onCancel={this.handleCancel.bind(this)}
+                    okText="迁移" cancelText="关闭"
+                >
+                    <h6 style={{
+                        color: "#f00",
+                        textAlign: "center",
+                        marginBottom: 10
+                    }}>
+                        请手工录入迁移后的区划代码</h6>
+                    <Table rowSelection={rowSelection} columns={moreColumns} dataSource={this.state.moreForMerge} pagination={{ pageSize: 5 }} />
 
                 </Modal>
 
