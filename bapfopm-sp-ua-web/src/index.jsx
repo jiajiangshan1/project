@@ -41,6 +41,7 @@ import Download from "./Pages/pfpsmas/zcms/rzc/download";
 import TimedTask from "./Pages/pfpsmas/zcms/rzc/timedTask";
 import PreviewFormalZoningCode from "./Pages/pfpsmas/zcms/rzc/previewFormalZoningCode";
 import ProvincialVersionControl from "./Pages/pfpsmas/zcms/rzc/provincialVersionControl";
+import ConditionQuery from "./Pages/pfpsmas/zcms/rzc/conditionQuery";
 
 //  引入axios
 //  并做全局配置
@@ -87,8 +88,8 @@ ReactDOM.render(
                 <Route path='/about/pfpsmas/zcms/timedTask' component={TimedTask} />
                 <Route path='/about/pfpsmas/zcms/previewFormalZoningCode' component={PreviewFormalZoningCode} />
                 <Route path='/about/pfpsmas/zcms/provincialVersionControl' component={ProvincialVersionControl} />
+                <Route path='/about/pfpsmas/zcms/conditionQuery' component={ConditionQuery} />
                 
-
                 <Route path='/about/wpdmp/dmp/apilist' component={ApiList}>
                     <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>
                     <Route path='/about/wpdmp/dmp/apilist/apiDetailChange' component={ApiDetailChange}/>
