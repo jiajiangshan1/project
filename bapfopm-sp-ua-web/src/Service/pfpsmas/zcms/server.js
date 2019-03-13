@@ -117,7 +117,9 @@ export let getDraftsOfDetails = async (params) => {
     let response = await axios({
         url: 'zcmsapi1/zoningChangeManager/getDraftsOfDetails',
         method: 'get',
-        params: {requestSeq: params}
+        params: {
+            requestSeq: params
+        }
     })
     return response.data
 }
@@ -129,7 +131,9 @@ export let getRemoveDraftsOfDetails = async (params) => {
     let response = await axios({
         url: 'zcmsapi1/zoningChangeManager/removeDraftsOfDetails',
         method: 'get',
-        params: {ids: params}
+        params: {
+            ids: params
+        }
     })
     return response.data
 }
@@ -142,7 +146,9 @@ export let getLogicCheckBeforeSave = async (params) => {
     let response = await axios({
         url: 'zcmsapi1/zoningChangeManager/logicCheckBeforeSave',
         method: 'get',
-        params: {detail: params}
+        params: {
+            detail: params
+        }
     })
     return response.data
 }
@@ -155,7 +161,9 @@ export let getLogicCheckBeforeChange = async (params) => {
     let response = await axios({
         url: 'zcmsapi1/queryZoningData/logicCheckBeforeChange',
         method: 'get',
-        params: {zoningCode: params}
+        params: {
+            zoningCode: params
+        }
     })
     return response.data
 }
@@ -187,7 +195,7 @@ export let getSaveDetails = async (params) => {
         url: 'zcmsapi1/zoningChangeManager/saveDetails',
         method: 'post',
         transformRequest: [
-            function(data) {
+            function (data) {
                 let ret = '';
                 for (let it in data) {
                     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&';
@@ -385,6 +393,46 @@ export let getFindVersionRecord = async () => {
 export let getRecordVersion = async (params) => {
     let response = await axios({
         url: 'zcmsapi1/zoningChangeManager/recordVersion',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+//  rzc
+//  区划代码条件查询
+//  conditionQuery
+
+/**
+ * 按区划条件查询
+ * @param {string} zoningCode     区划代码
+ * @param {string} zoningName     区划名称
+ * @param {string} assigningCode  级次代码
+ * @param {string} pageSize   每条页码数量
+ * @param {string} pageIndex  当前页码
+ * @param {string} total  总数
+ */
+export let getQueryZoning = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/queryZoningData/queryZoning',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+
+//  rzc
+//  历史轨迹查询
+//  historicalTrackQuery
+
+/**
+ * 历史轨迹数据获取接口
+ * @param {string} zoningCode 区划代码
+ * @param {string} timeInterval 时间间隔(所选时间到最近一次发布)   6位数
+ */
+export let getHistoricalTrack = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/queryZoningData/query/historyDate',
         method: 'get',
         params: params
     })
