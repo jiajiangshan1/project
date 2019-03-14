@@ -11,7 +11,7 @@
     height: 180px;
 }
 
-.previewchangedetails .container .container-top :global(.ant-row-flex .ant-col-3){
+.previewchangedetails .container .container-top :global(.ant-row-flex .ant-col-4){
     background: url("../../../../asset/sp/ua/img/portal/1/2.png") repeat;
     height: inherit;
     overflow: auto;
