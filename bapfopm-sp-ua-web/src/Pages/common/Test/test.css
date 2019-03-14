@@ -41,6 +41,16 @@
     padding-left: 10%;
 }
 
+
+.a .ant-table-tbody > tr > td{
+  border: none;
+}
+
+/*2.22更改*/
+.button-group{
+  margin-top: 10px;
+}
+
 .container-top-2 .civil-span{
     display: inline-block;
     height: 37px;
@@ -137,4 +147,4 @@
     display: none;
 }
 
-    
+
