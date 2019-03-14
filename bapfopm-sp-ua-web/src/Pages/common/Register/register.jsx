@@ -88,25 +88,8 @@ class Register extends React.Component {
         let treeData = [...this.state.treeData];
         console.log('-------------',treeData);  
 
-        // debugger
-        // if (data.length > 0) {
-        //     this.ergodicArr(treeData, data);
-        // }
-
         this.setState({
             treeData: treeData
-        })
-    }
-
-    //  遍历区划树
-    ergodicArr(arr, data) {
-        arr.forEach((item) => {
-            if (item.zoningCode == data[0].pid) {
-                item.children = data;
-            }
-            else if (item.children) {
-                this.ergodicArr(item.children);
-            }
         })
     }
 

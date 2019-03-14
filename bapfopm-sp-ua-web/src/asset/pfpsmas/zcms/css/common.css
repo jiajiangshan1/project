@@ -1,0 +1,29 @@
+.ant-notification-notice-with-icon .ant-notification-notice-message{
+    font-size: 18px;
+}
+
+
+.ant-notification-notice-with-icon .ant-notification-notice-description{
+    font-size: 14px;
+}
+
+.margin-top-15{
+    margin-top: 15px;
+}
+
+.margin-left-20{
+    margin-left: 20px;
+}
+
+.zoningCode-actived{
+    background: #3ea7d4;
+}
+
+
+.margin-top-10{
+    margin-top: 10px;
+}
+
+.background-color-red{
+    background-color: #f00;
+}

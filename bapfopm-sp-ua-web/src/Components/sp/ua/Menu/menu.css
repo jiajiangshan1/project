@@ -1,0 +1,9 @@
+.ant-menu-dark.ant-menu-inline .ant-menu-item-selected > span > a{
+    color: #fff;
+}
+
+.ant-menu-dark.ant-menu-inline .ant-menu-item> span > a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}

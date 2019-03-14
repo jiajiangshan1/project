@@ -1,0 +1,332 @@
+.nav {
+    width: 94%;
+    height: 54px;
+    background: none;
+    margin-left: 6%;
+    padding-top: 20px;
+}
+
+.nav .navbar-a {
+    width: 18%;
+    height: 32px;
+    display: inline-block;
+    line-height: 32px;
+    font-size: 16px;
+    color: #ffffff;
+    text-align: center;
+    margin-left: -10px;
+    position: relative;
+}
+
+.nav .navbar-a span {
+    width: 100%;
+    display: inline-block;
+    z-index: 1;
+    position: absolute;
+    left: 0;
+}
+
+.nav .navbar-a img {
+    width: 100%;
+    height: 32px;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+}
+
+.button-group {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.button-group :global(button) {
+    margin-right: 20px;
+}
+
+.search-condition {
+    margin-top: 20px;
+}
+
+.search-condition span {
+    display: inline-block;
+    width: 100%;
+    height: inherit;
+    color: #fff;
+    font-size: 14px;
+}
+
+.conditionQuery .ant-table-tbody>tr>td {
+    border: none;
+}
+
+table thead tr th {
+    text-align: center;
+}
+
+.hr_2 {
+    width: 94%;
+    height: 10px;
+    border-top: 1px solid #468994;
+    border-bottom: 1px solid #468994;
+    margin: 20px 3% 0px 3%;
+}
+
+.t-title {
+    display: inline-block;
+    width: 100%;
+    padding: 16px 8px;
+    font-size: 16px;
+    color: #fff;
+    background: rgba(0, 0, 0, .1);
+    box-shadow: 2px 2px 5px rgba(0, 17, 42, .4);
+}
+
+.conditionQuery .cursor {
+    width: 100%;
+    height: 70px;
+    background: rgba(0, 0, 0, .1);
+    margin-top: 20px;
+}
+
+.conditionQuery .cursor .dm {
+    color: #FFD600;
+    font-size: 14px;
+    display: block;
+    margin-bottom: -27px;
+    padding-top: 7px;
+    padding-left: 14px;
+}
+
+.conditionQuery .xing {
+    color: red;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.4);
+    padding-left: 5px;
+}
+
+.conditionQuery .label {
+    line-height: 70px;
+    font-size: 18px;
+    color: #ffffff;
+    margin-left: 14%;
+}
+
+.conditionQuery .c-input {
+    width: 21%;
+    height: 38px;
+    line-height: 38px;
+    background: #fff;
+    border: 1px solid #39efff;
+    padding-left: 10px;
+    color: #558487;
+    font-size: 14px;
+    font-style: italic;
+    margin-left: 2%;
+}
+
+.conditionQuery .c-query {
+    margin-left: 3%;
+}
+
+.conditionQuery .mc {
+    margin-left: 3%;
+}
+
+.conditionQuery .select {
+    width: 21%;
+    margin-left: 2%;
+    color: #558487;
+    font-size: 14px;
+}
+
+.conditionQuery .reset {
+    margin-left: 2%;
+}
+
+.conditionQuery .inp {
+    width: 12%;
+}
+
+.conditionQuery .in {
+    width: 12%;
+    height: 32px;
+    line-height: 32px;
+}
+
+.conditionQuery .lab {
+    line-height: 70px;
+    font-size: 18px;
+    color: #ffffff;
+    margin-left: 14%;
+    margin-left: 2%;
+}
+
+.ant-calendar-picker {
+    margin-left: 2%;
+}
+
+.conditionQuery #echarts-demo {
+    width: 100%;
+    height: 400px;
+}
+
+.ant-btn-ghost {
+    color: #fff !important;
+}
+
+.conditionQuery .q-show {
+    width: 100%;
+    height: 50px;
+    padding: 16px 8px;
+    background: rgba(0, 0, 0, .1);
+    box-shadow: 2px 2px 5px rgba(0, 17, 42, .4);
+}
+
+.conditionQuery .q-show .q-query {
+    font-size: 16px;
+    color: #fff;
+    float: left;
+}
+
+.conditionQuery .q-show .dele {
+    width: 7%;
+    float: right;
+    border-radius: 16px;
+    line-height: 30px;
+    margin-right: 5%;
+    margin-top: -8px;
+    background: #848484;
+    border: none;
+}
+
+.conditionQuery .contents {
+    width: 19%;
+    height: 16px;
+    /* background: url("../../../../asset/pfpsmas/zcms/img/hengxian.png") no-repeat; */
+    background-position: center;
+    background-size: 100%;
+    margin-top: 20px;
+    margin-left: 2%;
+    text-align: center;
+}
+
+.conditionQuery .contents .span {
+    font-size: 16px;
+    color: #fff;
+    line-height: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.conditionQuery {
+    position: relative;
+}
+
+.conditionQuery .upload-quhua {
+    position: relative;
+    font-size: 16px;
+    color: #ffffff;
+    top: 30px;
+    left: 1%
+}
+
+.conditionQuery .upload-quhua span {
+    line-height: 35px;
+    display: inline-block;
+    padding-left: 2%;
+}
+
+.conditionQuery .button-group-quhua {
+    position: absolute;
+    top: 85px;
+    left: 45%;
+}
+
+.conditionQuery .filename {
+    display: inline-block;
+    position: absolute;
+    background: #ffffff;
+    width: 22%;
+    height: 35px;
+    top: 0;
+    left: 9%;
+    color: #999;
+}
+
+.conditionQuery .button-up {
+    position: absolute;
+    left: 31%;
+    width: 8%;
+    height: 37px;
+    background: url("../../../../asset/pfpsmas/zcms/img/button-black.png") no-repeat;
+    background-size: 100% 110%;
+    line-height: 37px;
+    text-align: center;
+    right: 2px;
+    border: none;
+}
+
+.conditionQuery .upload-file {
+    position: absolute;
+    left: 31%;
+    top: 7px;
+    z-index: 1;
+    font-size: 1px;
+    width: 8%;
+    opacity: 0;
+}
+
+.conditionQuery .container-top {
+    width: 93%;
+    height: 187px;
+    background: none;
+    margin-top: 10px;
+}
+
+.conditionQuery .container-top :global(.ant-row-flex){
+    height: 180px;
+}
+
+.conditionQuery .container-top :global(.ant-row-flex .ant-col-3){
+    background: url("../../../../asset/pfpsmas/zcms/img/xiaotu_03.png") repeat;
+    height: inherit;
+    overflow: auto;
+}
+
+.conditionQuery .container-top .zoningcode-tr{
+    width: 100%;
+    display: inline-block;
+    font-size: 14px;
+    color: #fff;
+    line-height: 30px;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.conditionQuery .container-top .zoningcode-tr:hover{
+    background: #3ea7d4;
+}
+.conditionQuery .container-top .zoningcode-tr td{
+    text-align: left;
+}
+
+.conditionQuery :global(.ant-col-8), 
+.conditionQuery :global(.ant-col-16){
+    font-size: 16px;
+}
+.conditionQuery .container-bottom{
+    width: 43%;
+    height: 30px;
+    margin: 0 auto;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #fff;
+    line-height: 16px;
+}
+
+.conditionQuery .container-bottom .c-input{
+    width: 66%;
+    height: 16px;
+    border: none;
+    display: inline-block;
+    background: transparent;
+}

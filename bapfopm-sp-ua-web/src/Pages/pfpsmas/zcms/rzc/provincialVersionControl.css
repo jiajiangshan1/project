@@ -1,0 +1,8 @@
+.provincialVersionControl .container-bottom{
+    margin-top: 15px;
+}
+
+.provincialVersionControl-table :global(.ant-table-thead > tr > th),
+.provincialVersionControl-table :global(.ant-table-tbody > tr > td){
+    text-align: center;
+}

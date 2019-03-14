@@ -28,6 +28,12 @@ export {Template}
 import Navigation from "./wpdmp/dmp/Navigation";
 export {Navigation}
 
-
 import List from './wpdmp/dmp/List/list';
 export {List}
+
+//  pfpsmas-zcms
+import Navbar from "./pfpsmas/zcms/common/Navbar/navbar"
+export {Navbar}
+
+import Hr from "./pfpsmas/zcms/common/Hr/hr"
+export {Hr}

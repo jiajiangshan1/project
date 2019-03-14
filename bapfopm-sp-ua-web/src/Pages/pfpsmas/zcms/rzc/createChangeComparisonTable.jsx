@@ -2,36 +2,46 @@ import React from 'react';
 import { hashHistory, Link } from "react-router";
 import qs from 'qs'
 
-import blue from "../../../asset/pfpsmas/zcms/img/blue.png";
-import black from "../../../asset/pfpsmas/zcms/img/black.png"
-import gray from "../../../asset/pfpsmas/zcms/img/gray.png"
+import blue from "../../../../asset/pfpsmas/zcms/img/blue.png";
+import black from "../../../../asset/pfpsmas/zcms/img/black.png"
+import gray from "../../../../asset/pfpsmas/zcms/img/gray.png"
 
-import './test.css'
+import './createChangeComparisonTable.css'
 
-import { Table, Button, Modal, notification, Input  } from 'antd';
-import { getZoningChangeRequestList, getAddZoningChangeRequest, getFindWritableZCCRequests } from "../../../Service/pfpsmas/zcms/server";
+import { Table, Button, Modal, Input } from 'antd';
+import { Navbar, Hr } from "../../../../Components/index";
 
-class Test extends React.Component{
-    constructor(props){
+import {openNotificationWithIcon} from "../../../../asset/pfpsmas/zcms/js/common";
+import { getZoningChangeRequestList, getAddZoningChangeRequest, getFindWritableZCCRequests, getDetailedConfirmationVerification } from "../../../../Service/pfpsmas/zcms/server";
+
+class CreateChangeComparisonTable extends React.Component {
+    constructor(props) {    
         super(props);
         this.state = {
             requestList: [],    //  申请单存放数组
             addRequestToggle: false, //  添加申请单确认框显隐开关
             isDisabled: false,   //  添加按钮是否禁用
 
+            systemId: sessionStorage.getItem("systemId"),   //  系统id
             zoningName: sessionStorage.getItem("zoningName"),   //  行政区划名称
             levelCode: sessionStorage.getItem("levelCode"), //  级次代码
 
             name: "",   //  申请单名称
             notes: "",  //  申请单备注
+
+            requestSeq: "", //  变更申请单序号
+            nextRouter: "", //  下一步路由
         }
     }
 
-    showPrompt(){
+    /**
+     * 显示添加申请单模态框
+     */
+    showPrompt() {
         let myDate = new Date();
         let year = myDate.getFullYear();
         let month = myDate.getMonth() + 1;
-        let {zoningName} = this.state;
+        let { zoningName } = this.state;
         let name;
         name = `${zoningName}${year}年${month}月的区划代码变更表`;
         this.setState({
@@ -40,15 +50,21 @@ class Test extends React.Component{
         })
     }
 
-    handleCancel(){
+    /**
+     * 隐藏添加申请单模态框
+     */
+    handleCancel() {
         this.setState({
             addRequestToggle: false
         })
     }
 
-    handleSubmit(){
+    /**
+     * 提交添加申请单
+     */
+    handleSubmit() {
         let postDataObj = {};
-        let {name, notes, zoningName, levelCode} = this.state;
+        let { name, notes, zoningName, levelCode } = this.state;
         postDataObj.name = name;
         postDataObj.notes = notes;
         postDataObj.zoningName = zoningName;
@@ -60,18 +76,27 @@ class Test extends React.Component{
             notes: notes,
             zoningName: zoningName,
             levelCode: levelCode,
-        })  
+        })
 
         this.axiosAddZoningChangeRequest(postDataObj);
     }
 
-    changeName(e){
+    handleNextRouter(record){        
+        let postData = {};
+        postData.seqStr = record.seq;
+        this.setState({
+            requestSeq: record.seq
+        })
+        this.axiosDetailedConfirmationVerification(postData);
+    }
+
+    changeName(e) {
         this.setState({
             name: e.target.value
         })
     }
 
-    changeNote(e){
+    changeNote(e) {
         this.setState({
             notes: e.target.value
         })
@@ -80,10 +105,10 @@ class Test extends React.Component{
     /**
      *  查询申请单
      */
-    async axiosZoningChangeRequestList(){
+    async axiosZoningChangeRequestList() {
         let res = await getZoningChangeRequestList();
         console.log("数据", res);
-        if(res.rtnCode == "000000"){
+        if (res.rtnCode == "000000") {
             this.setState({
                 requestList: res.responseData.dataList
             })
@@ -93,13 +118,13 @@ class Test extends React.Component{
     /**
      * 查询是否存在可录入的申请单
      */
-    async axiosFindWritableZCCRequests(){
+    async axiosFindWritableZCCRequests() {
         let res = await getFindWritableZCCRequests();
-        if(res.rtnCode == "000000" && res.responseData != 0){
+        if (res.rtnCode == "000000" && res.responseData != 0) {
             this.setState({
                 isDisabled: true
             })
-        }else{
+        } else {
             this.setState({
                 isDisabled: false
             })
@@ -115,125 +140,143 @@ class Test extends React.Component{
      * @param notes — 备注
      * @param zoningName — 区划名称
      */
-    async axiosAddZoningChangeRequest(params){
+    async axiosAddZoningChangeRequest(params) {
         let res = await getAddZoningChangeRequest(params);
-        if(res.rtnCode == "000000"){
+        if (res.rtnCode == "000000") {
             this.axiosZoningChangeRequestList();
-        }else{
-            alert(res.rtnMessage);
+            this.setState({
+                isDisabled: true
+            })
+        } else {
+            openNotificationWithIcon("error", res.rtnMessage);
         }
         this.setState({
             addRequestToggle: false
         })
     }
 
-    componentWillMount(){
+    /**
+     * 变更对照表中是否存在未确认的变更明细
+     * 存在 预览页面; 不存在  录入页面
+     * @param {String} seqStr 
+     */
+    async axiosDetailedConfirmationVerification(params){
+        let res = await getDetailedConfirmationVerification(params);
+        if(res.rtnCode == "000000"){
+            this.setState({
+                nextRouter: "/about/pfpsmas/zcms/previewChangeDetails"
+            },()=>{
+                this.handleHashHistory();
+            })
+        }else{
+            this.setState({
+                nextRouter: "/about/pfpsmas/zcms/inputChangeDetails"
+            },()=>{
+                this.handleHashHistory();
+            })
+        }      
+    }
+
+    /**
+     * 跳转
+     */
+    handleHashHistory(){
+        let {nextRouter, systemId, requestSeq} = this.state;
+        let data = {
+            systemId: systemId,
+            requestSeq: requestSeq
+        }
+
+        console.log(nextRouter);
+
+        hashHistory.push({
+            pathname: nextRouter,
+            state: data
+        }); 
+    }
+
+    componentWillMount() {
         this.axiosZoningChangeRequestList();
         this.axiosFindWritableZCCRequests();
     }
 
-    render(){
+    render() {
         const columns = [{
             title: '区划代码',
             dataIndex: 'levelCode',
             key: 'levelCode',
-          }, {
+        }, {
             title: '区划名称',
             dataIndex: 'zoningName',
             key: 'zoningName',
-          }, {
+        }, {
             title: '变更对照表名称',
             dataIndex: 'name',
             key: 'name',
-          }, {
+        }, {
             title: '备注',
             dataIndex: 'notes',
             key: 'notes',
-          }, {
+        }, {
             title: '录入时间',
             dataIndex: 'createDate',
             key: 'createDate',
-          }, {
+        }, {
             title: '操作',
             render: (text, record) => (
-                <span>
-                  <Link to="javascript:;">录入明细</Link>
-                </span>
-              ),
-          }];
-          
-          const navbar = [{
+                <Button type="primary" size="large" onClick={this.handleNextRouter.bind(this, record)}>录入明细</Button>
+            ),
+        }];
+
+        const navbar = [{
             name: "建立变更对照表",
-            routerPath: "javascript:;",
+            routerPath: "/about/pfpsmas/zcms/createChangeComparisonTable",
             imgPath: blue
-          },
-          { 
+        },
+        {
             name: "录入变更明细",
-            routerPath: "javascript:;",
+            routerPath: "/about/pfpsmas/zcms/inputChangeDetails",
             imgPath: black
-          },
-          {
-            name: "维护变更对照表",
-            routerPath: "javascript:;",
+        },
+        {
+            name: "变更明细预览",
+            routerPath: "/about/pfpsmas/zcms/previewChangeDetails",
             imgPath: black
-          },
-          {
-            name: "审核变更对照表",
-            routerPath: "javascript:;",
-            imgPath: black
-          }
-        ]
+        }];
 
-        const loop = data => data.map(item => {
-            return (
-                <Link to={item.routerPath} className="navbar-a">
-                    <img src={item.imgPath} alt="导航背景"/> 
-                    <span className="">{item.name}</span>
-                </Link>
-            )
-        })
-
-        
         return (
             <div>
-                <div className="nav">
-                    {loop(navbar)}
-                </div>
+                <Navbar data={navbar}></Navbar>
 
-                <div style={{
-                    marginTop: 20
-                }}>
-                    <Table columns={columns} dataSource={this.state.requestList} />
-                </div>
+                <div className="container"> 
 
-                <div>
-                    <Button type="primary" size="large" style={{
-                        position: "absolute",
-                        left: "50%",
-                        marginTop: 20
-                    }} disabled={this.state.isDisabled} onClick={this.showPrompt.bind(this)}>添加</Button>
-                </div>
+                    <div className="container-top margin-top-10">
+                        <Table columns={columns} dataSource={this.state.requestList} />
+                    </div>
 
-                <div>
-                    <Modal title="添加申请单" visible={this.state.addRequestToggle}
-                        okText="提交" cancelText="返回"
-                        onOk={this.handleSubmit.bind(this)}
-                        onCancel={this.handleCancel.bind(this)}
-                    >
+                    <div className="container-bottom margin-top-10">
+                        <Button type="primary" size="large" disabled={this.state.isDisabled} onClick={this.showPrompt.bind(this)}>添加</Button>
+                    </div>
+                </div>
+                
+                <Modal title="添加申请单" visible={this.state.addRequestToggle}
+                    okText="提交" cancelText="返回"
+                    onOk={this.handleSubmit.bind(this)}
+                    onCancel={this.handleCancel.bind(this)}
+                >
+                    <div>
                         <div>
-                            <div>
-                                <span>变更对照表名称</span>
-                                <Input onChange={this.changeName.bind(this)} value={this.state.name}></Input>
-                            </div>
-                            <div>
-                                <span>备注</span>
-                                <Input type="textarea" onChange={this.changeNote.bind(this)} value={this.state.notes}></Input>
-                            </div>
-                        </div>   
-                    </Modal>
-                </div>
+                            <span>变更对照表名称</span>
+                            <Input onChange={this.changeName.bind(this)} value={this.state.name}></Input>
+                        </div>
+                        <div>
+                            <span>备注</span>
+                            <Input type="textarea" onChange={this.changeNote.bind(this)} value={this.state.notes}></Input>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         )
     }
 }
-export default Test;
+export default CreateChangeComparisonTable;

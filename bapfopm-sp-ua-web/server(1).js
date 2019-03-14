@@ -4,7 +4,7 @@ var proxy = require('http-proxy-middleware');
 // proxy 中间件的选择项
 var options = {
     // target: 'http://172.30.3.159:7331', // 目标服务器 host
-    target: 'http://192.168.2.252:7331/;',
+    target: 'http://10.1.92.19:7331/;',
     changeOrigin: true,               // 默认false，是否需要改变原始主机头为目标URL
     ws: true,                         // 是否代理websockets
     onProxyRes: function(proxyRes, req, res) {
@@ -20,7 +20,7 @@ var options = {
 
 var options1 = {
     // target: 'http://10.131.101.11:8251/', // 目标服务器 host
-    target: 'http://192.168.3.238:8251/;', // 目标服务器 host
+    target: 'http://10.1.92.3:8251/;', // 目标服务器 host
     changeOrigin: true,               // 默认false，是否需要改变原始主机头为目标URL
     ws: true,                         // 是否代理websockets
     onProxyRes: function(proxyRes, req, res) {
@@ -31,6 +31,21 @@ var options1 = {
     },
     pathRewrite: {
         '^/zcmsapi' : '',
+    }
+};
+
+var options4 = {
+    target: 'http://10.1.92.7:8251/;', // 目标服务器 host
+    changeOrigin: true,               // 默认false，是否需要改变原始主机头为目标URL
+    ws: true,                         // 是否代理websockets
+    onProxyRes: function(proxyRes, req, res) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header('Access-Control-Allow-Credentials', 'true');
+        res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+
+    },
+    pathRewrite: {
+        '^/zcmsapi1' : '',
     }
 };
 
@@ -71,6 +86,7 @@ var exampleProxy = proxy(options);
 var exampleProxy1 = proxy(options1);
 var exampleProxy2 = proxy(options2);
 var exampleProxy3 = proxy(options3);
+var exampleProxy4 = proxy(options4);
 
 // 使用代理
 var app = express();
@@ -78,6 +94,7 @@ app.use('/spua', exampleProxy);
 app.use('/zcmsapi', exampleProxy1);
 app.use('/dmpapi', exampleProxy2);
 app.use('/dmpapi1', exampleProxy3);
+app.use('/zcmsapi1', exampleProxy4);
 app.listen(9999);
 
 console.log('Proxy server is listen at port 9999...');

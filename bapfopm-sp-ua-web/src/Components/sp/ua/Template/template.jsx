@@ -13,6 +13,7 @@ import Bread from '../BreadCrumb/breadCrumb'
 
 import Test from "../../../../Pages/common/Test/test"
 import Test2 from "../../../../Pages/common/Test2/test2"
+
 //  wpdmp-dmp
 import ApiList from '../../../../Pages/wpdmp/dmp/ApiList/apilist'
 import ApiDetail from "../../../../Pages/wpdmp/dmp/ApiDetail/apiDetail";
@@ -23,6 +24,17 @@ import ApplyApiCheck from "../../../../Pages/wpdmp/dmp/ApplyApiCheck/applyApiChe
 import {ApplyApiList} from "../../../../Pages/wpdmp/dmp/ApplyApiList/applyApiList";
 import {ApplyApi} from "../../../../Pages/wpdmp/dmp/ApplyApi/applyApi";
 import {ReviewApi} from "../../../../Pages/wpdmp/dmp/ReviewApi/reviewApi";
+
+//  pfpsmas-zcms
+import CreateChangeComparisonTable from "../../../../Pages/pfpsmas/zcms/rzc/createChangeComparisonTable";
+import InputChangeDetails from "../../../../Pages/pfpsmas/zcms/rzc/inputChangeDetails";
+import PreviewChangeDetails from "../../../../Pages/pfpsmas/zcms/rzc/previewChangeDetails";
+import Download from "../../../../Pages/pfpsmas/zcms/rzc/download";
+import TimedTask from "../../../../Pages/pfpsmas/zcms/rzc/timedTask";
+import PreviewFormalZoningCode from "../../../../Pages/pfpsmas/zcms/rzc/previewFormalZoningCode";
+import ProvincialVersionControl from "../../../../Pages/pfpsmas/zcms/rzc/provincialVersionControl";
+import ConditionQuery from "../../../../Pages/pfpsmas/zcms/rzc/conditionQuery";
+
 
 require('./template.css')
 
@@ -61,6 +73,18 @@ export const Template = (props) => (
 
                         <Route path='/about/test' component={Test} />
                         <Route path='/about/test2' component={Test2} />
+
+
+                        <Route path='/about/pfpsmas/zcms/createChangeComparisonTable' component={CreateChangeComparisonTable} />
+                        <Route path='/about/pfpsmas/zcms/inputChangeDetails' component={InputChangeDetails} />
+                        <Route path='/about/pfpsmas/zcms/previewChangeDetails' component={PreviewChangeDetails} />
+                        <Route path='/about/pfpsmas/zcms/download' component={Download} />
+                        <Route path='/about/pfpsmas/zcms/timedTask' component={TimedTask} />
+                        <Route path='/about/pfpsmas/zcms/previewFormalZoningCode' component={PreviewFormalZoningCode} />
+                        <Route path='/about/pfpsmas/zcms/provincialVersionControl' component={ProvincialVersionControl} />
+                        <Route path='/about/pfpsmas/zcms/conditionQuery' component={ConditionQuery} />
+                        
+
 
                         <Route path='/about/wpdmp/dmp/apilist' component={ApiList}/>
                         <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>

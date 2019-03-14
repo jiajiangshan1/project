@@ -1,27 +1,34 @@
-import React from 'react';;
-import { Router, Route, IndexRedirect, IndexRoute, Link, hashHistory } from 'react-router'
-import { getSystemList, getAuthMenu } from '../../../Service/sp/ua/server'
-import { Menu, Breadcrumb, Icon, Badge, message } from 'antd';
+import React from "react";
+import {
+  Router,
+  Route,
+  IndexRedirect,
+  IndexRoute,
+  Link,
+  hashHistory
+} from "react-router";
+import { getSystemList, getAuthMenu } from "../../../Service/sp/ua/server";
+import { Menu, Breadcrumb, Icon, Badge, message } from "antd";
 
-import { Sider, Template } from '../../../Components';
+import { Sider, Template } from "../../../Components";
 // import Template from "../../Components/Template/template";
 
-require('./about.css');
+require("./about.css");
 
 class About extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       collapse: false,
-      systemId: '',
+      systemId: ""
     };
   }
 
   onCollapseChange() {
     console.log(this);
     this.setState({
-      collapse: !this.state.collapse,
-    })
+      collapse: !this.state.collapse
+    });
   }
 
   /**
@@ -29,7 +36,7 @@ class About extends React.Component {
    */
   async axiosAuthMenu() {
     let list;
-    let systemId = sessionStorage.getItem('systemId')
+    let systemId = sessionStorage.getItem("systemId");
     if (systemId) {
       list = await getAuthMenu(systemId);
       return list;
@@ -38,35 +45,44 @@ class About extends React.Component {
 
   componentWillMount() {
     let systemId;
-    systemId = this.props.location.state.systemId
-    systemId ? sessionStorage.setItem("systemId", systemId) : ''
-    message.success(this.props.location.state.systemId)
+    systemId = this.props.location.state.systemId;
+    systemId ? sessionStorage.setItem("systemId", systemId) : "";
+    message.success(this.props.location.state.systemId);
   }
 
   render() {
     const collapse = this.state.collapse;
     return (
-      <div className={collapse ? "ant-layout-aside ant-layout-aside-collapse layout-bg" : "ant-layout-aside layout-bg"}>
-
+      <div
+        className={
+          collapse
+            ? "ant-layout-aside ant-layout-aside-collapse layout-bg"
+            : "ant-layout-aside layout-bg"
+        }
+      >
         <aside className="ant-layout-sider">
-          <div className="ant-layout-logo"></div>
+          <div className="ant-layout-logo">
+            <span>人口统筹业务管理平台</span>
+          </div>
 
-          <Sider handle={this.axiosAuthMenu.bind(this)} systemId={sessionStorage.getItem('systemId')} />
+          <Sider
+            handle={this.axiosAuthMenu.bind(this)}
+            systemId={sessionStorage.getItem("systemId")}
+          />
 
-          <div className="ant-aside-action" onClick={this.onCollapseChange.bind(this)}>
+          <div
+            className="ant-aside-action"
+            onClick={this.onCollapseChange.bind(this)}
+          >
             {collapse ? <Icon type="right" /> : <Icon type="left" />}
           </div>
         </aside>
 
         <Template systemId={this.props.location.state.systemId} />
         {/* {this.props.children} */}
-
       </div>
-    )
+    );
   }
 }
 
 export default About;
-
-
-

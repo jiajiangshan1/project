@@ -1,0 +1,35 @@
+.previewchangedetails{
+    /* overflow: auto;
+    height: 800px; */
+}
+
+.previewchangedetails .container{
+    margin-top: 20px;
+}
+
+.previewchangedetails .container .container-top :global(.ant-row-flex){
+    height: 180px;
+}
+
+.previewchangedetails .container .container-top :global(.ant-row-flex .ant-col-3){
+    background: url("../../../../asset/sp/ua/img/portal/1/2.png") repeat;
+    height: inherit;
+    overflow: auto;
+}
+
+.previewchangedetails .container .container-top .zoningcode-tr{
+    width: 100%;
+    display: inline-block;
+    font-size: 14px;
+    color: #fff;
+    line-height: 30px;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.previewchangedetails .container .container-top .zoningcode-tr:hover{
+    background: #3ea7d4;
+}
+.previewchangedetails .container .container-top .zoningcode-tr td{
+    text-align: left;
+}

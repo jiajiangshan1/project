@@ -32,15 +32,15 @@ class Sider extends React.Component {
 
     var data = await this.props.handle();
     var listData = data.dataObject;
-    console.log('---',listData);
+    console.log('---', listData);
     var arrData = [];
-    
+
     listData.forEach(item => {
       var obj = {};
-      for(var key in item){
-        if(key == "requestUrl"){
+      for (var key in item) {
+        if (key == "requestUrl") {
           obj[key] = item[key] ? item[key] : 'javascript:;';
-        }else{
+        } else {
           obj[key] = item[key];
         }
       }
@@ -52,10 +52,10 @@ class Sider extends React.Component {
         listData.forEach(el => {
           if (el.parent == item.authorityId) {
             var obj = {};
-            for(var key in el){
-              if(key == "requestUrl"){
+            for (var key in el) {
+              if (key == "requestUrl") {
                 obj[key] = el[key] ? el[key] : 'javascript:;';
-              }else{
+              } else {
                 obj[key] = el[key];
               }
             }
@@ -69,6 +69,31 @@ class Sider extends React.Component {
   }
 
   render() {
+    const loopMenu = data => data.map(item => {
+      return (
+        <SubMenu key={item.authorityId}
+          title={<span><Icon type="appstore" /><span className="nav-text">
+            <Link to={{ pathname: `/about${item.requestUrl}`, state: { systemId: item.systemId } }}>
+              {item.authorityName}
+            </Link>
+          </span></span>}
+        >
+          {loopSubMenu(item.subMenu)}
+        </SubMenu>)
+    })
+
+    const loopSubMenu = data => data.map(item => {
+      return (
+        <Menu.Item key={item.authorityId}>
+          <span className="nav-text">
+            <Link to={{ pathname: `/about${item.requestUrl}`, state: { systemId: item.systemId } }}>
+              {item.authorityName}
+            </Link>
+          </span>
+        </Menu.Item>
+      )
+    })
+
     return (
       this.state.menuData ? <div>
         <Switch onChange={this.changeMode.bind(this)} />
@@ -81,62 +106,7 @@ class Sider extends React.Component {
           mode={this.state.mode}
           theme={this.state.theme}
         >
-          {
-            this.state.menuData.map(function (item) {
-              if(item.authorityId >= 28 && item.authorityId <= 35){
-                return (
-                  <SubMenu key={item.authorityId}
-                    title={<span><Icon type="appstore" /><span className="nav-text">
-  
-                      <a href={item.requestUrl}>
-                        {item.authorityName}
-                      </a> 
-                      
-                    </span></span>}
-                  >
-  
-                  {
-                    item.subMenu.map((el) => (
-                      <Menu.Item key={el.authorityId}>
-                        <span className="nav-text">
-                          <a href={el.requestUrl}>
-                            {el.authorityName}
-                          </a>
-                        </span>
-                      </Menu.Item>
-                    ))
-                  }
-                </SubMenu>)
-
-              }else{
-                return (
-                  <SubMenu key={item.authorityId}
-                    title={<span><Icon type="appstore" /><span className="nav-text">
-  
-                      <Link to={{pathname: `/about${item.requestUrl}`, state: {systemId: item.systemId}}}>
-                        {item.authorityName}
-                      </Link>
-                      
-                    </span></span>}
-                  >
-  
-                  {
-                    item.subMenu.map((el) => (
-                      <Menu.Item key={el.authorityId}>
-                        <span className="nav-text">
-                          <Link to={{pathname: `/about${el.requestUrl}`, state: {systemId: el.systemId}}}>
-                            {el.authorityName}
-                          </Link>
-                        </span>
-                      </Menu.Item>
-                    ))
-                  }
-                </SubMenu>)
-              }
-              
-            } 
-            )
-          }
+          {loopMenu(this.state.menuData)}
         </Menu>
       </div> : <div></div>
     );
