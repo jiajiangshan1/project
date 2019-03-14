@@ -104,7 +104,7 @@ export let getDraftsOfDetails = async (params) => {
     let response = await axios({
         url: 'zcmsapi/zoningChangeManager/getDraftsOfDetails',
         method: 'get',
-        params: {requestSeq: params}
+        params: { requestSeq: params }
     })
     return response.data
 }
@@ -116,7 +116,7 @@ export let getRemoveDraftsOfDetails = async (params) => {
     let response = await axios({
         url: 'zcmsapi/zoningChangeManager/removeDraftsOfDetails',
         method: 'get',
-        params: {ids: params}
+        params: { ids: params }
     })
     return response.data
 }
@@ -129,7 +129,7 @@ export let getLogicCheckBeforeSave = async (params) => {
     let response = await axios({
         url: 'zcmsapi/zoningChangeManager/logicCheckBeforeSave',
         method: 'get',
-        params: {detail: params}
+        params: { detail: params }
     })
     return response.data
 }
@@ -142,7 +142,7 @@ export let getLogicCheckBeforeChange = async (params) => {
     let response = await axios({
         url: 'zcmsapi/queryZoningData/logicCheckBeforeChange',
         method: 'get',
-        params: {zoningCode: params}
+        params: { zoningCode: params }
     })
     return response.data
 }
@@ -174,7 +174,7 @@ export let getSaveDetails = async (params) => {
         url: 'zcmsapi/zoningChangeManager/saveDetails',
         method: 'post',
         transformRequest: [
-            function(data) {
+            function (data) {
                 let ret = '';
                 for (let it in data) {
                     ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&';
@@ -299,3 +299,4 @@ export let getChangeDetailedReproduction = async (params) => {
     })
     return response.data
 }
+
