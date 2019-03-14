@@ -13,7 +13,9 @@ import Register from "./Pages/common/Register/register";
 import Home from "./Pages/common/Home/home";
 import About from "./Pages/common/About/about";
 import Test from "./Pages/common/Test/test";
-import Test2 from "./Pages/common/Test2/test2";
+
+import Test2 from './Pages/common/Test2/test2'
+
 
 //  wpdmp-dmp
 import ApiList from "./Pages/wpdmp/dmp/ApiList/apilist";
