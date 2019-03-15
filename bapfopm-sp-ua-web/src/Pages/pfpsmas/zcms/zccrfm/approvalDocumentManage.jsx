@@ -4,12 +4,12 @@ import qs from 'qs'
 
 
 import { Table, Button, Modal, DatePicker } from 'antd';
-import { getList } from "../../../../../../Service/pfpsmas/zcms/server";
-import { openNotificationWithIcon } from "../../../../../../asset/pfpsmas/zcms/js/common";
+import { getList } from "../../../../Service/pfpsmas/zcms/server";
+import { openNotificationWithIcon } from "../../../../asset/pfpsmas/zcms/js/common";
 
-import style from './guanli.css'
+import './approvalDocumentManage.css'
 
-class Guanli extends React.Component {
+class ApprovalDocumentManage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -182,4 +182,4 @@ class Guanli extends React.Component {
     }
 }
 
-export default Guanli;
+export default ApprovalDocumentManage;

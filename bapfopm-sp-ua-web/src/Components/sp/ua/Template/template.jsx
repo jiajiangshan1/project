@@ -19,11 +19,11 @@ import ApiList from '../../../../Pages/wpdmp/dmp/ApiList/apilist'
 import ApiDetail from "../../../../Pages/wpdmp/dmp/ApiDetail/apiDetail";
 import BlackWhiteList from "../../../../Pages/wpdmp/dmp/BlackWhiteList/blackWhiteList";
 import ApiDetailChange from "../../../../Components/wpdmp/dmp/ApiDetailChange/apiDetailChange";
-import {BlackWhiteDetail} from "../../../../Pages/wpdmp/dmp/BlackWhiteDetail/blackWhiteDetail";
+import { BlackWhiteDetail } from "../../../../Pages/wpdmp/dmp/BlackWhiteDetail/blackWhiteDetail";
 import ApplyApiCheck from "../../../../Pages/wpdmp/dmp/ApplyApiCheck/applyApiCheck";
-import {ApplyApiList} from "../../../../Pages/wpdmp/dmp/ApplyApiList/applyApiList";
-import {ApplyApi} from "../../../../Pages/wpdmp/dmp/ApplyApi/applyApi";
-import {ReviewApi} from "../../../../Pages/wpdmp/dmp/ReviewApi/reviewApi";
+import { ApplyApiList } from "../../../../Pages/wpdmp/dmp/ApplyApiList/applyApiList";
+import { ApplyApi } from "../../../../Pages/wpdmp/dmp/ApplyApi/applyApi";
+import { ReviewApi } from "../../../../Pages/wpdmp/dmp/ReviewApi/reviewApi";
 
 //  pfpsmas-zcms
 import CreateChangeComparisonTable from "../../../../Pages/pfpsmas/zcms/rzc/createChangeComparisonTable";
@@ -35,6 +35,9 @@ import PreviewFormalZoningCode from "../../../../Pages/pfpsmas/zcms/rzc/previewF
 import ProvincialVersionControl from "../../../../Pages/pfpsmas/zcms/rzc/provincialVersionControl";
 import ConditionQuery from "../../../../Pages/pfpsmas/zcms/rzc/conditionQuery";
 
+//批复文件上传 管理
+import UploadApprovalFile from "../../../../Pages/pfpsmas/zcms/zccrfm/uploadApprovalFile";
+import ApprovalDocumentManage from "../../../../Pages/pfpsmas/zcms/zccrfm/approvalDocumentManage";
 
 require('./template.css')
 
@@ -45,19 +48,19 @@ export const Template = (props) => (
             <div>
                 <Badge count={99}>
                     {/* <a href="#" className="head-example"> */}
-                        <Icon type="mail" style={{fontSize: "40px", color: '#fff', margin: '10px'}}/>
+                    <Icon type="mail" style={{ fontSize: "40px", color: '#fff', margin: '10px' }} />
                     {/* </a> */}
                 </Badge>
                 <Badge count={200}>
                     {/* <a href="#" className="head-example"> */}
-                        <Icon type="book" style={{fontSize: "40px", color: '#fff', margin: '10px'}}/>
+                    <Icon type="book" style={{ fontSize: "40px", color: '#fff', margin: '10px' }} />
                     {/* </a> */}
                 </Badge>
             </div>
         </div>
 
         <div className="ant-layout-breadcrumb">
-            <Bread systemId={props.systemId}/>
+            <Bread systemId={props.systemId} />
         </div>
 
         <div className="ant-layout-container">
@@ -83,18 +86,22 @@ export const Template = (props) => (
                         <Route path='/about/pfpsmas/zcms/previewFormalZoningCode' component={PreviewFormalZoningCode} />
                         <Route path='/about/pfpsmas/zcms/provincialVersionControl' component={ProvincialVersionControl} />
                         <Route path='/about/pfpsmas/zcms/conditionQuery' component={ConditionQuery} />
-                        
+
+                        {/* 批复文件上传 管理 */}
+                        <Route path='/about/pfpsmas/zcms/uploadApprovalFile' component={UploadApprovalFile} />
+                        <Route path='/about/pfpsmas/zcms/approvalDocumentManage' component={ApprovalDocumentManage} />
 
 
-                        <Route path='/about/wpdmp/dmp/apilist' component={ApiList}/>
-                        <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>
-                        <Route path='/about/wpdmp/dmp/apilist/apiDetailChange' component={ApiDetailChange}/>
-                        <Route path='/about/wpdmp/dmp/apilist/blackList' component={BlackWhiteList}/>
-                        <Route path='/about/wpdmp/dmp/apilist/blackList/blackDetail' component={BlackWhiteDetail}/>
-                        <Route path='/about/wpdmp/dmp/applyCHeck' component={ApplyApiCheck}/>
-                        <Route path='/about/wpdmp/dmp/applyCHeck/apiList' component={ApplyApiList}/>
-                        <Route path='/about/wpdmp/dmp/applyCHeck/apiList/applyApi' component={ApplyApi}/>
-                        <Route path='/about/wpdmp/dmp/reviewApi' component={ReviewApi}/>
+
+                        <Route path='/about/wpdmp/dmp/apilist' component={ApiList} />
+                        <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail} />
+                        <Route path='/about/wpdmp/dmp/apilist/apiDetailChange' component={ApiDetailChange} />
+                        <Route path='/about/wpdmp/dmp/apilist/blackList' component={BlackWhiteList} />
+                        <Route path='/about/wpdmp/dmp/apilist/blackList/blackDetail' component={BlackWhiteDetail} />
+                        <Route path='/about/wpdmp/dmp/applyCHeck' component={ApplyApiCheck} />
+                        <Route path='/about/wpdmp/dmp/applyCHeck/apiList' component={ApplyApiList} />
+                        <Route path='/about/wpdmp/dmp/applyCHeck/apiList/applyApi' component={ApplyApi} />
+                        <Route path='/about/wpdmp/dmp/reviewApi' component={ReviewApi} />
                     </Router>
                 </div>
             </div>

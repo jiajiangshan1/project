@@ -2,13 +2,13 @@ import React from 'react';
 import { hashHistory, Link } from "react-router";
 import qs from 'qs'
 
-import './shangchuan.css'
+import './uploadApprovalFile.css'
 
 import { Table, Button, Select, Upload, Icon } from 'antd';
-import { openNotificationWithIcon } from "../../../../../../asset/pfpsmas/zcms/js/common";
-import { getUpload, getList } from "../../../../../../Service/pfpsmas/zcms/server";
+import { openNotificationWithIcon } from "../../../../asset/pfpsmas/zcms/js/common";
+import { getUpload, getList } from "../../../../Service/pfpsmas/zcms/server";
 
-class ZccrfmShangchuan extends React.Component {
+class UploadApprovalFile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -73,7 +73,7 @@ class ZccrfmShangchuan extends React.Component {
 
     async axiosupload(params) {
         let res = await getUpload(params);
-        console.log('批复上传res--->', res)
+        // console.log('批复上传res--->', res)
         if (res.rtnCode == '000000') {
             openNotificationWithIcon("success", res.rtnMessage);
             this.setState({
@@ -150,4 +150,4 @@ class ZccrfmShangchuan extends React.Component {
         )
     }
 }
-export default ZccrfmShangchuan;
+export default UploadApprovalFile;
