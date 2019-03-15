@@ -6,8 +6,12 @@ import blue from "../../../../asset/pfpsmas/zcms/img/blue.png";
 import black from "../../../../asset/pfpsmas/zcms/img/black.png";
 import gray from "../../../../asset/pfpsmas/zcms/img/gray.png";
 
+//  自定义滚动条
+import FreeScrollBar from 'react-free-scrollbar';
+
 import { clearData, placeData, changeTypeConversion, getAssigningCode, getSubZoning, getSuperiorZoningCode, openNotificationWithIcon } from "../../../../asset/pfpsmas/zcms/js/common";
 import { getInitPreviewZoningData, getCheckPreviewZoning, getRejectionChangeDetails, getConfirmationChangeDetails, getFindChangeDetails} from "../../../../Service/pfpsmas/zcms/server";
+
 import { Navbar, Hr } from "../../../../Components/index";
 import { Table, Button, Modal, Input, Checkbox, Select, Row, Col, Tooltip, Tree } from 'antd';
 
@@ -229,8 +233,10 @@ class PreviewChangeDetails extends React.Component {
 
         const displayDom = (data, color) => Object.keys(data).map(key => {
             return (
-                <Col span={3}>
-                    {loop(data[key], color[key])}
+                <Col span={4}>
+                    <FreeScrollBar>
+                        {loop(data[key], color[key])}
+                    </FreeScrollBar>
                 </Col>
             )
         });

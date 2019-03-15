@@ -238,3 +238,13 @@
             });
         })();
     };
+
+    /**
+     * 时间转换
+     * @param {string} str 时间
+     */
+    export let ownTimeFormat = (str) => {
+        return (function(){
+            return str.replace(/^\s+|\S+$/, '');
+        })();
+    }

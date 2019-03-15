@@ -27,3 +27,11 @@
 .background-color-red{
     background-color: #f00;
 }
+
+.display-none{
+    display: none;
+}
+
+.display-inline-block{
+    display: inline-block;
+}

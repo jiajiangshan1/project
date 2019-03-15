@@ -74,6 +74,7 @@ export const Template = (props) => (
                         <Route path='/about/test' component={Test} />
                         <Route path='/about/test2' component={Test2} />
 
+
                         <Route path='/about/pfpsmas/zcms/createChangeComparisonTable' component={CreateChangeComparisonTable} />
                         <Route path='/about/pfpsmas/zcms/inputChangeDetails' component={InputChangeDetails} />
                         <Route path='/about/pfpsmas/zcms/previewChangeDetails' component={PreviewChangeDetails} />
@@ -83,6 +84,7 @@ export const Template = (props) => (
                         <Route path='/about/pfpsmas/zcms/provincialVersionControl' component={ProvincialVersionControl} />
                         <Route path='/about/pfpsmas/zcms/conditionQuery' component={ConditionQuery} />
                         
+
 
                         <Route path='/about/wpdmp/dmp/apilist' component={ApiList}/>
                         <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail}/>
