@@ -1,4 +1,4 @@
-.UploadApprovalFile {
+.ImportCivilzoningCode {
     position: relative;
 }
 
@@ -76,4 +76,7 @@
     float: right;
     border-radius: 20px;
     margin: 10px 10px;
+}
+.b-import{
+    text-align: center;
 }

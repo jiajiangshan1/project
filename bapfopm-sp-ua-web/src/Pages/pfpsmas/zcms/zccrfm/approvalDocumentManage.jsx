@@ -139,7 +139,7 @@ class ApprovalDocumentManage extends React.Component {
         ];
 
         return (
-            <div className="a">
+            <div className="ApprovalDocumentManage">
                 {/* 时间选择器 */}
                 <div className="button-group" style={{ marginTop: '15px' }}>
                     <span className='time-title'>导出时间起(YYYYMMDD): </span>

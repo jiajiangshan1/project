@@ -47,6 +47,8 @@ import ConditionQuery from "./Pages/pfpsmas/zcms/rzc/conditionQuery";
 //批复文件上传 管理
 import UploadApprovalFile from "./Pages/pfpsmas/zcms/zccrfm/uploadApprovalFile";
 import ApprovalDocumentManage from "./Pages/pfpsmas/zcms/zccrfm/approvalDocumentManage";
+// 民政区划管理
+import ImportCivilzoningCode from "./Pages/pfpsmas/zcms/rzc/importCivilzoningCode";
 
 //  引入axios
 //  并做全局配置
@@ -95,9 +97,11 @@ ReactDOM.render(
                 <Route path='/about/pfpsmas/zcms/provincialVersionControl' component={ProvincialVersionControl} />
                 <Route path='/about/pfpsmas/zcms/conditionQuery' component={ConditionQuery} />
 
-    {/* 批复文件上传 管理 */}
+                {/* 批复文件上传 管理 */}
                 <Route path='/about/pfpsmas/zcms/uploadApprovalFile' component={UploadApprovalFile} />
                 <Route path='/about/pfpsmas/zcms/approvalDocumentManage' component={ApprovalDocumentManage} />
+                {/* 民政区划管理 */}
+                <Route path='/about/pfpsmas/zcms/importCivilzoningCode' component={ImportCivilzoningCode} />
 
                 <Route path='/about/wpdmp/dmp/apilist' component={ApiList}>
                     <Route path='/about/wpdmp/dmp/apilist/apiDetail' component={ApiDetail} />

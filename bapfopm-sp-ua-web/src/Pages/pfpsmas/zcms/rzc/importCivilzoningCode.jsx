@@ -2,13 +2,13 @@ import React from 'react';
 import { hashHistory, Link } from "react-router";
 import qs from 'qs'
 
-import './uploadApprovalFile.css'
+import './importCivilzoningCode.css'
 
 import { Table, Button, Select, Upload, Icon } from 'antd';
 import { openNotificationWithIcon } from "../../../../asset/pfpsmas/zcms/js/common";
-import { getUpload, getList } from "../../../../Service/pfpsmas/zcms/server";
+import { getselectCivilAffairZip, getZipFlie } from "../../../../Service/pfpsmas/zcms/server";
 
-class UploadApprovalFile extends React.Component {
+class ImportCivilzoningCode extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -39,7 +39,7 @@ class UploadApprovalFile extends React.Component {
         this.axioslist(getDataObj);
     }
     async axioslist(params) {
-        let res = await getList(params);
+        let res = await getselectCivilAffairZip(params);
         // console.log('列表res--->', res)
         this.setState({
             fileList: res.responseData.dataList
@@ -59,10 +59,10 @@ class UploadApprovalFile extends React.Component {
     }
 
     /**
-     * 批复文件上传接口
+     * 文件上传接口
      * @param {string} formId 上传文件id
   */
-    handleAxiosupload() {
+    handleAxioszipFlie() {
         let postDataObj = {};
         let { fileValue, formId } = this.state;
         postDataObj.fileValue = fileValue;
@@ -72,8 +72,8 @@ class UploadApprovalFile extends React.Component {
     }
 
     async axiosupload(params) {
-        let res = await getUpload(params);
-        // console.log('批复上传res--->', res)
+        let res = await getZipFlie(params);
+        // console.log('上传res--->', res)
         if (res.rtnCode == '000000') {
             openNotificationWithIcon("success", res.rtnMessage);
             this.setState({
@@ -88,47 +88,48 @@ class UploadApprovalFile extends React.Component {
     handleReset() {
         this.setState({ fileValue: '' })
     }
+    //导入
+    handleImport() {
+
+    }
 
 
     render() {
         const columns = [
             {
-                title: '区划代码',
-                dataIndex: 'zoningCode',
-                key: 'zoningCode',
-                width: "1"
-            }, {
-                title: '区划名称',
-                dataIndex: 'zoningName',
-                key: 'zoningName',
-                width: "1"
-            }, {
                 title: '文件名',
                 dataIndex: 'fileName',
                 key: 'fileName',
                 width: "1"
-            },
-            {
-                title: '年份',
-                dataIndex: 'year',
-                key: 'year',
+            }, {
+                title: '文件状态',
+                dataIndex: 'comment',
+                key: 'comment',
+                width: "1"
+            }, {
+                title: '备注',
+                dataIndex: 'comment',
+                key: 'comment',
                 width: "1"
             },
             {
                 title: '上传时间',
-                dataIndex: 'createDate',
-                key: 'createDate',
+                dataIndex: 'enterTime',
+                key: 'enterTime',
                 width: "1"
-            }];
+            }
+        ];
 
         const requestRowSelection = {
             type: 'radio',
             selectedRowKeys: this.state.selectedRowKeys,
             onChange: this.onSelectChange.bind(this),
         }
+     
 
         return (
-            <div className="UploadApprovalFile">
+            <div className="ImportCivilzoningCode">
+               
                 <div className="upload-quhua">
                     <span>上传文件</span>
                     <input type="text" className='filename' onChange={this.onChange.bind(this)} value={this.state.fileValue} />
@@ -138,20 +139,23 @@ class UploadApprovalFile extends React.Component {
                 </div>
                 {/* 功能按钮组 */}
                 <div className="button-group  button-group-quhua">
-                    <Button type="primary" size="large" onClick={this.handleAxiosupload.bind(this)}>上传</Button>
+                    <Button type="primary" size="large" onClick={this.handleAxioszipFlie.bind(this)}>上传</Button>
 
                     <Button type="primary" size="large" onClick={this.handleReset.bind(this)}>重置</Button>
                 </div>
 
                 <div style={{ marginTop: 60 }}>
                     <div className="table-title">
-                        <span>查询信息结果展示</span>
+                        <span>导入结果展示</span>
                         <Button type="primary" size="small" className="t-delete">删除</Button>
                     </div>
                     <Table columns={columns} dataSource={this.state.fileList} rowSelection={requestRowSelection} />
+                </div>
+                <div style={{ marginTop: 20 }} className="b-import">
+                    <Button type="primary" size="large" onClick={this.handleImport.bind(this)} >导入</Button>
                 </div>
             </div>
         )
     }
 }
-export default UploadApprovalFile;
+export default ImportCivilzoningCode;

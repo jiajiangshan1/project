@@ -579,3 +579,28 @@ export let getList = async (params) => {
     })
     return response.data
 }
+/**
+ * 导入民政区划 上传文件查询接口
+ * @param {number} pageSize 每页显示条数
+ * @param {number} pageIndex 当前页码
+ */
+export let getselectCivilAffairZip = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/civilAffair/selectCivilAffairZip',
+        method: 'get',
+        params: params
+    })
+    return response.data
+}
+/**
+ * 文件上传接口
+ * @param {string} formId 表单ID
+ */
+export let getZipFlie = async (params) => {
+    let response = await axios({
+        url: 'zcmsapi1/civilAffair/upload/zipFlie',
+        method: 'post',
+        params: params
+    })
+    return response.data
+}

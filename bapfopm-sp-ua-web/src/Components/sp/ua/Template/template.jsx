@@ -38,6 +38,8 @@ import ConditionQuery from "../../../../Pages/pfpsmas/zcms/rzc/conditionQuery";
 //批复文件上传 管理
 import UploadApprovalFile from "../../../../Pages/pfpsmas/zcms/zccrfm/uploadApprovalFile";
 import ApprovalDocumentManage from "../../../../Pages/pfpsmas/zcms/zccrfm/approvalDocumentManage";
+// 民政区划管理
+import ImportCivilzoningCode from "../../../../Pages/pfpsmas/zcms/rzc/importCivilzoningCode";
 
 require('./template.css')
 
@@ -90,6 +92,8 @@ export const Template = (props) => (
                         {/* 批复文件上传 管理 */}
                         <Route path='/about/pfpsmas/zcms/uploadApprovalFile' component={UploadApprovalFile} />
                         <Route path='/about/pfpsmas/zcms/approvalDocumentManage' component={ApprovalDocumentManage} />
+                        {/* 民政区划管理 */}
+                        <Route path='/about/pfpsmas/zcms/importCivilzoningCode' component={ImportCivilzoningCode} />
 
 
 
